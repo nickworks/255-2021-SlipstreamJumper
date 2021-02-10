@@ -35,7 +35,7 @@ namespace Velting
 
                
         public float gravity = 10;
-        bool isGrounded = false;
+        private bool isGrounded = false;
         private bool isJumpingUpwards = false;
         /// <summary>
         /// The velocity we launch the player when they jump.
@@ -74,15 +74,19 @@ namespace Velting
 
             else //user is not pushing left or right
             {
-                if (velocity.x > 0 && isGrounded) // player is moving right
+
+                float scalar = deceleration;
+
+                if (!isGrounded) scalar = deceleration / 15;
+                if (velocity.x > 0) // player is moving right
                 {
-                    velocity.x += -deceleration * Time.deltaTime;
+                    velocity.x += -scalar * Time.deltaTime;
                     if (velocity.x < 0) velocity.x = 0;
                 }
 
-                if (velocity.x < 0 && isGrounded) //player is moving left 
+                if (velocity.x < 0) //player is moving left 
                 {
-                    velocity.x += deceleration * Time.deltaTime;
+                    velocity.x += scalar * Time.deltaTime;
                     if (velocity.x > 0) velocity.x = 0;
                 }
             }
@@ -123,7 +127,7 @@ namespace Velting
 
         }
 
-        private void CheckIfGrounded()
+        private bool CheckIfGrounded()
         {
             if (transform.position.y <= 0) //on the ground
             {
@@ -132,6 +136,14 @@ namespace Velting
                 transform.position = pos;
                 velocity.y = 0;
                 isGrounded = true;
+
+                return isGrounded;
+            }
+
+            else
+            {
+                isGrounded = false;
+                return isGrounded;
             }
         }
     }
