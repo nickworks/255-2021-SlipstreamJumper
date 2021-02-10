@@ -45,6 +45,14 @@ namespace ASmith
         /// Whether or not player is currently jumping upwards
         /// </summary>
         private bool isJumpingUpwards = false;
+        private bool isGrounded = false;
+
+        private AABB aabb;
+
+        private void Start()
+        {
+            aabb = GetComponent<AABB>();
+        }
 
         /// <summary>
         /// Do Euler physics each tick
@@ -56,6 +64,9 @@ namespace ASmith
 
             // Applies velocity to position
             transform.position += velocity * Time.deltaTime;
+            isGrounded = false;
+
+            aabb.RecalcAABB();
         }
 
         /// <summary>
@@ -64,16 +75,6 @@ namespace ASmith
         private void CalcVerticalMovement()
         {
             float gravMultiplier = 1;
-            bool isGrounded = false;
-            // Detect if on ground
-            if (transform.position.y < 0) // On ground
-            {
-                Vector3 pos = transform.position;
-                pos.y = 0;
-                transform.position = pos;
-                velocity.y = 0;
-                isGrounded = true;
-            }
 
             bool wantsToJump = Input.GetButtonDown("Jump");
             bool isHoldingJump = Input.GetButton("Jump");
@@ -121,6 +122,24 @@ namespace ASmith
             }
 
             velocity.x = Mathf.Clamp(velocity.x, -maxSpeed, maxSpeed);
+        }
+
+        public void ApplyFix(Vector3 fix)
+        {
+            transform.position += fix;
+            if (fix.y > 0) isGrounded = true;
+
+            if (fix.y != 0)
+            {
+                velocity.y = 0;
+            }
+
+            if (fix.x != 0)
+            {
+                velocity.x = 0;
+            }
+
+            aabb.RecalcAABB();
         }
     }
 }
