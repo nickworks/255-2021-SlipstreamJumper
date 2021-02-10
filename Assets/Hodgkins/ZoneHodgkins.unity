@@ -330,8 +330,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 417b850d1b3ee92429e6901bac60ce4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  acceleration: 20
-  deceleration: 40
+  scalarAcceleration: 50
+  scalarDeceleration: 40
+  maxSpeed: 5
+  gravity: 50
+  jumpInpulse: 15
 --- !u!23 &1751414688
 MeshRenderer:
   m_ObjectHideFlags: 0
