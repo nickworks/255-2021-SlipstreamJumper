@@ -8,7 +8,6 @@ namespace Foster
 {
     public class AABB : MonoBehaviour
     {
-
        public Vector3 boxSize;
 
         public Vector3 min;
@@ -19,13 +18,12 @@ namespace Foster
         // Start is called before the first frame update
         void Start()
         {
-
+            RecalAABB();
         }
 
         // Update is called once per frame
         void Update()
         {
-            RecalAABB();
 
 
 
@@ -37,10 +35,7 @@ namespace Foster
         /// </summary>
         public void RecalAABB()
         {
-            //min.x = transform.position.x - boxSize.x / 2;
-           // min.y = transform.position.y - boxSize.y / 2;
-           // min.z = transform.position.z - boxSize.z / 2;
-
+          
             min = transform.position - boxSize / 2;
             max = transform.position + boxSize / 2;
         }
@@ -49,19 +44,58 @@ namespace Foster
         {
 
             if (other.min.x > this.max.x) return false;//gap to right
-            if(other.max.x > this.min.x) return false;//gap to left
+            if (other.max.x < this.min.x) return false;//gap to left
 
             if (other.min.y > this.max.y) return false;//gap to above
-            if (other.max.y > this.min.y) return false;//gap to below
+            if (other.max.y < this.min.y) return false;//gap to below
 
             if (other.min.z > this.max.z) return false;//gap to forward
-            if (other.max.z > this.min.z) return false;//gap to behind
+            if (other.max.z < this.min.z) return false;//gap to behind
             return true;
 
 
         }
 
+        public Vector3 FindFix(AABB other)
+        {
+            float moveRight = other.max.x - this.min.x;
+            float moveLeft = other.min.x - this.max.x;
 
+            float moveUp = other.max.y - this.min.y;
+            float moveDown = other.min.y - this.max.y;
+
+            Vector3 fix = Vector3.zero;
+
+            if(Mathf.Abs(moveLeft) < Mathf.Abs(moveRight))
+            {
+                fix.x = moveLeft;
+            }
+            else
+            {
+                fix.x = moveRight;
+            }
+
+            if(Mathf.Abs(moveUp)< Mathf.Abs(moveDown))
+            {
+                fix.y = moveUp;
+            }
+            else
+            {
+                fix.y = moveDown;
+            }
+
+            if(Mathf.Abs(fix.x) < Mathf.Abs(fix.y))
+            {
+                fix.y = 0;
+            }
+            else
+            {
+                fix.x = 0;
+            }
+
+
+            return fix;
+        }
 
 
         private void OnDrawGizmos()

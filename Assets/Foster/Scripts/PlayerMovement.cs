@@ -31,15 +31,26 @@ namespace Foster
         /// whether or not he player is moving upwards
         /// </summary>
         private bool isJumpingUpWards = false;
+
+        private bool isGrounded = false;
         /// <summary>
         /// The current velocity for the player in meters per seconds
         /// </summary>
         private Vector3 velocity = new Vector3();
 
-        
-    /// <summary>
-    /// does euler physics each tick
-    /// </summary>
+        private AABB aabb;
+
+
+        private void Start()
+        {
+            
+
+
+        }
+
+        /// <summary>
+        /// does euler physics each tick
+        /// </summary>
         void Update()
         {
             MovementHorizontal();
@@ -48,6 +59,10 @@ namespace Foster
 
             transform.position += velocity * Time.deltaTime;
 
+
+
+
+            isGrounded = false;
         }
         /// <summary>
         /// Calcutaing Euler physics on y axis
@@ -59,15 +74,8 @@ namespace Foster
             float gravMultiplier = 1;
 
             //detech ground
-            if(transform.position.y <0) //on the ground
-            {
+     
 
-                Vector3 pos = transform.position;
-                pos.y = 0;
-                transform.position = pos;
-                velocity.y = 0;
-                isGrounded = true;
-            }
 
             bool wantsToJump = Input.GetButtonDown("Jump");
             bool isHoldingJump = Input.GetButton("Jump");
@@ -88,6 +96,8 @@ namespace Foster
             velocity.y -= gravity * Time.deltaTime * gravMultiplier;
 
         }
+
+
         /// <summary>
         /// Calculating euler physcics on the x axis
         /// </summary>
@@ -119,5 +129,26 @@ namespace Foster
 
             velocity.x = Mathf.Clamp(velocity.x, -maxSpeed, maxSpeed);
         }
+
+
+       public void ApplyFix(Vector3 fix)
+        {
+            transform.position += fix;
+
+            if (fix.y > 0) isGrounded = true;
+
+            if (fix.y != 0)
+            {
+                velocity.y = 0;
+            }
+
+            if(fix.x != 0)
+            {
+                velocity.x = 0;
+            }
+
+            aabb.RecalAABB();
+        }
     }
+
 }
