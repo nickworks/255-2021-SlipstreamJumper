@@ -110,21 +110,17 @@ namespace Szczesniak {
 
             // ======== Euler physics intergration ========
 
-            if (h != 0)
-            { // user is pressing left or right (or both)
+            if (h != 0) { // user is pressing left or right (or both)
                 // applying acceleration to our velocity
                 velocity.x += h * Time.deltaTime * scalerAcceleration;
             }
-            else
-            { // user is NOT pushing left or right
+            else { // user is NOT pushing left or right
 
-                if (velocity.x > 0)
-                { // player is moving right
+                if (velocity.x > 0) { // player is moving right
                     velocity.x -= scalerDeceleration * Time.deltaTime;
                     if (velocity.x < 0) velocity.x = 0;
                 }
-                if (velocity.x < 0)
-                { // player is mocing left
+                if (velocity.x < 0) { // player is mocing left
                     velocity.x += scalerDeceleration * Time.deltaTime;
                     if (velocity.x > 0) velocity.x = 0;
                 }
