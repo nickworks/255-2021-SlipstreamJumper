@@ -61,6 +61,15 @@ namespace Howley
         /// </summary>
         private bool isJumpingUpwards = false;
 
+        private bool isGrounded = false;
+
+        private AABB aabb;
+
+        void Start()
+        {
+            aabb = GetComponent<AABB>();
+        }
+
         /// <summary>
         /// This function updates the player's horizontal and vertical movement,
         /// and applies Euler physics each tick.
@@ -73,6 +82,9 @@ namespace Howley
 
             // Apply velocity to player position.
             transform.position += velocity * Time.deltaTime; // Adding velocity to position
+            aabb.RecalcAABB();
+
+            isGrounded = false;
         }
 
         /// <summary>
@@ -81,18 +93,6 @@ namespace Howley
         private void VerticalMovement()
         {
             float gravMultiplier = 1;
-
-            // Detection for ground:
-            bool isGrounded = false;
-            if (transform.position.y <= 0)
-            {
-                // Clamp to the ground if less than 0
-                Vector3 pos = transform.position;
-                pos.y = 0;
-                transform.position = pos;
-                velocity.y = 0; // Have to set velocity to 0 if pos y = 0
-                isGrounded = true;
-            }
 
             // Get players input for spacebar
             bool wantsToJump = Input.GetButtonDown("Jump");
@@ -149,6 +149,27 @@ namespace Howley
             //if (velocity.x < -maxSpeed) velocity.x = -maxSpeed;
             //if (velocity.x > maxSpeed) velocity.x = maxSpeed;
             velocity.x = Mathf.Clamp(velocity.x, -maxSpeed, maxSpeed);
+        }
+
+        /// <summary>
+        /// Zeroes out the velocity if an object is hit.
+        /// </summary>     
+        public void ApplyFix(Vector3 fix)
+        {
+            transform.position += fix;
+
+            if (fix.y > 0) isGrounded = true;
+
+            if (fix.y != 0)
+            {
+                velocity.y = 0;
+            }
+            if (fix.x != 0)
+            {
+                velocity.x = 0;
+            }
+
+            aabb.RecalcAABB();
         }
     }
 }

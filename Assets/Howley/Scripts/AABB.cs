@@ -27,14 +27,9 @@ namespace Howley
 
         void Start()
         {
-
-        }
-
-
-        void Update()
-        {
             RecalcAABB();
         }
+
         /// <summary>
         /// This function should be called whenever the position or size
         /// of the collider changes.
@@ -66,6 +61,51 @@ namespace Howley
             if (other.max.z < this.min.z) return false; // gap "behind" - NO COLLISION
 
             return true;
+        }
+
+        /// <summary>
+        /// Find and return the direction to move by comparing the 4 possible
+        /// solutions, comparing them to each other, and returning the
+        /// shortest possible solution.
+        /// </summary>
+        public Vector3 FindFix(AABB other)
+        {
+            float moveRight = other.max.x - this.min.x; // Positive num
+            float moveLeft = this.max.x - other.min.x; // Negative num
+
+            float moveUp = other.max.y - this.min.y; // Positive num
+            float moveDown = other.min.y - this.max.y; // Negative num
+
+            Vector3 fix = Vector3.zero;
+
+            if (Mathf.Abs(moveLeft) < Mathf.Abs(moveRight))
+            {
+                fix.x = moveLeft;
+            }
+            else
+            {
+                fix.x = moveRight;
+            }
+
+            if (Mathf.Abs(moveUp) < Mathf.Abs(moveDown))
+            {
+                fix.y = moveUp;
+            }
+            else
+            {
+                fix.y = moveDown;
+            }
+
+            if (Mathf.Abs(fix.x) < Mathf.Abs(fix.y))
+            {
+                fix.y = 0; // Going with horizontal solution, clear vertical
+            }
+            else
+            {
+                fix.x = 0; // Going with vertical solution, clear horizontal
+            }
+
+            return fix;
         }
 
         /// <summary>
