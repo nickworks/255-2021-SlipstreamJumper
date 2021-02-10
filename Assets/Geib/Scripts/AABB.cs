@@ -15,12 +15,6 @@ namespace Geib
 
         void Start()
         {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
             RecalcAABB();
         }
 
@@ -46,6 +40,48 @@ namespace Geib
             if (other.max.z < this.min.z) return false; // gap to behind the player - NO COLLiSION
 
             return true;
+        }
+
+        public Vector3 Findfix(AABB other)
+        {
+            float moveRight = other.max.x - this.min.x; // positive number
+            float moveLeft = other.min.x - this.max.x; // negative number
+
+            float moveUp = other.max.y - this.min.y; // possitive number 
+            float moveDown = other.min.y - this.max.y; // negative number
+
+            Vector3 fix = Vector3.zero;
+
+            if (Mathf.Abs(moveLeft) < Mathf.Abs(moveRight))
+            {
+                fix.x = moveLeft;
+            } else
+            {
+                fix.x = moveRight;
+            }
+
+            if (Mathf.Abs(moveUp) < Mathf.Abs(moveDown))
+            {
+                fix.y = moveUp;
+            } else
+            {
+                fix.y = moveDown;
+            }
+
+            if (Mathf.Abs(fix.x) < Mathf.Abs(fix.y))
+            {
+                fix.y = 0; // Going with horizontal solution; clearing the vertical solution...
+            } else
+            {
+                fix.x = 0; // Going with the vertical solution; clearing the horizontal solution...
+            }
+
+
+
+
+
+
+            return fix;
         }
 
         private void OnDrawGizmos()

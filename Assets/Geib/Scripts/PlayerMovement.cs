@@ -34,7 +34,7 @@ namespace Geib // This namespace needs to be in all of my scripts!
         /// <summary>
         /// This value is used to scale the player's downward acceleration due do gravity.
         /// </summary>
-        [Header("Horizontal Movement")]
+        [Header("Vertical Movement")]
         public float gravity = 50;
         /// <summary>
         /// The velocity we launch the player when we jump.
@@ -51,10 +51,14 @@ namespace Geib // This namespace needs to be in all of my scripts!
         /// </summary>
         private Vector3 velocity = new Vector3();
 
+        private bool isGrounded = false;
+
+        private AABB aabb;
+
         // Start is called before the first frame update
         void Start()
         {
-
+            aabb = GetComponent<AABB>();
         }
 
         /// <summary>
@@ -70,7 +74,8 @@ namespace Geib // This namespace needs to be in all of my scripts!
 
             // Applying our velocity to our position:
             transform.position += velocity * Time.deltaTime;
-
+            aabb.RecalcAABB();
+            isGrounded = false;
         }
 
         /// <summary>
@@ -81,17 +86,6 @@ namespace Geib // This namespace needs to be in all of my scripts!
 
             float gravMultiplier = 1;
 
-
-            // detect if on the ground:
-            bool isGrounded = false;
-            if(transform.position.y <= 0) // We are on the ground!
-            {
-                Vector3 pos = transform.position;
-                pos.y = 0;
-                transform.position = pos;
-                velocity.y = 0;
-                isGrounded = true;
-            }
 
             bool wantsToJump = Input.GetButtonDown("Jump");
 
@@ -114,6 +108,8 @@ namespace Geib // This namespace needs to be in all of my scripts!
             velocity.y -= gravity * Time.deltaTime * gravMultiplier;
 
         }
+
+
 
         /// <summary>
         /// Calculating Euler physics on the x-axis
@@ -152,6 +148,23 @@ namespace Geib // This namespace needs to be in all of my scripts!
 
             // Unity Clamp function
             velocity.x = Mathf.Clamp(velocity.x, -maxSpeed, maxSpeed);
+        }
+
+        public void ApplyFix(Vector3 fix)
+        {
+            transform.position += fix;
+
+            if (fix.y > 0) isGrounded = true;
+            if (fix.y != 0)
+            {
+                velocity.y = 0;
+            }
+            if (fix.x != 0)
+            {
+                velocity.x = 0;
+            }
+
+            aabb.RecalcAABB();
         }
     }
 }

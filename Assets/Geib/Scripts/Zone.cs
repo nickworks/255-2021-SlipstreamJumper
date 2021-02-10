@@ -22,6 +22,13 @@ namespace Geib
         {
             if (player.OverlapCheck(floor))
             {
+                Vector3 fix = player.Findfix(floor);
+
+                player.GetComponent<PlayerMovement>().ApplyFix(fix);
+
+                //player.transform.position += fix;
+                
+                // Debug (Collision Check):
                 print("Overlapping...");
             }
         }
