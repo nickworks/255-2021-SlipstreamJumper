@@ -20,11 +20,16 @@ namespace Hodgkins
         public AABB floor;
         
         
-        void Update()
+        void LateUpdate()
         {
             if (player.OverlapCheck(floor))
             {
-                print("overlapping...");
+                Vector3 fix = player.FindFix(floor);
+
+                player.GetComponent<PlayerMovement>().ApplyFix(fix);
+
+
+
             }
         }
     }

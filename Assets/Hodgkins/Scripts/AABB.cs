@@ -13,14 +13,7 @@ namespace Hodgkins
         public Vector3 min;
         public Vector3 max;
 
-
         void Start()
-        {
-
-        }
-
-        // Update is called once per frame
-        void Update()
         {
             RecalcAABB();
         }
@@ -29,13 +22,14 @@ namespace Hodgkins
         /// This function should be called whenever the position 
         /// or size of the collider changes
         /// </summary>
-        private void RecalcAABB()
+        public void RecalcAABB()
         {
             //min.x = transform.position.x - boxSize.x / 2;
             //min.y = transform.position.y - boxSize.y / 2;
             //min.z = transform.position.z - boxSize.z / 2;
 
             min = transform.position - boxSize / 2;
+            max = transform.position + boxSize / 2;
 
         }
 
@@ -52,6 +46,43 @@ namespace Hodgkins
 
 
             return true;
+        }
+
+        public Vector3 FindFix(AABB other)
+        {
+            float moveRight = other.max.x - this.min.x; //positive number
+            float moveLeft  = other.min.x - this.max.x; //negative number
+            float moveUp    = other.max.y - this.min.y; //positive number
+            float moveDown  = other.min.y - this.max.y; //negative number
+
+            Vector3 fix = Vector3.zero;
+
+            if (Mathf.Abs(moveLeft) < Mathf.Abs(moveRight))
+            {
+                fix.x = moveLeft;
+            } else {
+                fix.x = moveRight;
+            }
+
+            if(Mathf.Abs(moveUp) < Mathf.Abs(moveDown))
+            {
+                fix.y = moveUp;
+            } else {
+                fix.y = moveDown;
+            }
+
+            if(Mathf.Abs(fix.x) < Mathf.Abs(fix.y))
+            {
+                fix.y = 0; //going with horizontal solution; clearing vertical...
+            } else {
+                fix.x = 0; //going with vertical solution; clearing horizontal...
+            }
+
+
+
+
+
+            return fix;
         }
 
         private void OnDrawGizmos()
