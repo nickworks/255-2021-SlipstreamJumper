@@ -18,7 +18,10 @@ namespace Szczesniak {
         void LateUpdate() {
 
             if (player.OverlapCheck(floor)) {
-                print("Overlapping...");
+                print("Collision");
+                Vector3 fix = player.FindFix(floor);
+
+                player.GetComponent<PlayerMovement>().ApplyFix(fix);
 
             }
 
