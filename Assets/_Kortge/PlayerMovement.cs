@@ -54,9 +54,12 @@ namespace Kortge
         /// Do euler physics each tick.
         /// </summary>
         // Start is called before the first frame update
+
+        public AABB aabb;
+        private bool isGrounded = false;
         void Start()
         {
-
+            aabb = GetComponent<AABB>();
         }
 
         // Update is called once per frame
@@ -67,24 +70,19 @@ namespace Kortge
 
             // applying velocity to our position:
             transform.position += velocity * Time.deltaTime;
+
+            isGrounded = false;
+
+            aabb.RecalcAABB();
         }
         /// <summary>
         /// Calculating the Euler physics on Y axis.
         /// </summary>
+        /// 
+
         private void CalcVerticalMovement()
         {
             float gravMultiplier = 1;
-
-            // detect if on ground:
-            bool isGrounded = false;
-            if (transform.position.y < 0)
-            {
-                Vector3 pos = transform.position;
-                pos.y = 0;
-                transform.position = pos;
-                velocity.y = 0;
-                isGrounded = true;
-            }
 
             bool wantsToJump = Input.GetButtonDown("Jump");
             bool isHoldingJump = Input.GetButton("Jump");
@@ -137,6 +135,25 @@ namespace Kortge
 
             // unity claim
             velocity.x = Mathf.Clamp(velocity.x, -maxSpeed, maxSpeed);
+        }
+
+        public void ApplyFix(Vector3 fix)
+        {
+            transform.position += fix;
+
+            if (fix.y > 0) isGrounded = true;
+
+            if (fix.y != 0)
+            {
+                velocity.y = 0;
+            }
+
+            if (fix.x != 0)
+            {
+                velocity.x = 0;
+            }
+
+            aabb.RecalcAABB();
         }
     }
 }

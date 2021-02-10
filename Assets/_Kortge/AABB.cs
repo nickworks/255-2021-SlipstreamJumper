@@ -15,16 +15,15 @@ namespace Kortge
         // Start is called before the first frame update
         void Start()
         {
-
+            RecalcAABB();
         }
 
         // Update is called once per frame
         void Update()
         {
-            RecalcAABB();
         }
 
-        private void RecalcAABB()
+        public void RecalcAABB()
         {
             //min.x = transform.position.x - boxSize.x / 2;
             //min.y = transform.position.y - boxSize.y / 2;
@@ -46,6 +45,43 @@ namespace Kortge
             if (other.max.z < this.min.z) return false; // Gap backward.
 
             return true;
+        }
+
+        public Vector3 FindFix(AABB other)
+        {
+            float moveRight = other.max.x - this.min.x;
+            float moveLeft = other.min.x - this.max.x;
+
+            float moveUp = other.max.y - this.min.y;
+            float moveDown = other.min.y - this.max.y;
+
+            Vector3 fix = Vector3.zero;
+
+            if(Mathf.Abs(moveLeft) < Mathf.Abs(moveRight))
+            {
+                fix.x = moveLeft;
+            } else
+            {
+                fix.x = moveRight;
+            }
+
+            if(Math.Abs(moveUp) < Mathf.Abs(moveDown))
+            {
+                fix.y = moveUp;
+            } else
+            {
+                fix.y = moveDown;
+            }
+
+            if(Mathf.Abs(fix.x) < Mathf.Abs(fix.y))
+            {
+                fix.y = 0;
+            } else
+            {
+                fix.x = 0;
+            }
+
+            return fix;
         }
 
         private void OnDrawGizmos()

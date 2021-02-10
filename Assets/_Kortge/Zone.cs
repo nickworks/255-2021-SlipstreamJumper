@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Kortge
 {
-    public class Zone : MonoBehaviour
+    public class Zone : SlipstreamJumper.Zone
     {
 
         new public static ZoneInfo info = new ZoneInfo()
@@ -19,11 +19,13 @@ namespace Kortge
         public AABB floor;
 
         // Update is called once per frame
-        void Update()
+        void LateUpdate()
         {
             if (player.OverlapCheck(floor))
             {
-                print("overlapping...");
+                Vector3 fix = player.FindFix(floor);
+
+                player.GetComponent<PlayerMovement>().ApplyFix(fix);
             }
         }
     }
