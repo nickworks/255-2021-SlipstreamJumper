@@ -41,10 +41,12 @@ namespace Hopkins
         /// The current velocity of the player in m/s.
         /// </summary>
         private Vector3 velocity = new Vector3();
+        public bool isGrounded = true;
+        private AABB aabb;
 
         void Start()
         {
-
+            aabb = GetComponent<AABB>();
         }
 
         void Update()
@@ -97,7 +99,7 @@ namespace Hopkins
             float gravMultiplier = 1;
             bool wantsToJump = Input.GetButtonDown("Jump");
             bool isHoldingJump = Input.GetButton("Jump");
-            bool isGrounded = true;
+            
 
             if (transform.position.y <- 0)
             {
@@ -122,6 +124,22 @@ namespace Hopkins
             }
 
             velocity.y -= gravity * Time.deltaTime * gravMultiplier;
+        }
+
+        public void ApplyFix(Vector3 fix)
+        {
+            if (fix.y > 0) isGrounded = true;
+
+            transform.position += fix;
+            if(fix.y != 0)
+            {
+                velocity.y = 0;
+            }
+            if(fix.x != 0)
+            {
+                velocity.x = 0;
+            }
+            aabb.RecalcAABB();
         }
     }
 }

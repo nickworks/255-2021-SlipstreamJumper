@@ -50,6 +50,45 @@ namespace Hopkins
             return true;
         }
 
+        public Vector3 FindFix(AABB other)
+        {
+            float moveRight = other.max.x - this.min.x; //positive number
+            float moveLeft = other.min.x - this.max.x; //negative number
+            float moveUp = other.max.y - this.min.y; //positive number
+            float moveDown = other.min.y - this.max.y; //negative number
+            
+            Vector3 fix = Vector3.zero;
+
+            if(Mathf.Abs(moveLeft) < Mathf.Abs(moveRight))
+            {
+                fix.x = moveLeft;
+            }
+            else
+            {
+                fix.x = moveRight;
+            }
+
+            if(Mathf.Abs(moveUp) < Mathf.Abs(moveDown))
+            {
+                fix.y = moveUp;
+            }
+            else
+            {
+                fix.y = moveDown;
+            }
+
+            if(Mathf.Abs(fix.x) < Mathf.Abs(fix.y))
+            {
+                fix.y = 0; //going with horizontal solution, clearing the vertical
+            }
+            else
+            {
+                fix.x = 0; //goign with vertical solution, clearing the horizontal
+            }
+
+            return fix;
+        }
+
         private void OnDrawGizmos()
         {
             Gizmos.DrawWireCube(transform.position, boxSize);
