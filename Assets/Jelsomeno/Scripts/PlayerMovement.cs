@@ -54,11 +54,12 @@ namespace Jelsomeno {
         /// </summary>
 
         private bool isJumpingUpwards = false;
+        private bool isGrounded = false;
+        private AABB aabb;
 
-        // Start is called before the first frame update
-        void Start()
+        private void Start()
         {
-
+            aabb = GetComponent<AABB>();
         }
 
         // Update is called once per frame
@@ -70,6 +71,9 @@ namespace Jelsomeno {
 
             //applying velocity to position 
             transform.position += velocity * Time.deltaTime;
+            aabb.RecalcAABB();
+
+            isGrounded = false;
 
         }
 
@@ -84,18 +88,6 @@ namespace Jelsomeno {
 
             float gravMultiplier = 1;
 
-            // detect if on the ground:
-            bool isGrounded = false;
-            if (transform.position.y <= 0)
-            {
-
-                Vector3 pos = transform.position;
-                pos.y = 0;
-                transform.position = pos;
-                velocity.y = 0;
-                isGrounded = true;
-
-            }
 
             bool wantsToJump = Input.GetButtonDown("Jump");
 
@@ -159,6 +151,27 @@ namespace Jelsomeno {
             //if (velocity.x >  maxSpeed) velocity.x = maxSpeed;
 
             velocity.x = Mathf.Clamp(velocity.x, -maxSpeed, maxSpeed);
+        }
+
+        public void ApplyFix(Vector3 fix)
+        {
+
+            transform.position += fix;
+
+            if (fix.y > 0) isGrounded = true;
+
+            if(fix.y != 0)
+            {
+                velocity.y = 0;
+            }
+            if(fix.x != 0)
+            {
+                velocity.x = 0; 
+            }
+
+            aabb.RecalcAABB();
+
+
         }
 
     }

@@ -18,13 +18,16 @@ namespace Jelsomeno
         public AABB player;
         public AABB floor;
 
-        // Update is called once per frame
+
         void LateUpdate()
         {
 
             if (player.OverlapCheck(floor))
             {
-                print("overlapping...");
+                Vector3 fix = player.FindFix(floor);
+
+                player.GetComponent<PlayerMovement>().ApplyFix(fix);
+
             }
 
         }
