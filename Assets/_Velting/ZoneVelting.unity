@@ -312,6 +312,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   acceleration: 20
   deceleration: 40
+  maxSpeed: 5
+  gravity: 20
+  jumpImpulse: 12
 --- !u!1 &1786376495
 GameObject:
   m_ObjectHideFlags: 0
