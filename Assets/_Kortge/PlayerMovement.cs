@@ -3,138 +3,140 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 // Write documentation before every class and class member (variables).
-
-/// <summary>
-/// This class gets input and moves the player with input and euler physics.
-/// </summary>
-public class PlayerMovement : MonoBehaviour
+namespace Kortge
 {
     /// <summary>
-    /// When the player wants to move, this value is used to scale the player's deceleration.
+    /// This class gets input and moves the player with input and euler physics.
     /// </summary>
-
-    [Header("Horizontal Movement")]
-    
-    public float scalarAcceleration;
-
-    /// <summary>
-    /// This value is used to decelerate the player.
-    /// </summary>
-
-    public float scalarDeceleration;
-
-    /// <summary>
-    /// This value is used to clamp the player's horizontal velocity.
-    /// </summary>
-
-    public float maxSpeed = 5;
-
-    /// <summary>
-    /// This is used to scale the player's downward acceleration due to gravity.
-    /// </summary>
-
-    [Header("Horizontal Movement")]
-
-    public float gravity;
-    /// <summary>
-    /// The velocity we launch the player when they jump. Measured in meters/second.
-    /// </summary>
-    public float jumpImpulse = 10;
-    /// <summary>
-    /// The current velocity of player.
-    /// </summary>
-    private Vector3 velocity = new Vector3();
-    /// <summary>
-    /// Whether or not the player is currently jumping upwards.
-    /// </summary>
-    private bool isJumpingUpwards = false;
-
-    /// <summary>
-    /// Do euler physics each tick.
-    /// </summary>
-    // Start is called before the first frame update
-    void Start()
+    public class PlayerMovement : MonoBehaviour
     {
-        
-    }
+        /// <summary>
+        /// When the player wants to move, this value is used to scale the player's deceleration.
+        /// </summary>
 
-    // Update is called once per frame
-    void Update()
-    {
-        CalcHorizontaMovement();
-        CalcVerticalMovement();
+        [Header("Horizontal Movement")]
 
-        // applying velocity to our position:
-        transform.position += velocity * Time.deltaTime;
-    }
-    /// <summary>
-    /// Calculating the Euler physics on Y axis.
-    /// </summary>
-    private void CalcVerticalMovement()
-    {
-        float gravMultiplier = 1;
+        public float scalarAcceleration;
 
-        // detect if on ground:
-        bool isGrounded = false;
-        if(transform.position.y < 0)
+        /// <summary>
+        /// This value is used to decelerate the player.
+        /// </summary>
+
+        public float scalarDeceleration;
+
+        /// <summary>
+        /// This value is used to clamp the player's horizontal velocity.
+        /// </summary>
+
+        public float maxSpeed = 5;
+
+        /// <summary>
+        /// This is used to scale the player's downward acceleration due to gravity.
+        /// </summary>
+
+        [Header("Horizontal Movement")]
+
+        public float gravity;
+        /// <summary>
+        /// The velocity we launch the player when they jump. Measured in meters/second.
+        /// </summary>
+        public float jumpImpulse = 10;
+        /// <summary>
+        /// The current velocity of player.
+        /// </summary>
+        private Vector3 velocity = new Vector3();
+        /// <summary>
+        /// Whether or not the player is currently jumping upwards.
+        /// </summary>
+        private bool isJumpingUpwards = false;
+
+        /// <summary>
+        /// Do euler physics each tick.
+        /// </summary>
+        // Start is called before the first frame update
+        void Start()
         {
-            Vector3 pos = transform.position;
-            pos.y = 0;
-            transform.position = pos;
-            velocity.y = 0;
-            isGrounded = true;
+
         }
 
-        bool wantsToJump = Input.GetButtonDown("Jump");
-        bool isHoldingJump = Input.GetButton("Jump");
-
-        if (wantsToJump && isGrounded)
+        // Update is called once per frame
+        void Update()
         {
-            velocity.y = 10;
-            isJumpingUpwards = true;
-        }
+            CalcHorizontaMovement();
+            CalcVerticalMovement();
 
-        if (!isHoldingJump || velocity.y < 0)
+            // applying velocity to our position:
+            transform.position += velocity * Time.deltaTime;
+        }
+        /// <summary>
+        /// Calculating the Euler physics on Y axis.
+        /// </summary>
+        private void CalcVerticalMovement()
         {
-            isJumpingUpwards = false;
-        }
+            float gravMultiplier = 1;
 
-        if (isJumpingUpwards) gravMultiplier = 0.5f;
-
-        // apply gravity to velocity
-        velocity.y -= gravity * Time.deltaTime;
-
-    }
-
-    private void CalcHorizontaMovement()
-    {
-        float h = Input.GetAxisRaw("Horizontal");
-
-        if (h != 0)
-        { // user is pressing left or right (or both?)
-            // applying acceleration to our velocity:
-            velocity.x += h * Time.deltaTime * scalarAcceleration;
-        }
-
-        else // user is NOT pushing left or right:
-        {
-            if (velocity.x > 0) // player is moving right...
+            // detect if on ground:
+            bool isGrounded = false;
+            if (transform.position.y < 0)
             {
-                velocity.x -= scalarDeceleration * Time.deltaTime;
-                if (velocity.x < 0) { velocity.x = 0; }
+                Vector3 pos = transform.position;
+                pos.y = 0;
+                transform.position = pos;
+                velocity.y = 0;
+                isGrounded = true;
             }
 
-            if (velocity.x < 0)
+            bool wantsToJump = Input.GetButtonDown("Jump");
+            bool isHoldingJump = Input.GetButton("Jump");
+
+            if (wantsToJump && isGrounded)
             {
-                velocity.x += scalarDeceleration * Time.deltaTime;
-                if (velocity.x > 0) { velocity.x = 0; }
+                velocity.y = 10;
+                isJumpingUpwards = true;
             }
+
+            if (!isHoldingJump || velocity.y < 0)
+            {
+                isJumpingUpwards = false;
+            }
+
+            if (isJumpingUpwards) gravMultiplier = 0.5f;
+
+            // apply gravity to velocity
+            velocity.y -= gravity * gravMultiplier * Time.deltaTime;
+
         }
 
-        //if (velocity.x < -maxSpeed) velocity.x = -maxSpeed;
-        //if (velocity.x > maxSpeed) velocity.x = -maxSpeed;
+        private void CalcHorizontaMovement()
+        {
+            float h = Input.GetAxisRaw("Horizontal");
 
-        // unity claim
-        velocity.x = Mathf.Clamp(velocity.x, -maxSpeed, maxSpeed);
+            if (h != 0)
+            { // user is pressing left or right (or both?)
+              // applying acceleration to our velocity:
+                velocity.x += h * Time.deltaTime * scalarAcceleration;
+            }
+
+            else // user is NOT pushing left or right:
+            {
+                if (velocity.x > 0) // player is moving right...
+                {
+                    velocity.x -= scalarDeceleration * Time.deltaTime;
+                    if (velocity.x < 0) { velocity.x = 0; }
+                }
+
+                if (velocity.x < 0)
+                {
+                    velocity.x += scalarDeceleration * Time.deltaTime;
+                    if (velocity.x > 0) { velocity.x = 0; }
+                }
+            }
+
+            //if (velocity.x < -maxSpeed) velocity.x = -maxSpeed;
+            //if (velocity.x > maxSpeed) velocity.x = -maxSpeed;
+
+            // unity claim
+            velocity.x = Mathf.Clamp(velocity.x, -maxSpeed, maxSpeed);
+        }
     }
 }
