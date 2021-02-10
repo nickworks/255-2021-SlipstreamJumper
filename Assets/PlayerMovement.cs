@@ -32,7 +32,7 @@ namespace Erickson
         /// </summary>
         private Vector3 velocity = new Vector3();
         /// <summary>
-        /// Whether or no the player is jumping.
+        /// Whether or not the player is jumping.
         /// </summary>
         private bool isJumpingUpwards = false;
 
@@ -63,9 +63,10 @@ namespace Erickson
             }
 
             // clamp:
-            //if (velocity.x < -maxSpeed)
+            //if (velocity.x < -maxSpeed) velocity.x = -maxSpeed;
+            //if (velocity.x > maxSpeed) velocity.x = maxSpeed;
 
-            transform.position += velocity * Time.deltaTime;
+            velocity.x = Mathf.Clamp(velocity.x, -maxSpeed, maxSpeed);
         }
         /// <summary>
         /// Calculating Euler physics on Y axis.

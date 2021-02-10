@@ -19,7 +19,8 @@ public class Zone : SlipstreamJumper.Zone
     {
         if(player.OverlapCheck(floor))
         {
-            print("overlapping...");
+           Vector3 fix = player.FindFix(floor);
+            player.transform.position += fix;
         }
     }
 }
