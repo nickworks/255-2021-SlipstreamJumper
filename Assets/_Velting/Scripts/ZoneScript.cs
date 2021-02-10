@@ -30,7 +30,9 @@ namespace Velting
         {
             if (player.OverlapCheck(floor))
             {
-                print("overlaping...");
+                Vector3 fix = player.FindFix(floor);
+
+                player.GetComponent<PlayerMovement>().ApplyFix(fix);
             }
         }
     }

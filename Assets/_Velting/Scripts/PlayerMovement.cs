@@ -37,6 +37,8 @@ namespace Velting
         public float gravity = 10;
         private bool isGrounded = false;
         private bool isJumpingUpwards = false;
+
+        private AABB aabb;
         /// <summary>
         /// The velocity we launch the player when they jump.
         /// Measured in m/s
@@ -45,19 +47,22 @@ namespace Velting
         
         void Start()
         {
-
+            aabb = GetComponent<AABB>();
         }
 
        
         void Update()
         {
             //detect if on ground:
-            CheckIfGrounded();
+           
             CalcVerticalMovement();
             CalcMovementHorizontal();
 
             //applying our velocity to our position
             transform.position += velocity * Time.deltaTime;
+            aabb.RecalcAABB();
+
+            isGrounded = false;
         }
 
         private void CalcMovementHorizontal()
@@ -127,24 +132,24 @@ namespace Velting
 
         }
 
-        private bool CheckIfGrounded()
+        
+
+        public void ApplyFix(Vector3 fix)
         {
-            if (transform.position.y <= 0) //on the ground
-            {
-                Vector3 pos = transform.position;
-                pos.y = 0;
-                transform.position = pos;
-                velocity.y = 0;
-                isGrounded = true;
+                transform.position += fix;
+                if (fix.y > 0) isGrounded = true;
+                if(fix.y != 0)
+                {
+                    velocity.y = 0;
+                }
 
-                return isGrounded;
-            }
+                if(fix.x != 0)
+                {
+                    velocity.x = 0;
+                }
 
-            else
-            {
-                isGrounded = false;
-                return isGrounded;
-            }
+                aabb.RecalcAABB();
         }
     }
+
 }
