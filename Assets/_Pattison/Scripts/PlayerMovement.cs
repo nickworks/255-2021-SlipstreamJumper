@@ -47,6 +47,12 @@ namespace Pattison {
         /// Whether or not the player is currently jumping upwards.
         /// </summary>
         private bool isJumpingUpwards = false;
+        private bool isGrounded = false;
+        private AABB aabb;
+
+        private void Start() {
+            aabb = GetComponent<AABB>();
+        }
 
         /// <summary>
         /// Do Euler physics each tick.
@@ -58,6 +64,9 @@ namespace Pattison {
 
             // applying our velocity to our position:
             transform.position += velocity * Time.deltaTime;
+
+            aabb.RecalcAABB();
+            isGrounded = false;
         }
 
         /// <summary>
@@ -66,16 +75,6 @@ namespace Pattison {
         private void CalcVerticalMovement() {
 
             float gravMultiplier = 1;
-
-            // detect if on ground:
-            bool isGrounded = false;
-            if(transform.position.y <= 0) { // on ground!
-                Vector3 pos = transform.position;
-                pos.y = 0;
-                transform.position = pos;
-                velocity.y = 0;
-                isGrounded = true;
-            }
 
             bool wantsToJump = Input.GetButtonDown("Jump");
             bool isHoldingJump = Input.GetButton("Jump");
@@ -126,5 +125,23 @@ namespace Pattison {
             // unity clamp:
             velocity.x = Mathf.Clamp(velocity.x, -maxSpeed, maxSpeed);
         }
+
+
+        public void ApplyFix(Vector3 fix) {
+
+            transform.position += fix;
+
+            if (fix.y > 0) isGrounded = true;
+
+            if(fix.y != 0) {
+                velocity.y = 0;
+            }
+            if(fix.x != 0) {
+                velocity.x = 0;
+            }
+
+            aabb.RecalcAABB();
+        }
+
     }
 }
