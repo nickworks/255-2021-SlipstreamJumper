@@ -48,11 +48,15 @@ namespace Davis {
         /// whether or not the player is currently jumping upwards.
         /// </summary>
         private bool isJumpingUpwards = false;
+        private bool isGrounded = false;
+        private AABB aabb;
+
+
 
         // Start is called before the first frame update
-        void Start() {
-            
+        private void Start() {
 
+            aabb = GetComponent<AABB>();
         
         }
 
@@ -66,6 +70,9 @@ namespace Davis {
             //applying our velocity to our position:
             transform.position += velocity * Time.deltaTime;
 
+
+            isGrounded = false;
+            aabb.RecalcAABB();
         }
 
         /// <summary>
@@ -78,13 +85,15 @@ namespace Davis {
 
             //detect if on ground;
             bool isGrounded = false;
-            if (transform.position.y < 0) { //if on ground
+            /*
+              if (transform.position.y < 0) { //if on ground
                 Vector3 pos = transform.position;
                 pos.y = 0;
                 transform.position = pos;
                 velocity.y = 0;
                 isGrounded = true;
-            }
+            } 
+            */
 
             bool wantsToJump = Input.GetButtonDown("Jump"); //true when pressing button
             bool isHoldingJump = Input.GetButton("Jump"); //true when holding down button
@@ -147,5 +156,27 @@ namespace Davis {
             //unity clamp:
             velocity.x = Mathf.Clamp(velocity.x, -maxSpeed, maxSpeed);
         }
+
+
+
+        public void ApplyFix(Vector3 fix)
+        {
+            transform.position += fix;
+            if (fix.y > 0) isGrounded = true;
+
+            if(fix.y != 0)
+            {
+                velocity.y = 0;
+            }
+            if(fix.x != 0)
+            {
+                velocity.x = 0;
+            }
+
+
+            aabb.RecalcAABB();
+
+        }
     }
+
 }
