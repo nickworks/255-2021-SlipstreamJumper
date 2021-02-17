@@ -69,7 +69,7 @@ namespace Kortge
             CalcVerticalMovement();
 
             // applying velocity to our position:
-            transform.position += velocity * Time.deltaTime;
+            transform.position += velocity * Time.deltaTime ;
 
             isGrounded = false;
 
