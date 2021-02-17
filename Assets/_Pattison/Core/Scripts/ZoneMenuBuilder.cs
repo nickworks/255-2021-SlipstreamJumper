@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace SlipstreamJumper {
-    public class MenuBuilder : MonoBehaviour {
+    public class ZoneMenuBuilder : MonoBehaviour {
 
         public bool isInFocus = true;
         public EventSystem eventSystem;

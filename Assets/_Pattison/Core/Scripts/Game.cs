@@ -35,6 +35,20 @@ namespace SlipstreamJumper {
              * TODO: Add student's zone info objects here...
              * Namespace.Zone.info
              */
+            Pattison.Zone.info,
+            //Davis.Zone.info,
+            Foster.Zone.info,
+            Geib.Zone.info,
+            Hodgkins.Zone.info,
+            Hopkins.Zone.info,
+            Howley.Zone.info,
+            Jelsomeno.Zone.info,
+            Kortge.Zone.info,
+            Miller.Zone.info,
+            ASmith.Zone.info,
+            JSmith.Zone.info,
+            Szczesniak.Zone.info,
+            Velting.ZoneScript.info,
         };
         public static List<ZoneInfo> zones { get { return _zones; } }
         List<ZoneInfo> zonesUnplayed = new List<ZoneInfo>();
