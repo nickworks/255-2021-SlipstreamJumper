@@ -41,7 +41,7 @@ namespace SlipstreamJumper {
             NoMoreButtonsThisRow();
 
             foreach (ZoneInfo zone in zones) {
-                MakeButton(zone.zoneName, () => {
+                MakeButton(zone.zoneName + " by " + zone.creator, () => {
 
                     Game.Play(zone);
 
