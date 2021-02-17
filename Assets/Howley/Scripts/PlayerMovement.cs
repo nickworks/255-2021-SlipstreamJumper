@@ -137,19 +137,33 @@ namespace Howley
             // === Euler physics integration. ===
             if (h != 0) // User is pressing A or D.
             {
+                float accel = acceleration;
+
+                if (!isGrounded) // Less acceleration in the air.
+                {
+                    accel = acceleration / 4;
+                }
+
                 // Add the player's input to the velocity x deltaTime.
-                velocity.x += h * Time.deltaTime * acceleration;
+                velocity.x += h * Time.deltaTime * accel;
             }
             else // User is not pressing A or D
             {
+                float decel = deceleration;
+
+                if (!isGrounded) // Less deceleration in the air.
+                {
+                    decel = deceleration / 4;
+                }
+
                 if (velocity.x > 0) // Player is moving right
                 {
-                    velocity.x -= deceleration * Time.deltaTime; // Accelerate left
+                    velocity.x -= decel * Time.deltaTime; // Accelerate left
                     if (velocity.x < 0) velocity.x = 0;
                 }
                 if (velocity.x < 0) // Player is moving left
                 {
-                    velocity.x += deceleration * Time.deltaTime; // Accelerate right
+                    velocity.x += decel * Time.deltaTime; // Accelerate right
                     if (velocity.x > 0) velocity.x = 0;
                 }
             }
@@ -179,6 +193,11 @@ namespace Howley
             }
 
             aabb.RecalcAABB();
+        }
+        public void LauchPlayer(Vector3 velocity)
+        {
+            velocity.z = 0;
+            this.velocity = velocity; // Referring to the private property needs this. in front of it.
         }
     }
 }

@@ -20,6 +20,8 @@ namespace Howley
 
         private List<AABB> platforms = new List<AABB>();
 
+        public List<AABB> powerups = new List<AABB>();
+
         /// <summary>
         /// Runs before the start function.
         /// </summary>
@@ -50,6 +52,20 @@ namespace Howley
                     pm.ApplyFix(player.FindFix(box));
                 }
             }
+
+            foreach(AABB power in powerups)
+            {
+                if (player.OverlapCheck(power))
+                {
+                    // Do something.
+                    SpringBlock sb = power.GetComponent<SpringBlock>();
+                    if (sb)
+                    {
+                        sb.PlayerHit(pm);
+                    }
+                }
+            }
+
         }
 
         /// <summary>

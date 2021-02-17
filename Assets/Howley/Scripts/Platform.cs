@@ -24,6 +24,7 @@ namespace Howley
         /// </summary>
         private void OnDestroy()
         {
+            if (Zone.main == null) return;
             Zone.main.RemovePlatform(aabb);
         }
     }
