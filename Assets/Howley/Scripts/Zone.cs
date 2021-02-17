@@ -13,17 +13,57 @@ namespace Howley
             sceneFile = "ZoneHowley"
         };
 
+        // Singleton:
+        public static Zone main;
+
         public AABB player;
-        public AABB floor;
+
+        private List<AABB> platforms = new List<AABB>();
+
+        /// <summary>
+        /// Runs before the start function.
+        /// </summary>
+        void Awake()
+        {
+            if (main != null) // Already have.
+            {
+                Destroy(gameObject);
+            } else
+            {
+                main = this;
+            }
+            
+        }
+        private void OnDestroy()
+        {
+            if (main == this) main = null;
+        }
 
         void LateUpdate()
-        {   
-            if (player.OverlapCheck(floor))
-            {
-                Vector3 fix = player.FindFix(floor);
+        {
+            PlayerMovement pm = player.GetComponent<PlayerMovement>();
 
-                player.GetComponent<PlayerMovement>().ApplyFix(fix);
+            foreach(AABB box in platforms)
+            {
+                if (player.OverlapCheck(box))
+                { 
+                    pm.ApplyFix(player.FindFix(box));
+                }
             }
+        }
+
+        /// <summary>
+        /// This function inserts platforms into the array.
+        /// </summary>
+        /// <param name="platform"></param>
+        public void AddPlatform(AABB platform)
+        {
+            platforms.Add(platform);
+        }
+
+        public void RemovePlatform(AABB platform)
+        {
+            platforms.Remove(platform);
         }
     }
 }
