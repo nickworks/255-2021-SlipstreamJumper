@@ -41,6 +41,11 @@ namespace Geib // This namespace needs to be in all of my scripts!
         /// Measured in meters/second.
         /// </summary>
         public float jumpImpulse = 10;
+
+        /// <summary>
+        /// The maximum speed at which the player may fall. (Should be no more than half the height of the player to ensure they do not clip through the ground.)
+        /// </summary>
+        public float terminalVelocity = 15;
         
         /// <summary>
         /// Whether or not the player is currently jumping upwards. 
@@ -55,7 +60,6 @@ namespace Geib // This namespace needs to be in all of my scripts!
 
         private AABB aabb;
 
-        // Start is called before the first frame update
         void Start()
         {
             aabb = GetComponent<AABB>();
@@ -66,6 +70,7 @@ namespace Geib // This namespace needs to be in all of my scripts!
         /// </summary>
         void Update()
         {
+            if (Time.deltaTime > 0.25) return; // Lag spike? quit early, do nothing
             
             CalcMovementHorizontal();
 
@@ -74,6 +79,7 @@ namespace Geib // This namespace needs to be in all of my scripts!
 
             // Applying our velocity to our position:
             transform.position += velocity * Time.deltaTime;
+
             aabb.RecalcAABB();
             isGrounded = false;
         }
@@ -107,6 +113,9 @@ namespace Geib // This namespace needs to be in all of my scripts!
             // apply force of gravity to our velocity
             velocity.y -= gravity * Time.deltaTime * gravMultiplier;
 
+            //clamp vertical terminal velocity
+            if (velocity.y < -terminalVelocity) velocity.y = -terminalVelocity;
+
         }
 
 
@@ -117,6 +126,8 @@ namespace Geib // This namespace needs to be in all of my scripts!
         private void CalcMovementHorizontal()
         {
             float h = Input.GetAxisRaw("Horizontal");
+            
+            //h = 1;
 
             // --== Euler physic integration ==--
 
@@ -150,6 +161,13 @@ namespace Geib // This namespace needs to be in all of my scripts!
             velocity.x = Mathf.Clamp(velocity.x, -maxSpeed, maxSpeed);
         }
 
+        /// <summary>
+        /// This moves the player by adding a vector ro its position.
+        /// The vector repreents a "fix" that should move the player 
+        /// out of another object. From the fix, we can deduce which
+        /// direction the player has moved
+        /// </summary>
+        /// <param name="fix"></param>How far to move the player</param>
         public void ApplyFix(Vector3 fix)
         {
             transform.position += fix;
@@ -165,6 +183,11 @@ namespace Geib // This namespace needs to be in all of my scripts!
             }
 
             aabb.RecalcAABB();
+        }
+        public void LaunchPlayer(Vector3 vel)
+        {
+            vel.z = 0;
+            this.velocity = vel;
         }
     }
 }
