@@ -36,13 +36,13 @@ namespace Hodgkins
         public bool OverlapCheck(AABB other)
         {
             if (other.min.x > this.max.x) return false; //gap to right == no collision
-            if (other.min.x < this.max.x) return false; //gap to left == no collision
+            if (other.max.x < this.min.x) return false; //gap to left == no collision
 
             if (other.min.y > this.max.y) return false; //gap above == no collision
-            if (other.min.y < this.max.y) return false; //gap below == no collision
+            if (other.max.y < this.min.y) return false; //gap below == no collision
 
             if (other.min.z > this.max.z) return false; //gap 'forward' == no collision
-            if (other.min.z < this.max.z) return false; //gap 'behind' == no collision
+            if (other.max.z < this.min.z) return false; //gap 'behind' == no collision
 
 
             return true;

@@ -11,7 +11,6 @@ namespace Pattison {
         public Vector3 min;
         public Vector3 max;
 
-
         void Start() {
             RecalcAABB();
 

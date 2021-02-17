@@ -39,6 +39,11 @@ namespace Pattison {
         public float jumpImpulse = 10;
 
         /// <summary>
+        /// The maximum fall speed for the player. (helps with discrete collision detection)
+        /// </summary>
+        public float terminalVelocity = 10;
+
+        /// <summary>
         /// The current velocity of the player, in meters/second.
         /// </summary>
         private Vector3 velocity = new Vector3();
@@ -58,6 +63,9 @@ namespace Pattison {
         /// Do Euler physics each tick.
         /// </summary>
         void Update() {
+
+            if (Time.deltaTime > 0.25f) return; // lag spike? quit early, do nothing
+
             CalcHorizontalMovement();
 
             CalcVerticalMovement();
@@ -92,6 +100,8 @@ namespace Pattison {
             // apply force of gravity to our velocity:
             velocity.y -= gravity * Time.deltaTime * gravMultiplier;
 
+            // clamp vertical speed to create terminal velocity:
+            if (velocity.y < -terminalVelocity) velocity.y = -terminalVelocity;
         }
 
         /// <summary>
@@ -100,20 +110,36 @@ namespace Pattison {
         private void CalcHorizontalMovement() {
             float h = Input.GetAxisRaw("Horizontal");
 
+            //h = 1; // player wants to move right
+
             // ====== Euler physics integration: ======
             if (h != 0) { // user is pressing left or right (or both?)
 
+
+                float accel = scalarAcceleration;
+
+                if (!isGrounded) { // less acceleration while in the air:
+                    accel = scalarAcceleration / 5;
+                }
+
                 // applying acceleration to our velocity:
-                velocity.x += h * Time.deltaTime * scalarAcceleration;
+                velocity.x += h * Time.deltaTime * accel;
 
             } else { // user is NOT pushing left or right:
 
+                float decel = scalarDeceleration;
+
+                if (!isGrounded) { // less deceleration while in air:
+                    decel = scalarDeceleration / 5;
+                }
+
+
                 if (velocity.x > 0) { // player is moving right...
-                    velocity.x -= scalarDeceleration * Time.deltaTime;
+                    velocity.x -= decel * Time.deltaTime;
                     if (velocity.x < 0) velocity.x = 0;
                 }
                 if (velocity.x < 0) { // player is moving left...
-                    velocity.x += scalarDeceleration * Time.deltaTime;
+                    velocity.x += decel * Time.deltaTime;
                     if (velocity.x > 0) velocity.x = 0;
                 }
             }
@@ -126,22 +152,34 @@ namespace Pattison {
             velocity.x = Mathf.Clamp(velocity.x, -maxSpeed, maxSpeed);
         }
 
-
+        /// <summary>
+        /// This moves the player by adding a vector to its position.
+        /// The vector represents a "fix" that should move the player
+        /// out of another object. From the fix, we can deduce which
+        /// direction the player was moved.
+        /// </summary>
+        /// <param name="fix">How far to move the player</param>
         public void ApplyFix(Vector3 fix) {
 
             transform.position += fix;
 
-            if (fix.y > 0) isGrounded = true;
-
-            if(fix.y != 0) {
+            if(fix.y != 0) { // move player up or down:
                 velocity.y = 0;
+                if (fix.y > 0) isGrounded = true; // if move player up, player is standing on ground
             }
-            if(fix.x != 0) {
+
+            if(fix.x != 0) { // move player left or right:
                 velocity.x = 0;
             }
 
             aabb.RecalcAABB();
         }
+
+        public void LaunchPlayer(Vector3 vel) {
+            vel.z = 0;
+            velocity = vel;
+        }
+
 
     }
 }
