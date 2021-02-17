@@ -127,6 +127,7 @@ namespace Pattison {
         }
 
 
+        /// <param name="fix"></param>
         public void ApplyFix(Vector3 fix) {
 
             transform.position += fix;

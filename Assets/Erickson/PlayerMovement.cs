@@ -85,6 +85,7 @@ namespace Erickson
             }
 
             bool wantsToJump = Input.GetButtonDown("Jump");
+
             bool isHoldingJump =  Input.GetButton("Jump");
 
             if(wantsToJump && isGrounded)
