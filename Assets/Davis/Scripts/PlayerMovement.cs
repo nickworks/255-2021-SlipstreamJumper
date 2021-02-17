@@ -40,6 +40,8 @@ namespace Davis {
         /// </summary>
         public float jumpImpulse = 15;
 
+
+
         /// <summary>
         /// the current velocity of the player, in meters per second.
         /// </summary>
@@ -63,6 +65,12 @@ namespace Davis {
         // Update is calling euler physics once per frame
         void Update()
         {
+
+            if (Time.deltaTime > 0.25f) return; // lag spike? quit early do nothing
+            
+            
+            
+
             CalcHorizontalMovement();
             CalcVerticalMovement();
 
