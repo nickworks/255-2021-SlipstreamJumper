@@ -73,7 +73,7 @@ namespace Erickson
         /// </summary>
         private void CalcVerticalMovement() {
 
-            float gravMultiplier;
+            float gravMultiplier = 1;
 
             bool isGrounded = false;
             if (transform.position.y < 0) {
@@ -85,7 +85,7 @@ namespace Erickson
             }
 
             bool wantsToJump = Input.GetButtonDown("Jump");
-            bool isHoldingJump Input.GetButton("Jump");
+            bool isHoldingJump =  Input.GetButton("Jump");
 
             if(wantsToJump && isGrounded)
             {
