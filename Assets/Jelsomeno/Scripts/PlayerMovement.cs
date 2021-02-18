@@ -47,6 +47,12 @@ namespace Jelsomeno {
         /// current velocity of the player in meters.second
         /// </summary>
 
+        public float terminalVelocity = 10;
+        /// <summary>
+        ///  The maximum fall speed for the player. (helps with discrete collision detection)
+        /// </summary>
+
+
         private Vector3 velocity = new Vector3();
 
         /// <summary>
@@ -110,6 +116,8 @@ namespace Jelsomeno {
             // apply force of gravity to our velocity 
             velocity.y -= gravity * Time.deltaTime * gravMultiplier;
 
+            // clamp vertical speed to create terminal velocity:
+            if (velocity.y < -terminalVelocity) velocity.y = -terminalVelocity;
 
         }
 
@@ -121,26 +129,43 @@ namespace Jelsomeno {
         {
             float h = Input.GetAxisRaw("Horizontal");
 
+            //h = 1;// player wants to move right
+
             // Euler physics integration:
 
             if (h != 0)
             {
+
+                float accel = scalerAcceleration;
+
+                if (!isGrounded)
+                {
+                    accel = scalerAcceleration / 10;
+                }
+
                 // applying acceleration to velocity
-                velocity.x += h * Time.deltaTime * scalerAcceleration;
+                velocity.x += h * Time.deltaTime * accel;
 
             }
             else
             {
 
+                float decel = scalerDeceleration;
+
+                if (!isGrounded)
+                {
+                    decel = scalerDeceleration / 10;
+                }
+
                 if (velocity.x > 0) // player is moving right
                 {
-                    velocity.x -= scalerDeceleration * Time.deltaTime;
+                    velocity.x -= decel * Time.deltaTime;
                     if (velocity.x < 0) velocity.x = 0;
 
                 }
                 if (velocity.x < 0)
                 {
-                    velocity.x += scalerDeceleration * Time.deltaTime;
+                    velocity.x += decel * Time.deltaTime;
                     if (velocity.x > 0) velocity.x = 0;
 
                 }
@@ -170,8 +195,12 @@ namespace Jelsomeno {
             }
 
             aabb.RecalcAABB();
+        }
 
-
+        public void LaunchPlayer(Vector3 vel)
+        {
+            vel.z = 0;
+            velocity = vel;
         }
 
     }
