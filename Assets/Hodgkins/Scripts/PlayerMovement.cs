@@ -40,6 +40,11 @@ namespace Hodgkins
         public float jumpInpulse = 10;
 
         /// <summary>
+        /// The maximum fall speed for the player.
+        /// </summary>
+        public float terminalVelocity = 10;
+
+        /// <summary>
         /// The current velocity of the player, in meters/second.
         /// </summary>
         private Vector3 velocity = new Vector3();
@@ -62,6 +67,8 @@ namespace Hodgkins
         /// </summary>
         void Update()
         {
+            if (Time.deltaTime > 0.025f) return; // lag spike? quit early, do nothing
+            
             MovementHorizontal();
             MovementVertical();
 
@@ -95,8 +102,8 @@ namespace Hodgkins
             //apply force of gravity to velocity
             velocity.y -= gravity * Time.deltaTime * gravMultiplier;
 
-
-
+            //clamp vertical speed to create terminal velocity
+            if (velocity.y < -terminalVelocity) velocity.y = -terminalVelocity;
 
         }
 
@@ -107,24 +114,40 @@ namespace Hodgkins
         {
             float h = Input.GetAxisRaw("Horizontal");
 
-            //Euler physics integration
+            //h = 1; // always moving right
 
+
+            //Euler physics integration
             if (h != 0) //user is pressing left or right (or both)
             {
+
+                float accel = scalarAcceleration;
+                
+                if(!isGrounded) // less acceleration while in air
+                {
+                    accel = scalarAcceleration / 5;
+                }
+
                 //applying acceleration to velocity
-                velocity.x += h * Time.deltaTime * scalarAcceleration;
+                velocity.x += h * Time.deltaTime * accel;
             }
             else
             { // user is not pushing left or right
+                float decel = scalarDeceleration;
+
+                if(!isGrounded)
+                {
+                    decel = scalarDeceleration / 5;
+                }
 
                 if (velocity.x > 0) //player is moving right
                 {
-                    velocity.x -= scalarDeceleration * Time.deltaTime;
+                    velocity.x -= decel * Time.deltaTime;
                     if (velocity.x < 0) velocity.x = 0;
                 }
                 if (velocity.x < 0)
                 {
-                    velocity.x += scalarDeceleration * Time.deltaTime;
+                    velocity.x += decel * Time.deltaTime;
                     if (velocity.x > 0) velocity.x = 0;
                 }
             }
@@ -136,15 +159,22 @@ namespace Hodgkins
             velocity.x = Mathf.Clamp(velocity.x, -maxSpeed, maxSpeed);
         }
 
+        /// <summary>
+        /// This moves the player by adding a vector to its position.
+        /// The vector represents a 'fix' that should move the player
+        /// out of another object. From the fix, we can tell which
+        /// direction the player was moved.
+        /// </summary>
+        /// <param name="fix"></param>
         public void ApplyFix(Vector3 fix)
         {
             transform.position += fix;
             
-            if (fix.y > 0) isGrounded = true;
 
-            if(fix.y != 0)
+            if(fix.y != 0) // move player up or down
             {
                 velocity.y = 0;
+                if (fix.y > 0) isGrounded = true;
             }
             if(fix.x != 0)
             {
@@ -152,6 +182,12 @@ namespace Hodgkins
             }
 
             aabb.RecalcAABB();
+        }
+
+        public void LaunchPlayer(Vector3 vel)
+        {
+            vel.z = 0;
+            this.velocity = vel;
         }
     }
 }
