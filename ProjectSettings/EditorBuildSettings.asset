@@ -18,7 +18,7 @@ EditorBuildSettings:
     path: Assets/_Velting/ZoneVelting.unity
     guid: 27a9bc49cf8d5ba4bab0eea2c5aec171
   - enabled: 1
-    path: Assets/_Kortge/ClassScene.unity
+    path: Assets/_Kortge/ZoneKortge.unity
     guid: 1112dbc2f742fcb49a905eaec085bf41
   - enabled: 1
     path: Assets/_Pattison/ZonePattison.unity

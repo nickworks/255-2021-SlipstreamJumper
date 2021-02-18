@@ -41,6 +41,9 @@ namespace Kortge
         /// The velocity we launch the player when they jump. Measured in meters/second.
         /// </summary>
         public float jumpImpulse = 10;
+
+        public float terminalVelocity = 15;
+
         /// <summary>
         /// The current velocity of player.
         /// </summary>
@@ -65,11 +68,13 @@ namespace Kortge
         // Update is called once per frame
         void Update()
         {
+            if (Time.deltaTime > 0.25f) return; // quit early, do nothing
+
             CalcHorizontaMovement();
             CalcVerticalMovement();
 
             // applying velocity to our position:
-            transform.position += velocity * Time.deltaTime ;
+            transform.position += velocity * Time.deltaTime;
 
             isGrounded = false;
 
@@ -103,6 +108,9 @@ namespace Kortge
             // apply gravity to velocity
             velocity.y -= gravity * gravMultiplier * Time.deltaTime;
 
+            // clamp vertivcal speed to create terminal velocity;
+            if (velocity.y < -terminalVelocity) velocity.y = -terminalVelocity;
+
         }
 
         private void CalcHorizontaMovement()
@@ -114,9 +122,14 @@ namespace Kortge
               // applying acceleration to our velocity:
                 velocity.x += h * Time.deltaTime * scalarAcceleration;
             }
-
             else // user is NOT pushing left or right:
             {
+                float decel = scalarDeceleration;
+                if (!isGrounded)
+                {
+                    decel = scalarDeceleration = 2;
+                }
+
                 if (velocity.x > 0) // player is moving right...
                 {
                     velocity.x -= scalarDeceleration * Time.deltaTime;
@@ -137,15 +150,21 @@ namespace Kortge
             velocity.x = Mathf.Clamp(velocity.x, -maxSpeed, maxSpeed);
         }
 
+        /// <summary>
+        /// Moves the player by adding a vector to its position.
+        /// The vector represents a "fix" that should move the player out of another object.
+        /// From the fix, we can deduce which direction the player was moved in.
+        /// </summary>
+        /// <param name="fix"></param>
         public void ApplyFix(Vector3 fix)
         {
             transform.position += fix;
 
             if (fix.y > 0) isGrounded = true;
 
-            if (fix.y != 0)
+            if (fix.y != 0) // Move player up or down.
             {
-                velocity.y = 0;
+                velocity.y = 0; // If move player up
             }
 
             if (fix.x != 0)
@@ -154,6 +173,12 @@ namespace Kortge
             }
 
             aabb.RecalcAABB();
+        }
+
+        public void LaunchPlayer(Vector3 vel)
+        {
+            vel.z = 0;
+            this.velocity = vel;
         }
     }
 }
