@@ -38,6 +38,11 @@ namespace Velting
         private bool isGrounded = false;
         private bool isJumpingUpwards = false;
 
+        /// <summary>
+        /// This variable clamps the maximum downward velocity of the player
+        /// </summary>
+        public float terminalVelocity = 3;
+
         private AABB aabb;
         /// <summary>
         /// The velocity we launch the player when they jump.
@@ -69,29 +74,42 @@ namespace Velting
         {
             float h = Input.GetAxis("Horizontal");
 
+           // h = 1; //player wants to move right
+
             // Euler physics integration:
 
             if (h != 0) //user is pressing left or right (or both)
             {
+
+                float airAccel = acceleration;
+
+                if (!isGrounded)
+                {
+                    airAccel /= 5;
+                }
                 //applying acceleration to our velocity:
-                velocity.x += h * Time.deltaTime * acceleration;
+                velocity.x += h * Time.deltaTime * airAccel;
             }
 
             else //user is not pushing left or right
             {
 
-                float scalar = deceleration;
+                float airDecel = deceleration;
 
-                if (!isGrounded) scalar = deceleration / 15;
+                if (!isGrounded)
+                {
+                    airDecel /= 15;
+                }
+
                 if (velocity.x > 0) // player is moving right
                 {
-                    velocity.x += -scalar * Time.deltaTime;
+                    velocity.x += -airDecel * Time.deltaTime;
                     if (velocity.x < 0) velocity.x = 0;
                 }
 
                 if (velocity.x < 0) //player is moving left 
                 {
-                    velocity.x += scalar * Time.deltaTime;
+                    velocity.x += airDecel * Time.deltaTime;
                     if (velocity.x > 0) velocity.x = 0;
                 }
             }
@@ -130,6 +148,9 @@ namespace Velting
             //This is the force of gravity:
             velocity.y -= gravity * Time.deltaTime * gravMultiplier;
 
+            // clamp vertical speed to creat terminal velocity:
+            if (velocity.y < -terminalVelocity) velocity.y = -terminalVelocity;
+
         }
 
         
@@ -149,6 +170,12 @@ namespace Velting
                 }
 
                 aabb.RecalcAABB();
+        }
+
+        public void LaunchPlayer(Vector3 velocity)
+        {
+            velocity.z = 0;
+            this.velocity = velocity;
         }
     }
 
