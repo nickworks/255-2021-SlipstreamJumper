@@ -26,18 +26,23 @@ namespace Miller
         /// <summary>
         /// This value is used to clamp the player's horizontal velocity. Measured in meters/second
         /// </summary>
-        public float maxSpeed = 5;
+        public float maxSpeed = 20;
 
         /// <summary>
         /// This is used to scale the player's downward acceleration due to gravity.
         /// </summary>
         [Header ("Vertical Movement")]
-        public float gravity = 10;
+        public float gravity = 20;
 
         /// <summary>
         /// The velocity we launch the player when they jump. Measured in meters/second.
         /// </summary>
         public float jumpImpuse = 10;
+
+        /// <summary>
+        /// The maximum fall speed for the player. (helps with discrete collision detection)
+        /// </summary>
+        public float terminalVelocity = 10;
 
         /// <summary>
         /// This is the current velocity of the player, in meters/second
@@ -61,6 +66,9 @@ namespace Miller
         /// </summary>
         void Update()
         {
+            if (Time.deltaTime > 0.25f) return; // lag spike? quit early, do nothing
+
+
             CalcHorizontalMovement();
 
             CalcVerticalMovement();
@@ -95,6 +103,10 @@ namespace Miller
             // apply force of gravity to our velocity
             velocity.y -= gravity * Time.deltaTime * gravMultiplier;
 
+
+            // clamp vertical speed to creat terminal velocity
+            if (velocity.y < -terminalVelocity) velocity.y = -terminalVelocity;
+
         }
         /// <summary>
         /// Calculating Euler physics on X axis
@@ -112,14 +124,31 @@ namespace Miller
             }
             else // user is NOT pressing left our right
             {
+
+                float accel = scalarAcceleration;
+
+                if(!isGrounded) // less acceleration while in the air
+                {
+                    accel = scalarAcceleration / 10;
+                }
+
+
+                float decel = scalarDeceleration;
+
+                if (!isGrounded) // less deceleration while in the air
+                {
+                    decel = scalarDeceleration / 10;
+                }
+
+
                 if (velocity.x > 0) // player is moving right..
                 {
-                    velocity.x -= scalarDeceleration * Time.deltaTime;
+                    velocity.x -= decel * Time.deltaTime;
                     if (velocity.x < 0) velocity.x = 0;
                 }
                 if (velocity.x < 0) // player is moving left...
                 {
-                    velocity.x += scalarDeceleration * Time.deltaTime;
+                    velocity.x += decel * Time.deltaTime;
                     if (velocity.x > 0) velocity.x = 0;
                 }
 
@@ -134,23 +163,34 @@ namespace Miller
             velocity.x = Mathf.Clamp(velocity.x, -maxSpeed, maxSpeed);
         }
 
-
+        /// <summary>
+        /// Moves the player by adding a vector to its position
+        /// The vector represents a "fix" that should move the player out of another object
+        /// From the fix, we can deduce direction the player was moved in
+        /// </summary>
+        /// <param name="fix"></param>
         public void ApplyFix(Vector3 fix)
         {
             transform.position += fix;
 
-            if (fix.y > 0) isGrounded = true;
 
-            if(fix.y != 0)
+            if(fix.y != 0) // move player up or down
             {
-                velocity.y = 0;
+            velocity.y = 0;
+            if (fix.y > 0) isGrounded = true; // if move player up, player is standing on ground
             }
-            if(fix.x != 0)
+            if(fix.x != 0) // move player left or right
             {
                 velocity.x = 0;
             }
 
             aabb.RecalcAABB();
+        }
+
+        public void LaunchPlayer(Vector3 vel)
+        {
+            velocity.z = 0;
+            velocity = vel;
         }
     }
 }
