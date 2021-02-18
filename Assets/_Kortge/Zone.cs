@@ -11,7 +11,7 @@ namespace Kortge
         {
             zoneName = "Bowling",
             creator = "Tyler Kortge",
-            sceneFile = "Bowling Alley"
+            sceneFile = "ZoneKortge"
         };
 
         // singleton:
