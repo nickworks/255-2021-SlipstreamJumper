@@ -49,6 +49,11 @@ namespace Howley
         /// </summary>
         public float jumpImpulse = 10;
 
+        /// <summary>
+        /// The terminal velocity of the player measured per tick.
+        /// </summary>
+        public float terminalVelocity = 10;
+
         // We need to store and use velocity.
         /// <summary>
         /// The current velocity of the player
@@ -114,7 +119,9 @@ namespace Howley
 
             // Subtract from the y by gravity per second "GRAVITY"
             velocity.y -= gravity * Time.deltaTime * gravMultiplier;
-           
+
+            // Clamp vertical speed to create terminal velocity.
+            if (velocity.y < terminalVelocity) velocity.y = -terminalVelocity;
         }
 
         /// <summary>
@@ -125,22 +132,38 @@ namespace Howley
             // Get the horizontal axis and store this in a variable. 
             float h = Input.GetAxisRaw("Horizontal");
 
+            //h = 1;
+
             // === Euler physics integration. ===
             if (h != 0) // User is pressing A or D.
             {
+                float accel = acceleration;
+
+                if (!isGrounded) // Less acceleration in the air.
+                {
+                    accel = acceleration / 4;
+                }
+
                 // Add the player's input to the velocity x deltaTime.
-                velocity.x += h * Time.deltaTime * acceleration;
+                velocity.x += h * Time.deltaTime * accel;
             }
             else // User is not pressing A or D
             {
+                float decel = deceleration;
+
+                if (!isGrounded) // Less deceleration in the air.
+                {
+                    decel = deceleration / 4;
+                }
+
                 if (velocity.x > 0) // Player is moving right
                 {
-                    velocity.x -= deceleration * Time.deltaTime; // Accelerate left
+                    velocity.x -= decel * Time.deltaTime; // Accelerate left
                     if (velocity.x < 0) velocity.x = 0;
                 }
                 if (velocity.x < 0) // Player is moving left
                 {
-                    velocity.x += deceleration * Time.deltaTime; // Accelerate right
+                    velocity.x += decel * Time.deltaTime; // Accelerate right
                     if (velocity.x > 0) velocity.x = 0;
                 }
             }
@@ -153,23 +176,28 @@ namespace Howley
 
         /// <summary>
         /// Zeroes out the velocity if an object is hit.
+        /// The vector represents a fix to move the player out of another object.
         /// </summary>     
         public void ApplyFix(Vector3 fix)
         {
             transform.position += fix;
 
-            if (fix.y > 0) isGrounded = true;
-
-            if (fix.y != 0)
+            if (fix.y != 0) // Move player up and down
             {
                 velocity.y = 0;
+                if (fix.y > 0) isGrounded = true;
             }
-            if (fix.x != 0)
+            if (fix.x != 0) // Move player left or right
             {
                 velocity.x = 0;
             }
 
             aabb.RecalcAABB();
+        }
+        public void LauchPlayer(Vector3 velocity)
+        {
+            velocity.z = 0;
+            this.velocity = velocity; // Referring to the private property needs this. in front of it.
         }
     }
 }
