@@ -16,25 +16,72 @@ namespace Foster
 
         };
 
-
+        //singleton;
+        public static Zone main;
 
         public AABB player;
-        public AABB floor;
 
-        
+
+        private List<AABB> platforms = new List<AABB>();
+
+        public List<AABB> powerups = new List<AABB>();
+
+
+        private void Awake()
+        {
+            if (main != null)
+            {
+                Destroy(gameObject);
+
+            }
+            else
+            {
+                main = this;
+            }
+        }
+
+        private void OnDestroy()
+        {
+            if (main == this) main = null;
+        }
+
+
         void LateUpdate()
         {
-            if (player.OverlapCheck(floor))
+            PlayerMovement pm = player.GetComponent<PlayerMovement>();
+
+            foreach (AABB box in platforms)
             {
-
-                print("overlapping");
-
-                Vector3 fix = player.FindFix(floor);
-
-                player.GetComponent<PlayerMovement>().ApplyFix(fix);
-
-                player.transform.position += fix;
+                if (player.OverlapCheck(box))
+                {
+                    pm.ApplyFix(player.FindFix(box));
+                }
             }
+            foreach (AABB power in powerups)
+            {
+                if(player.OverlapCheck(power))
+                {
+
+                    SpringBlock sb = power.GetComponent<SpringBlock>();
+                    if(sb)
+                    {
+                        sb.PlayerHit(pm);
+                    }
+
+                }
+            }
+        }
+
+        public void AddPlateform(AABB platform)
+        {
+            platforms.Add(platform);
+
+
+        }
+
+        public void RemovingPlatform(AABB platform)
+        {
+            platforms.Remove(platform);
         }
     }
 }
