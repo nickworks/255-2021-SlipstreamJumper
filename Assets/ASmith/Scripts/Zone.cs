@@ -14,15 +14,75 @@ namespace ASmith
         };
 
         public AABB player;
-        public AABB floor;
+        // singleton:
+        public static Zone main;
+
+        // variable to hold all platforms
+        private List<AABB> platforms = new List<AABB>();
+        // variable to hold all powerups
+        public List<AABB> powerups = new List<AABB>();
+
+        private void Awake() // awake runs before start functions
+        {
+            if (main != null)
+            {
+                Destroy(gameObject);
+            }
+            else
+            {
+                main = this;
+            }
+        }
+
+        private void OnDestroy()
+        {
+            if (main == this) main = null;
+        }
 
         void LateUpdate()
         {
-            if (player.OverlapCheck(floor))
+            PlayerMovement pm = player.GetComponent<PlayerMovement>();
+
+            // prevents player from overlapping with platforms in list
+            foreach (AABB box in platforms)
             {
-                Vector3 fix = player.FindFix(floor);
-                player.GetComponent<PlayerMovement>().ApplyFix(fix);
+                if (player.OverlapCheck(box))
+                { 
+                    pm.ApplyFix(player.FindFix(box));
+                }
+            }
+
+            foreach (AABB power in powerups)
+            {
+                if (player.OverlapCheck(power))
+                {
+                    // player collides with powerup
+                    SpringBlock sb = power.GetComponent<SpringBlock>();
+                    if (sb)
+                    {
+                        sb.PlayerHit(pm);
+                    }
+                }
             }
         }
-    }
+
+        /// <summary>
+        /// This function adds a platform to the list of platforms
+        /// </summary>
+        /// <param name="platform"></param>
+        public void AddPlatform(AABB platform)
+        {
+            platforms.Add(platform);
+        }
+
+        /// <summary>
+        /// This function removes a platform from the list of platforms
+        /// </summary>
+        /// <param name="platform"></param>
+        public void RemovePlatform(AABB platform)
+        {
+            platforms.Remove(platform);
+        }
+
+    } 
 }

@@ -38,11 +38,11 @@ namespace ASmith
             if (other.min.x > this.max.x) return false; // gap to right - No Collision
             if (other.max.x < this.min.x) return false; // gap to left - No Collision
 
-            if (other.min.y > this.max.x) return false; // gap to above - No Collision
-            if (other.max.y < this.min.x) return false; // gap to below - No Collision
+            if (other.min.y > this.max.y) return false; // gap to above - No Collision
+            if (other.max.y < this.min.y) return false; // gap to below - No Collision
 
-            if (other.min.z > this.max.x) return false; // gap "in front of player" in depth - No Collision
-            if (other.max.z < this.min.x) return false; // gap "behind player" in depth - No Collision
+            if (other.min.z > this.max.z) return false; // gap "in front of player" in depth - No Collision
+            if (other.max.z < this.min.z) return false; // gap "behind player" in depth - No Collision
 
             return true;
         }
