@@ -16,16 +16,11 @@ namespace Szczesniak {
 
         void LateUpdate() {
 
-            Vector3 pos = transform.position;
-
-            pos.x = target.position.x + 5;
-            pos.y = target.position.y + 1;
-
             //transform.position = pos;
 
             // asymptotic slide:
             // exponential slide:
-            transform.position += (pos - transform.position) * Time.deltaTime * 5;
+            transform.position = AnimMath.Slide(transform.position, target.position, 0.0005f);//(pos - transform.position) * Time.deltaTime * 5;
         }
     }
 }

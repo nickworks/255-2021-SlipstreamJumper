@@ -23,7 +23,7 @@ namespace Szczesniak {
         }
 
         public void PlayerHit(PlayerMovement pm) {
-            pm.LaunchPlayer(new Vector3(0, 35, 0));
+            pm.LaunchPlayer(new Vector3(50, 25, 0));
         }
     }
 }

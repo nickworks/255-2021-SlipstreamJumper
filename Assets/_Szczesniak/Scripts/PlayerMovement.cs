@@ -55,6 +55,10 @@ namespace Szczesniak {
         private bool isJumpingUpwards = false;
         private bool isGrounded = false;
 
+        /// <summary>
+        /// This value is used for the player to rotate while in mid air 
+        /// </summary>
+
         private AABB aabb;
 
         private void Start()
@@ -71,6 +75,8 @@ namespace Szczesniak {
             MovementHorizontal();
             
             CalcVerticalMovement();
+
+            PlayerRotating();
 
             // applying our velocity to our position:
             transform.position += velocity * Time.deltaTime;
@@ -127,10 +133,10 @@ namespace Szczesniak {
 
                 float accel = scalerAcceleration;
 
-                if (!isGrounded) // less acceleration while in air
+                /*if (!isGrounded) // less acceleration while in air
                 {
                     accel = scalerAcceleration / 2;
-                }
+                }*/
 
                 // applying acceleration to our velocity
                 velocity.x += h * Time.deltaTime * accel;
@@ -186,6 +192,18 @@ namespace Szczesniak {
         public void LaunchPlayer(Vector3 vel) {
             vel.z = 0;
             this.velocity = vel;
+        }
+
+        private void PlayerRotating() {
+            float rotationAccel = scalerAcceleration;
+
+            if (Input.GetKey("left") && !isGrounded) {
+                transform.rotation = Quaternion.Euler(0, 0, velocity.z += rotationAccel * Time.deltaTime);
+            }
+
+            if (Input.GetKey("right") && !isGrounded) {
+                
+            }
         }
     }
 }
