@@ -11,6 +11,22 @@ namespace Jelsomeno {
     public class PlayerMovement : MonoBehaviour
     {
         /// <summary>
+        /// This is so you scale the speed of the Dash speed
+        /// </summary>
+        public float DashForce;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public float StartDashTime;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        float CurrentDashTime;
+
+
+        /// <summary>
         /// When the player wants to move, this value is used to scale the players acceleration.
         /// </summary>
         [Header("Horizontal Movement")]
@@ -59,6 +75,8 @@ namespace Jelsomeno {
         /// Whether or not the player is currently jumping upwards.
         /// </summary>
 
+        bool isDashing;
+
         private bool isJumpingUpwards = false;
         private bool isGrounded = false;
         private AABB aabb;
@@ -66,12 +84,15 @@ namespace Jelsomeno {
         private void Start()
         {
             aabb = GetComponent<AABB>();
+
         }
 
         // Update is called once per frame
         void Update()
         {
             CalcHorizontalMovement();
+
+            Dash();
 
             CalcVerticalMovement();
 
@@ -201,6 +222,29 @@ namespace Jelsomeno {
         {
             vel.z = 0;
             velocity = vel;
+        }
+
+        private void Dash()
+        {
+            if (Input.GetKeyDown(KeyCode.LeftShift))
+            {
+                isDashing = true;
+                CurrentDashTime = StartDashTime;
+                velocity = Vector3.zero;
+
+            }
+
+            if (isDashing)
+            {
+                velocity = transform.right * DashForce;
+
+                CurrentDashTime -= Time.deltaTime;
+
+                if(CurrentDashTime <= 0)
+                {
+                    isDashing = false;
+                }
+            }
         }
 
     }
