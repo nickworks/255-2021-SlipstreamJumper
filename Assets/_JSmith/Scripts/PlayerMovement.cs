@@ -39,6 +39,12 @@ namespace JSmith
         /// </summary>
         public float jumpImpulse = 15;
 
+
+        /// <summary>
+        /// The maximum fall speed for the player.
+        /// </summary>
+        public float terminalVelocity = 10;
+
         /// <summary>
         /// The current velocity of the player in meters/second.
         /// </summary>
@@ -49,11 +55,28 @@ namespace JSmith
         /// </summary>
         private bool isJumpingUpwards = false;
 
+
+        private bool isGrounded = false;
+
+        private AABB aabb;
+
+        private void Start()
+        {
+            aabb = GetComponent<AABB>();
+        }
+
+
         /// <summary>
         /// Do euler physics each tick.
         /// </summary>
         void Update()
         {
+
+            if(Time.deltaTime > 0.25f)
+            {
+                return; // lag spike? quit early, do nothing
+            }
+
             CalcHorizontalMovement();
 
             CalcVerticalMovement();
@@ -100,6 +123,9 @@ namespace JSmith
             // applying force of gravity to our velocity:
             velocity.y -= gravity * Time.deltaTime * gravMultiplier;
 
+            //clamp vertical speed to create terminal velocity
+            if (velocity.y < -terminalVelocity) velocity.y = -terminalVelocity;
+
         }
 
         /// <summary>
@@ -108,31 +134,74 @@ namespace JSmith
         private void CalcHorizontalMovement()
         {
             float h = Input.GetAxisRaw("Horizontal");
+            
+            //h = 1; // player wants to move right
 
             //Euler physics intergration:
 
             if (h != 0) // user is pressing left or right(or both?)
             {
+
+                float accel = scalerAcceleration;
+
+                if (!isGrounded) // Less acceleration while in the air
+                {
+                    accel = scalerAcceleration / 4;
+                }
+
                 //applying acceleration to our velocity
-                velocity.x += h * Time.deltaTime * scalerAcceleration;
+                velocity.x += h * Time.deltaTime * accel;
             }
 
             else
             { // user is not pushing left or right
 
+                float decel = scalerDeceleration;
+
+                if (!isGrounded) // less deceleration while in the air
+                {
+                    decel = scalerDeceleration / 4;
+                }
+
                 if (velocity.x > 0) // player is moving right...
                 {
-                    velocity.x -= scalerDeceleration * Time.deltaTime;
+                    velocity.x -= decel * Time.deltaTime;
                     if (velocity.x < 0) velocity.x = 0;
                 }
                 if (velocity.x < 0) // player is moving left
                 {
-                    velocity.x += scalerDeceleration * Time.deltaTime;
+                    velocity.x += decel * Time.deltaTime;
                     if (velocity.x > 0) velocity.x = 0;
                 }
             }
 
             velocity.x = Mathf.Clamp(velocity.x, -maxSpeed, maxSpeed);
         }
+
+        /// <summary>
+        /// This moves the player by adding a vector to its position.
+        /// The vector represents a "fix" that should move the player
+        ///out of another object. From the fix, we can deduce which
+        ///direction the player was moved.
+        /// </summary>
+        public void ApplyFix(Vector3 fix)
+        {
+            transform.position += fix;
+
+            if (fix.y > 0) isGrounded = true;
+
+            if(fix.y != 0)
+            {
+                velocity.y = 0;
+            }
+            if(fix.x != 0)
+            {
+                velocity.x = 0;
+            }
+
+            aabb.RecalcAABB();
+        }
     }
+
+    
 }
