@@ -39,12 +39,17 @@ namespace Foster
 
             private AABB aabb;
 
+            private Animator anim;
+            private AudioSource soundPlayer;
+
 
             private void Start()
             {
 
                 aabb = GetComponent<AABB>();
+                anim = GetComponent<Animator>();
 
+            soundPlayer = GetComponentInChildren<AudioSource>();
             }
 
             /// <summary>
@@ -80,6 +85,11 @@ namespace Foster
                 {
                     velocity.y = jumpImpulse;
                     isJumpingUpWards = true;
+                    isGrounded = false;
+
+
+
+                SoundEffectBoard.PlayJump(transform.position);
                 }
 
                 if (!isHoldingJump || velocity.y < 0)

@@ -27,6 +27,8 @@ namespace Foster
         public List<AABB> powerups = new List<AABB>();
 
 
+
+
         private void Awake()
         {
             if (main != null)
@@ -48,8 +50,10 @@ namespace Foster
 
         void LateUpdate()
         {
-            PlayerMovement pm = player.GetComponent<PlayerMovement>();
 
+            if (!player) return;
+            PlayerMovement pm = player.GetComponent<PlayerMovement>();
+            //checking collision between player and all platforms
             foreach (AABB box in platforms)
             {
                 if (player.OverlapCheck(box))
@@ -57,15 +61,17 @@ namespace Foster
                     pm.ApplyFix(player.FindFix(box));
                 }
             }
+
+            //colliding with any or all OverlapObjects
             foreach (AABB power in powerups)
             {
                 if(player.OverlapCheck(power))
                 {
 
-                    SpringBlock sb = power.GetComponent<SpringBlock>();
-                    if(sb)
+                    OverlapObjects oo = power.GetComponent<OverlapObjects>();
+                    if(oo)
                     {
-                        sb.PlayerHit(pm);
+                        oo.OnOverlap(pm);
                     }
 
                 }

@@ -8,26 +8,38 @@ namespace Foster
     public class ChunkSpawner : MonoBehaviour
     {
 
-        public Transform prefab;
+        //public Transform prefab;
+        public LevelChunk prefab;
+
+        private List<LevelChunk> chunks = new List<LevelChunk>();
 
         void Start()
         {
 
 
-            for (int i = 0;  i < 5; i++)
+            for (int i = 0; i < 5; i++)
             {
-            float y = Random.Range(-2.5f, 3);
+                Vector3 pos = Vector3.zero;
 
-            Instantiate(prefab, new Vector3(i * 13, y, 0), Quaternion.identity);
+                if (chunks.Count > 0)
+                {
+                    LevelChunk lastChunk = chunks[chunks.Count - 1];
+                    pos = lastChunk.connectionPoint.position;
+                }
+
+                //  float y = Random.Range(-2.5f, 3);
+                //  pos.y += y;
+
+                LevelChunk newLevelChunk = Instantiate(prefab, pos, Quaternion.identity);
+                chunks.Add(newLevelChunk);
+
+                // Instantiate(prefab, new Vector3(i * 13, y, 0), Quaternion.identity);
+
 
             }
 
         }
 
-      
-        void Update()
-        {
-
-        }
     }
+
 }
