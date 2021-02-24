@@ -6,6 +6,10 @@ namespace Velting
 {
     public class PlayerMovement : MonoBehaviour
     {
+
+        private Animator anim;
+
+        private AudioSource soundPlayer;
         /// <summary>
         /// When the player wants to move, this value
         /// is used to scale the players acceleration
@@ -53,13 +57,16 @@ namespace Velting
         void Start()
         {
             aabb = GetComponent<AABB>();
+            anim = GetComponent<Animator>();
+            soundPlayer = GetComponentInChildren<AudioSource>();
         }
 
        
         void Update()
         {
             //detect if on ground:
-           
+
+            anim.SetBool("isGrounded", isGrounded);
             CalcVerticalMovement();
             CalcMovementHorizontal();
 
@@ -136,6 +143,10 @@ namespace Velting
             {
                 velocity.y = jumpImpulse;
                 isJumpingUpwards = true;
+
+                AudioSource.PlayClipAtPoint(SoundEffectBoard.main.soundJump, transform.position);
+
+                
             }
 
             if (!isHoldingJump || velocity.y < 0)
