@@ -7,6 +7,7 @@ namespace Jelsomeno
     public class ChunkSpawner : MonoBehaviour
     {
 
+
         public Transform prefab;
 
         void Start()
@@ -15,7 +16,7 @@ namespace Jelsomeno
 
             for (int i = 0; i < 5; i++)
             {
-
+                
                 float y = Random.Range(-2, 2f);
                 Instantiate(prefab, new Vector3(i * 20, y, 0), Quaternion.identity);
 

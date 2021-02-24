@@ -5,30 +5,12 @@ using UnityEngine;
 
 namespace Jelsomeno
 {
-    public class SpringBlock : MonoBehaviour
+    public class SpringBlock : OverlapObject
     {
 
-        AABB aabb;
-
-        void Start()
-        {
-            aabb = GetComponent<AABB>();
-            Zone.main.powerups.Add(aabb);
-        }
-
-        void Update()
-        {
-
-        }
-
-        private void OnDestroy()
-        {
-            if (Zone.main == null) return;
-            Zone.main.powerups.Remove(aabb);
-        }
         public void PlayerHit(PlayerMovement pm)
         {
-            pm.LaunchPlayer(new Vector3(0, 20, 0));
+            pm.LaunchPlayer(new Vector3(0, 10, 0));
         }
 
     }

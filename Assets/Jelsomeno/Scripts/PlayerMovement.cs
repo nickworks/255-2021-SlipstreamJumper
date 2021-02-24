@@ -81,15 +81,26 @@ namespace Jelsomeno {
         private bool isGrounded = false;
         private AABB aabb;
 
+        private Animator anim;
+
+        private AudioSource soundPlayer;
+
         private void Start()
         {
             aabb = GetComponent<AABB>();
-
+            anim = GetComponent<Animator>();
+            soundPlayer = GetComponentInChildren<AudioSource>();
         }
 
         // Update is called once per frame
         void Update()
         {
+
+            if (Time.deltaTime > 0.25f) return; // lag spike/ quit early do nothing
+
+            //communicates with anim controller
+            anim.SetBool("isGrounded", isGrounded);
+
             CalcHorizontalMovement();
 
             Dash();
@@ -125,6 +136,13 @@ namespace Jelsomeno {
             {
                 velocity.y = jumpImpulse;
                 isJumpingUpwards = true;
+                isGrounded = false;
+                soundPlayer.Play();
+                //SoundEffectsBoard.PlayJump();
+
+
+
+
             }
             if (!isHoldingJump || velocity.y < 0)
             {

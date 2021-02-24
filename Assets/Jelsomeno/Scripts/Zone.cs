@@ -47,9 +47,12 @@ namespace Jelsomeno
 
         void LateUpdate()
         {
+            if (!player) return; // no player, do not do collision detection
+
 
             PlayerMovement pm = player.GetComponent<PlayerMovement>();
 
+            // checking collision between and Player and the platforms
             foreach(AABB box in platforms)
             {
                 if (player.OverlapCheck(box))
@@ -58,6 +61,7 @@ namespace Jelsomeno
                 }
             }
 
+            // checking collsion with players and any of the overlap objects
             foreach(AABB power in powerups)
             {
                 if (player.OverlapCheck(power))
@@ -68,6 +72,13 @@ namespace Jelsomeno
                     if (sb)
                     {
                         sb.PlayerHit(pm);
+                    }
+
+                    OverlapObject oo = power.GetComponent<OverlapObject>();
+
+                    if (oo)
+                    {
+                        oo.OnOverlap(pm);
                     }
 
 
