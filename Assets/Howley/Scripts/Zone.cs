@@ -43,25 +43,30 @@ namespace Howley
 
         void LateUpdate()
         {
+            if (!player) return; // If the player is dead/doesn't exist
+
             PlayerMovement pm = player.GetComponent<PlayerMovement>();
 
+            // Checking collision between player and all platforms
             foreach(AABB box in platforms)
             {
                 if (player.OverlapCheck(box))
                 { 
+                    // Move the player out of the platform
                     pm.ApplyFix(player.FindFix(box));
                 }
             }
 
+            // Checking collision between player and all overlap objects
             foreach(AABB power in powerups)
             {
                 if (player.OverlapCheck(power))
                 {
                     // Do something.
-                    SpringBlock sb = power.GetComponent<SpringBlock>();
-                    if (sb)
+                    OverlapObject oo = power.GetComponent<OverlapObject>();
+                    if (oo)
                     {
-                        sb.PlayerHit(pm);
+                        oo.OnOverlap(pm);
                     }
                 }
             }

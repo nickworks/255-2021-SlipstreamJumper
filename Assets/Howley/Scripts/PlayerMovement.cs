@@ -70,9 +70,15 @@ namespace Howley
 
         private AABB aabb;
 
+        /// <summary>
+        /// A reference to an "Animation Controller", or animation state machine.
+        /// </summary>
+        private Animator anim;
+
         void Start()
         {
             aabb = GetComponent<AABB>();
+            anim = GetComponent<Animator>();
         }
 
         /// <summary>
@@ -81,6 +87,11 @@ namespace Howley
         /// </summary>
         void Update()
         {
+            if (Time.deltaTime > 0.25f) return;
+
+            // Communicate with the anim Controller
+            anim.SetBool("isGrounded", isGrounded);
+
             HorizontalMovement();
 
             VerticalMovement();
@@ -109,6 +120,7 @@ namespace Howley
             {
                 velocity.y = jumpImpulse;
                 isJumpingUpwards = true;
+                isGrounded = false;
             }
             if (!isHoldingJump || velocity.y < 0) // If you've reached peak jump, or not holding space
             {
@@ -153,7 +165,7 @@ namespace Howley
 
                 if (!isGrounded) // Less deceleration in the air.
                 {
-                    decel = deceleration / 4;
+                    decel = deceleration / 3;
                 }
 
                 if (velocity.x > 0) // Player is moving right

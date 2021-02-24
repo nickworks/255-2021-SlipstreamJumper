@@ -7,15 +7,29 @@ namespace Howley
     public class ChunkSpawner : MonoBehaviour
     {
 
-        public Transform prefab;
+        public Chunk prefab;
+
+        private List<Chunk> chunk = new List<Chunk>();
 
         // Start is called before the first frame update
         void Start()
         {
             for(int i = 0; i < 5; i++)
             {
-                float y = Random.Range(-2, 2f);
-                Instantiate(prefab, new Vector3(i * 18, y, 0), Quaternion.identity);
+                Vector3 pos = Vector3.zero;
+
+                if (chunk.Count > 0)
+                {
+                    Chunk lastChunk = chunk[chunk.Count - 1];
+                    pos = lastChunk.connectionPoint.position;
+                }
+
+
+                //float y = Random.Range(-2, 2f);
+                //pos.y += y;
+
+                Chunk newChunk = Instantiate(prefab, pos, Quaternion.identity);
+                chunk.Add(newChunk);
             }
 
         }
