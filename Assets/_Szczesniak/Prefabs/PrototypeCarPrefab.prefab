@@ -4833,7 +4833,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scalerDeceleration: 40
   scalerAcceleration: 15
-  maxSpeed: 20
+  maxSpeed: 15
   gravity: 40
   jumpImpulse: 15
   terminalVelocity: 20

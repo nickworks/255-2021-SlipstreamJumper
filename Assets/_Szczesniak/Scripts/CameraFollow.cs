@@ -20,6 +20,8 @@ namespace Szczesniak {
 
             // asymptotic slide:
             // exponential slide:
+            if (!target) return; // if no player, then no error from camera follow
+
             transform.position = AnimMath.Slide(transform.position, target.position, 0.0005f);//(pos - transform.position) * Time.deltaTime * 5;
         }
     }

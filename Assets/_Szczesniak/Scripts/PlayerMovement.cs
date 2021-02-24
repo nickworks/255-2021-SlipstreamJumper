@@ -56,6 +56,13 @@ namespace Szczesniak {
         private bool isGrounded = false;
 
         /// <summary>
+        /// A reference to an "Animation Controller", which is an animation state machine.
+        /// </summary>
+        private Animator anim;
+
+        private AudioSource soundPlayer;
+
+        /// <summary>
         /// This value is used for the player to rotate while in mid air 
         /// </summary>
 
@@ -64,6 +71,8 @@ namespace Szczesniak {
         private void Start()
         {
             aabb = GetComponent<AABB>();
+            anim = GetComponent<Animator>();
+            soundPlayer = GetComponentInChildren<AudioSource>();
         }
 
         /// <summary>
@@ -72,6 +81,10 @@ namespace Szczesniak {
         void Update() {
 
             if (Time.deltaTime > 0.25f) return; // lag spike? quit early, do nothing 
+
+            // communicates w/ anim controller, which decides when to do the jump animation
+            anim.SetBool("isGrounded", isGrounded);
+
             MovementHorizontal();
             
             CalcVerticalMovement();
@@ -83,7 +96,7 @@ namespace Szczesniak {
 
             aabb.RecalcAABB();
 
-            isGrounded = false;
+            //isGrounded = false;
         }
 
         /// <summary>
@@ -101,6 +114,10 @@ namespace Szczesniak {
             if (wantsToJump && isGrounded) {
                 velocity.y = jumpImpulse;
                 isJumpingUpwards = true;
+                isGrounded = false;
+                //soundPlayer.Play();
+
+                SoundEffectBoard.PlayJump2();
             }
             if (!isHoldingJump || velocity.y < 0) {
                 isJumpingUpwards = false;
