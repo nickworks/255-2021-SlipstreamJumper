@@ -39,8 +39,11 @@ namespace ASmith
             if (main == this) main = null;
         }
 
+        // Checks collision between PLAYER and all PLATFORMS
         void LateUpdate()
         {
+            if (!player) return; // if player dead, dont do collision detection
+
             PlayerMovement pm = player.GetComponent<PlayerMovement>();
 
             // prevents player from overlapping with platforms in list
@@ -52,15 +55,16 @@ namespace ASmith
                 }
             }
 
+            // Checks collision between PLAYER and all OVERLAP OBJECTS
             foreach (AABB power in powerups)
             {
                 if (player.OverlapCheck(power))
                 {
                     // player collides with powerup
-                    SpringBlock sb = power.GetComponent<SpringBlock>();
-                    if (sb)
+                    OverlapObject oo = power.GetComponent<OverlapObject>();
+                    if (oo)
                     {
-                        sb.PlayerHit(pm);
+                        oo.OnOverlap(pm);
                     }
                 }
             }

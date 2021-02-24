@@ -54,9 +54,18 @@ namespace ASmith
 
         private AABB aabb;
 
+        /// <summary>
+        /// A reference to an "Animator Controller" which is an animation state machine
+        /// </summary>
+        private Animator anim;
+
+        private AudioSource soundPlayer;
+
         private void Start()
         {
             aabb = GetComponent<AABB>();
+            anim = GetComponentInChildren<Animator>();
+            soundPlayer = GetComponentInChildren<AudioSource>();
         }
 
         /// <summary>
@@ -65,14 +74,18 @@ namespace ASmith
         void Update()
         {
             if (Time.deltaTime > 0.25f) return; // quit early, do nothing, if lag spike
+
+            // communicates to anim controller when to switch animations
+            anim.SetBool("isGrounded", isGrounded);
+
             CalcHorizontalMovement();
             CalcVerticalMovement();
 
             // Applies velocity to position
             transform.position += velocity * Time.deltaTime;
-            isGrounded = false;
 
             aabb.RecalcAABB();
+            isGrounded = false;
         }
 
         /// <summary>
@@ -85,10 +98,14 @@ namespace ASmith
             bool wantsToJump = Input.GetButtonDown("Jump");
             bool isHoldingJump = Input.GetButton("Jump");
 
-            if (wantsToJump && isGrounded)
+            if (wantsToJump && isGrounded) // start jumping
             {
                 velocity.y = jumpImpulse;
                 isJumpingUpwards = true;
+                isGrounded = false;
+
+                //SoundEffectBoard.PlayJump(transform.position); // plays jump audio on jump at the player position (still considered a 3D sound so doesn't work)
+                SoundEffectBoard.PlayJump2(); // plays jump audio on jump
             }
             if (!isHoldingJump || velocity.y < 0)
             {
