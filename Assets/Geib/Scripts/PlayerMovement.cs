@@ -60,9 +60,18 @@ namespace Geib // This namespace needs to be in all of my scripts!
 
         private AABB aabb;
 
+        /// <summary>
+        /// A referecne to an "Animator Controller", which is an animation state machine
+        /// </summary>
+        private Animator anim;
+
+        private AudioSource soundPlayer;
+
         void Start()
         {
             aabb = GetComponent<AABB>();
+            anim = GetComponent<Animator>();
+            soundPlayer = GetComponentInChildren<AudioSource>();
         }
 
         /// <summary>
@@ -71,6 +80,10 @@ namespace Geib // This namespace needs to be in all of my scripts!
         void Update()
         {
             if (Time.deltaTime > 0.25) return; // Lag spike? quit early, do nothing
+
+
+            // Communicates w/ animation controller to determine what animation needs to be running. 
+            anim.SetBool("isGrounded", isGrounded);
             
             CalcMovementHorizontal();
 
@@ -102,6 +115,11 @@ namespace Geib // This namespace needs to be in all of my scripts!
             {
                 velocity.y = jumpImpulse;
                 isJumpingUpwards = true;
+                isGrounded = false;
+
+                SoundEffectBoard.PlayJump2();
+
+
             }
             if(!isHoldingJump || velocity.y < 0)
             {

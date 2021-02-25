@@ -27,6 +27,8 @@ namespace Geib
 
         public List<AABB> powerups = new List<AABB>();
 
+       
+
         private void Awake()
         {
             if(main != null) // Singleton already exists...
@@ -48,6 +50,7 @@ namespace Geib
         {
             PlayerMovement pm = player.GetComponent<PlayerMovement>();
 
+            //checking collsion between player and all platforms
             foreach(AABB box in platforms)
             {
                 if (player.OverlapCheck(box))
@@ -57,17 +60,23 @@ namespace Geib
                 }
             }
 
+            // checking collision between PLAYER and all OVERLAP-OBJECTS
             foreach(AABB power in powerups)
             {
                 if (player.OverlapCheck(power))
                 {
-                    SpringBlock sb = power.GetComponent<SpringBlock>();
-                    if(sb)
+
+                    OverlapObject oo = power.GetComponent<OverlapObject>();
+
+                    if (oo)
                     {
-                        sb.PlayerHit(pm);
+                        oo.OnOverlap(pm);
                     }
+
                 }
             }
+
+            
 
           
         }
