@@ -38,6 +38,11 @@ namespace ASmith
         public float jumpImpulse = 10;
 
         /// <summary>
+        /// The velocity we launch the player when they dash. Measuered in meters per sec
+        /// </summary>
+        public float dashImpulse = 500;
+
+        /// <summary>
         /// Maximum fall speed for player
         /// </summary>
         public float terminalVelocity = 10;
@@ -50,7 +55,13 @@ namespace ASmith
         /// Whether or not player is currently jumping upwards
         /// </summary>
         private bool isJumpingUpwards = false;
+        private bool canDoubleJump = false;
         private bool isGrounded = false;
+
+        /// <summary>
+        /// Whether or not player is currently dashing
+        /// </summary>
+        public bool isDashing = false;
 
         private AABB aabb;
 
@@ -97,19 +108,32 @@ namespace ASmith
 
             bool wantsToJump = Input.GetButtonDown("Jump");
             bool isHoldingJump = Input.GetButton("Jump");
+            bool wantsToDoubleJump = Input.GetButton("Jump");
 
             if (wantsToJump && isGrounded) // start jumping
             {
+                print("jump");
+                velocity.y = 0;
                 velocity.y = jumpImpulse;
                 isJumpingUpwards = true;
                 isGrounded = false;
+                canDoubleJump = true;
 
-                //SoundEffectBoard.PlayJump(transform.position); // plays jump audio on jump at the player position (still considered a 3D sound so doesn't work)
+                //SoundEffectBoard.PlayJump(transform.position); // plays jump audio on jump at the player position (still considered a 3D sound so DOES NOT WORK)
                 SoundEffectBoard.PlayJump2(); // plays jump audio on jump
+
             }
             if (!isHoldingJump || velocity.y < 0)
             {
                 isJumpingUpwards = false;
+            }
+            if (wantsToDoubleJump && canDoubleJump && !isJumpingUpwards) // if you press spacebar can double jump, and arent still doing the first jump:
+            {
+                print("Ju-Jump");
+                canDoubleJump = false;
+                velocity.y = 0;
+                velocity.y = jumpImpulse;
+                SoundEffectBoard.PlayDoubleJump(); // plays double jump audio
             }
             if (isJumpingUpwards == true) gravMultiplier = 0.5f;
 
@@ -126,6 +150,7 @@ namespace ASmith
         /// </summary>
         private void CalcHorizontalMovement()
         {
+            bool wantsToDash = Input.GetKeyDown("left shift");
             float h = Input.GetAxisRaw("Horizontal"); // Use raw to avoid the built in acceleration and deceleration
             // h = 1; // player always moves right
 
@@ -134,12 +159,23 @@ namespace ASmith
             {
                 float accel = scalarAcceleration;
 
-                if (!isGrounded) // less acceleration while in air
+                if (!isGrounded) // more acceleration while in air for air-control
                 {
                     accel *= 5;
                 }
                 // accelerate
                 velocity.x += h * Time.deltaTime * accel;
+
+                if (wantsToDash && !isDashing)
+                {
+                    // TODO: Make dash work
+                    print("DASH");
+                    isDashing = true;
+                    velocity.x = h * dashImpulse * accel * Time.deltaTime;
+                    // TODO: Create dash sound
+
+                    isDashing = false;
+                }
             }
             else // User not pressing left/right
             {

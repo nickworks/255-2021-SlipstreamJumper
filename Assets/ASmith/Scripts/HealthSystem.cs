@@ -31,10 +31,12 @@ namespace ASmith
             if (cooldownInvulnerability > 0) return; // still have i-frames, dont take damage
             cooldownInvulnerability = .25f; // cooldown till you can take damage
             if (amt < 0) amt = 0; // Negative numbers ignored
-            health -= amt; 
+            health -= amt;
+            if (health > 0) SoundEffectBoard.PlayDamage(); // plays damage audio
             if (health <= 0)
             {
                 Die();
+                SoundEffectBoard.PlayDie(); // plays death audio
             }
         }
 

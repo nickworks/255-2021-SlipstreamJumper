@@ -9,4 +9,3 @@ namespace ASmith
         public Transform connectionPoint;
     }
 }
-

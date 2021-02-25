@@ -12,9 +12,11 @@ namespace ASmith
         public static SoundEffectBoard main;
 
         public AudioClip soundJump;
+        public AudioClip soundDoubleJump;
         public AudioClip soundDie;
         public AudioClip soundDamage;
         public AudioClip soundPickup;
+        public AudioClip soundMusic;
 
         private AudioSource player;
 
@@ -29,6 +31,7 @@ namespace ASmith
             {
                 Destroy(this.gameObject);
             }
+            PlayMusic();
         }
 
         //public static void PlayJump(Vector3 pos) // still considered 3D sound DOES NOT WORK!!!
@@ -39,6 +42,26 @@ namespace ASmith
         public static void PlayJump2() // plays jump audio in 2D space
         {
             main.player.PlayOneShot(main.soundJump);
+        }
+
+        public static void PlayDoubleJump()
+        {
+            main.player.PlayOneShot(main.soundDoubleJump);
+        }
+
+        public static void PlayDamage()
+        {
+            main.player.PlayOneShot(main.soundDamage);
+        }
+
+        public static void PlayDie()
+        {
+            main.player.PlayOneShot(main.soundDie);
+        }
+
+        public static void PlayMusic()
+        {
+            main.player.PlayOneShot(main.soundMusic);
         }
     }
 }
