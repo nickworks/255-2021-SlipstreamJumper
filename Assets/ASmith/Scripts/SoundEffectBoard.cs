@@ -15,10 +15,10 @@ namespace ASmith
         public AudioClip soundDoubleJump;
         public AudioClip soundDie;
         public AudioClip soundDamage;
-        public AudioClip soundPickup;
-        public AudioClip soundMusic;
+        public AudioClip soundPointPickup;
+        public AudioClip soundSpringBlock;
 
-        private AudioSource player;
+        public AudioSource player;
 
         void Start()
         {
@@ -31,7 +31,7 @@ namespace ASmith
             {
                 Destroy(this.gameObject);
             }
-            PlayMusic();
+            //PlayMusic();
         }
 
         //public static void PlayJump(Vector3 pos) // still considered 3D sound DOES NOT WORK!!!
@@ -59,9 +59,14 @@ namespace ASmith
             main.player.PlayOneShot(main.soundDie);
         }
 
-        public static void PlayMusic()
+        public static void PlaySpringBlock()
         {
-            main.player.PlayOneShot(main.soundMusic);
+            main.player.PlayOneShot(main.soundSpringBlock);
+        }
+
+        public static void PlayPointPickup()
+        {
+            main.player.PlayOneShot(main.soundPointPickup);
         }
     }
 }

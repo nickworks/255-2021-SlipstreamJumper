@@ -6,7 +6,7 @@ namespace ASmith
 {
     public class HazardBlock : OverlapObject
     {
-            public float damageAmount = 25;
+        public float damageAmount = 25;
         public override void OnOverlap(PlayerMovement pm)
         {
             HealthSystem health = pm.GetComponent<HealthSystem>();

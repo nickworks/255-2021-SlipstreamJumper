@@ -7,6 +7,7 @@ namespace ASmith
     public class ChunkSpawner : MonoBehaviour
     {
         public LevelChunk prefab;
+        public LevelChunk prefab2;
 
         private List<LevelChunk> chunks = new List<LevelChunk>();
         void Start()
@@ -25,6 +26,8 @@ namespace ASmith
                 //pos.y += y;
 
                 LevelChunk newChunk = Instantiate(prefab, pos, Quaternion.identity);
+                // TODO: prefab2 doesnt spawn in correct area
+                LevelChunk newChunk2 = Instantiate(prefab2, pos, Quaternion.identity);
                 chunks.Add(newChunk);
             }
         }
