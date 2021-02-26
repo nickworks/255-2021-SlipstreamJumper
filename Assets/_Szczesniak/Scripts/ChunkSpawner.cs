@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace Szczesniak
 {
+    /// <summary>
+    /// This script manages chunks so that we always have 5.
+    /// </summary>
     public class ChunkSpawner : MonoBehaviour
     {
 
