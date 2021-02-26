@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 // Write documentation before every class and class member (variables).
 namespace Kortge
 {
@@ -68,6 +70,7 @@ namespace Kortge
         // Update is called once per frame
         void Update()
         {
+            if (transform.position.x < -11.3 || transform.position.x > 11.3 || transform.position.y < -6.6 || transform.position.y > 6.6) Destroy(gameObject);
             if (Time.deltaTime > 0.25f) return; // quit early, do nothing
 
             CalcHorizontaMovement();
@@ -179,6 +182,12 @@ namespace Kortge
         {
             vel.z = 0;
             this.velocity = vel;
+        }
+
+        private void OnDestroy() // Restarts the scene when death occurs.
+        {
+            Scene scene = SceneManager.GetActiveScene();
+            SceneManager.LoadScene(scene.name);
         }
     }
 }
