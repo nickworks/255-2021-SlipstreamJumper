@@ -97,7 +97,7 @@ namespace Kortge
 
             if (wantsToJump && isGrounded)
             {
-                velocity.y = 10;
+                velocity.y = 5f;
                 isJumpingUpwards = true;
             }
 
