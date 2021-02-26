@@ -9,7 +9,7 @@ namespace Kortge
 
         new public static ZoneInfo info = new ZoneInfo()
         {
-            zoneName = "Bowling",
+            zoneName = "Super Meat Boy 64",
             creator = "Tyler Kortge",
             sceneFile = "ZoneKortge"
         };
@@ -44,8 +44,10 @@ namespace Kortge
         // Update is called once per frame
         void LateUpdate()
         {
+            if (!player) return;
             PlayerMovement pm = player.GetComponent<PlayerMovement>();
 
+            // checking collision between PLAYER and all PLATFORMS:
             foreach(AABB box in platforms)
             {
                 if (player.OverlapCheck(box))
@@ -54,17 +56,18 @@ namespace Kortge
                 }
             }
 
-            foreach(AABB power in powerups)
+            // checking collision between PLAYER and all OVERLAP-OBJECTS
+            foreach (AABB power in powerups)
             {
                 if (player.OverlapCheck(power))
                 {
 
                     // Player collides with something!
                     // Do something...
-                    SpringBlock sb = power.GetComponent<SpringBlock>();
-                    if (sb)
+                    OverlapObject oo = power.GetComponent<OverlapObject>();
+                    if (oo)
                     {
-                        sb.PlayerHit(pm);
+                        oo.OnOverlap(pm);
                     }
                 }
             }
