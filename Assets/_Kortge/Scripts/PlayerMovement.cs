@@ -12,6 +12,10 @@ namespace Kortge
     /// </summary>
     public class PlayerMovement : MonoBehaviour
     {
+        private int bandages;
+        private int lives;
+
+        public Transform cam;
         /// <summary>
         /// When the player wants to move, this value is used to scale the player's deceleration.
         /// </summary>
@@ -58,7 +62,6 @@ namespace Kortge
         /// <summary>
         /// Do euler physics each tick.
         /// </summary>
-        // Start is called before the first frame update
 
         public AABB aabb;
         private bool isGrounded = false;
@@ -73,7 +76,7 @@ namespace Kortge
         // Update is called once per frame
         void Update()
         {
-            if (transform.position.x < -11.3 || transform.position.x > 11.3 || transform.position.y < -6.6 || transform.position.y > 6.6) Destroy(gameObject);
+            if (transform.position.x < cam.position.x-11.3f || transform.position.x > cam.position.x+11.3f || transform.position.y < cam.position.y - 6.6 || transform.position.y > cam.position.x + 6.6) Destroy(gameObject);
             if (Time.deltaTime > 0.25f) return; // quit early, do nothing
 
             CalcHorizontaMovement();
@@ -211,6 +214,16 @@ namespace Kortge
         {
             Scene scene = SceneManager.GetActiveScene();
             SceneManager.LoadScene(scene.name);
+        }
+
+        public void AddBandage()
+        {
+            bandages++;
+            if (bandages >= 3)
+            {
+                bandages -= 3;
+                lives++;
+            }
         }
     }
 }

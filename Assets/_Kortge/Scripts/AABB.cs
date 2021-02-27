@@ -13,13 +13,11 @@ namespace Kortge
         public Vector3 max;
 
         public bool oneWay;
-        private AABB aabb;
 
         // Start is called before the first frame update
         void Start()
         {
             RecalcAABB();
-            aabb = GetComponent<AABB>();
         }
 
         // Update is called once per frame
@@ -70,10 +68,10 @@ namespace Kortge
                 fix.x = moveRight;
             }
 
-            if(Math.Abs(moveUp) < Mathf.Abs(moveDown))
+            if(Math.Abs(moveUp) < Mathf.Abs(moveDown)) // Important for one-way platforms.
             {
                 fix.y = moveUp;
-            } else
+            } else if (oneWay)
             {
                 fix.y = moveDown;
             }
