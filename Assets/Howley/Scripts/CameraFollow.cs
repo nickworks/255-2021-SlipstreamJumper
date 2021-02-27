@@ -10,9 +10,12 @@ namespace Howley
         /// The thing the camera is following.
         /// </summary>
         public Transform target;
+
+        
+
         void Start()
         {
-
+            
         }
 
         void LateUpdate()
@@ -22,7 +25,9 @@ namespace Howley
             pos.y = target.position.y;
             //transform.position = pos;
             // Ease towards the object.
-            transform.position += (pos - transform.position) * Time.deltaTime * 10;
+
+            transform.position += (pos - transform.position) * Time.deltaTime * 10; 
+            
         }
     }
 }

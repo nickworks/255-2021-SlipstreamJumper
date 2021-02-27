@@ -64,9 +64,9 @@ namespace Howley
         /// <summary>
         /// Whether or not the player is currently holding the spacebar down.
         /// </summary>
-        private bool isJumpingUpwards = false;
+        public bool isJumpingUpwards = false;
 
-        private bool isGrounded = false;
+        public bool isGrounded = false;
 
         private AABB aabb;
 
@@ -88,9 +88,6 @@ namespace Howley
         void Update()
         {
             if (Time.deltaTime > 0.25f) return;
-
-            // Communicate with the anim Controller
-            anim.SetBool("isGrounded", isGrounded);
 
             HorizontalMovement();
 
