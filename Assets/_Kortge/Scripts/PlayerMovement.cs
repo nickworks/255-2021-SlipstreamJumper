@@ -62,6 +62,9 @@ namespace Kortge
 
         public AABB aabb;
         private bool isGrounded = false;
+        private bool leftWallHug = false;
+        private bool rightWallHug = false;
+
         void Start()
         {
             aabb = GetComponent<AABB>();
@@ -80,6 +83,8 @@ namespace Kortge
             transform.position += velocity * Time.deltaTime;
 
             isGrounded = false;
+            leftWallHug = false;
+            rightWallHug = false;
 
             aabb.RecalcAABB();
         }
@@ -97,8 +102,22 @@ namespace Kortge
 
             if (wantsToJump && isGrounded)
             {
-                velocity.y = 5f;
+                velocity.y = 10f;
                 isJumpingUpwards = true;
+            }
+
+            else if (wantsToJump && leftWallHug)
+            {
+                velocity.y = 7.5f;
+                velocity.x = 2.5f;
+                print("left");
+            }
+
+            else if (wantsToJump && rightWallHug)
+            {
+                velocity.y = 7.5f;
+                velocity.x = -2.5f;
+                print("right");
             }
 
             if (!isHoldingJump || velocity.y < 0)
@@ -164,6 +183,10 @@ namespace Kortge
             transform.position += fix;
 
             if (fix.y > 0) isGrounded = true;
+
+            if (fix.x < 0) rightWallHug = true;
+
+            if (fix.x > 0) leftWallHug = true;
 
             if (fix.y != 0) // Move player up or down.
             {

@@ -12,15 +12,20 @@ namespace Kortge
         public Vector3 min;
         public Vector3 max;
 
+        public bool oneWay;
+        private AABB aabb;
+
         // Start is called before the first frame update
         void Start()
         {
             RecalcAABB();
+            aabb = GetComponent<AABB>();
         }
 
         // Update is called once per frame
         void Update()
         {
+            
         }
 
         public void RecalcAABB()

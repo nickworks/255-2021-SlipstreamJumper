@@ -8,7 +8,7 @@ namespace Kortge
     {
         public override void OnOverlap(PlayerMovement pm)
         {
-            pm.LaunchPlayer(new Vector3(0, 20, 0));
+            pm.LaunchPlayer(new Vector3(0, 10, 0));
         }
     }
 }
