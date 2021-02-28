@@ -68,12 +68,16 @@ namespace Howley
 
         public bool isGrounded = false;
 
+        public bool hasDoubleJumped = false;
+
         private AABB aabb;
 
         /// <summary>
         /// A reference to an "Animation Controller", or animation state machine.
         /// </summary>
         private Animator anim;
+
+        private float cooldownDJ = 0;
 
         void Start()
         {
@@ -93,11 +97,19 @@ namespace Howley
 
             VerticalMovement();
 
+            DoubleJumpCooldown();
+
             // Apply velocity to player position.
             transform.position += velocity * Time.deltaTime; // Adding velocity to position
             aabb.RecalcAABB();
 
             isGrounded = false;
+        }
+
+        private void DoubleJumpCooldown()
+        {
+            cooldownDJ -= Time.deltaTime;
+            if (cooldownDJ <= 0) hasDoubleJumped = false;
         }
 
         /// <summary>
@@ -119,6 +131,14 @@ namespace Howley
                 isJumpingUpwards = true;
                 isGrounded = false;
             }
+
+            if (wantsToJump && !isGrounded && hasDoubleJumped)
+            {
+                velocity.y = jumpImpulse;
+                isJumpingUpwards = true;
+                hasDoubleJumped = true;
+            }
+
             if (!isHoldingJump || velocity.y < 0) // If you've reached peak jump, or not holding space
             {
                 isJumpingUpwards = false;
@@ -208,10 +228,8 @@ namespace Howley
             velocity.z = 0;
             this.velocity = velocity; // Referring to the private property needs this. in front of it.
         }
-        public void StickToWall()
-        {
-            // TODO: Stick the player to the wall if holding the A or D key.
-        }
+        
+
     }
 }
 
