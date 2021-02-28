@@ -17,6 +17,8 @@ namespace Kortge
 
         private List<Chunk> chunks = new List<Chunk>();
 
+        private int chunkID = 0;
+
         void Start()
         {
 
@@ -29,7 +31,7 @@ namespace Kortge
                 {
                     Chunk lastChunk = chunks[chunks.Count - 1];
 
-                    pos = lastChunk.connectionPoint.position;
+                    pos = lastChunk.connectionPoint.position + (transform.right * 10);
                 }
                 float y = Random.Range(-1f, 1f);
                 
@@ -38,29 +40,30 @@ namespace Kortge
                 if (pos.y < -5.5f) pos.y = -5.5f;
                 else if (pos.y > -3) pos.y = -3f;
 
-                int chunkID = Random.Range(1, 5);
+                chunkID += Random.Range(1, 6);
+                if (chunkID > 6) chunkID -= 6;
                 print(chunkID);
                 switch (chunkID)
                 {
-                    case 1:
+                    case 0:
                         chunkType = finalDestination;
                         break;
-                    case 2:
+                    case 1:
                         chunkType = battlefield;
                         break;
-                    case 3:
+                    case 2:
                         chunkType = fan;
                         break;
-                    case 4:
+                    case 3:
                         chunkType = longjump;
                         break;
-                    case 5:
+                    case 4:
                         chunkType = oneWay;
                         break;
-                    case 6:
+                    case 5:
                         chunkType = sawblade;
                         break;
-                    case 7:
+                    case 6:
                         chunkType = walljump;
                         break;
                 }
