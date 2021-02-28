@@ -12,8 +12,8 @@ namespace Kortge
     /// </summary>
     public class PlayerMovement : MonoBehaviour
     {
-        private int bandages;
-        private int lives;
+        private int bandages = 0;
+        private int lives = 0;
 
         public Transform cam;
         /// <summary>
@@ -76,7 +76,7 @@ namespace Kortge
         // Update is called once per frame
         void Update()
         {
-            if (transform.position.x < cam.position.x-11.3f || transform.position.x > cam.position.x+11.3f || transform.position.y < cam.position.y - 6.6 || transform.position.y > cam.position.x + 6.6) Destroy(gameObject);
+            if (transform.position.x < cam.position.x-11.3f || transform.position.x > cam.position.x+11.3f || transform.position.y < cam.position.y - 6.6) KillPlayer();
             if (Time.deltaTime > 0.25f) return; // quit early, do nothing
 
             CalcHorizontaMovement();
@@ -105,7 +105,7 @@ namespace Kortge
 
             if (wantsToJump && isGrounded)
             {
-                velocity.y = 10f;
+                velocity.y = 7.5f;
                 isJumpingUpwards = true;
             }
 
@@ -113,14 +113,12 @@ namespace Kortge
             {
                 velocity.y = 7.5f;
                 velocity.x = 2.5f;
-                print("left");
             }
 
             else if (wantsToJump && rightWallHug)
             {
                 velocity.y = 7.5f;
                 velocity.x = -2.5f;
-                print("right");
             }
 
             if (!isHoldingJump || velocity.y < 0)
@@ -187,9 +185,17 @@ namespace Kortge
 
             if (fix.y > 0) isGrounded = true;
 
-            if (fix.x < 0) rightWallHug = true;
+            if (fix.x < 0)
+            {
+                rightWallHug = true;
+                print("right" + fix.x);
+            }
 
-            if (fix.x > 0) leftWallHug = true;
+            if (fix.x > 0)
+            {
+                leftWallHug = true;
+                print("left" + fix.x);
+            }
 
             if (fix.y != 0) // Move player up or down.
             {
@@ -210,6 +216,16 @@ namespace Kortge
             this.velocity = vel;
         }
 
+        public void KillPlayer()
+        {
+            if (lives > 0) 
+            {
+                transform.position = cam.position + (transform.up * 4);
+                lives--;
+            }
+            else Destroy(gameObject);
+        }
+
         private void OnDestroy() // Restarts the scene when death occurs.
         {
             Scene scene = SceneManager.GetActiveScene();
@@ -219,11 +235,12 @@ namespace Kortge
         public void AddBandage()
         {
             bandages++;
-            if (bandages >= 3)
+            if (bandages >= 5)
             {
-                bandages -= 3;
+                bandages -= 5;
                 lives++;
             }
+            print("Lives: " + lives + " Bandages: " + bandages);
         }
     }
 }

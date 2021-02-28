@@ -10,6 +10,7 @@ namespace Kortge
         public override void OnOverlap(PlayerMovement pm)
         {
             pm.AddBandage();
+            Destroy(gameObject);
         }
     }
 }

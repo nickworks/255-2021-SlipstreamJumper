@@ -71,7 +71,7 @@ namespace Kortge
             if(Math.Abs(moveUp) < Mathf.Abs(moveDown)) // Important for one-way platforms.
             {
                 fix.y = moveUp;
-            } else if (oneWay)
+            } else if (!other.oneWay)
             {
                 fix.y = moveDown;
             }
