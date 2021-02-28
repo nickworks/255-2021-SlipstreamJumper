@@ -58,7 +58,7 @@ namespace Szczesniak {
         /// <summary>
         /// A reference to an "Animation Controller", which is an animation state machine.
         /// </summary>
-        private Animator anim;
+        //private Animator anim;
 
         private AudioSource soundPlayer;
 
@@ -68,11 +68,16 @@ namespace Szczesniak {
 
         private AABB aabb;
 
+        private Vector3 previousPosition;
+
+        public Transform markerPoint;
+
         private void Start()
         {
             aabb = GetComponent<AABB>();
-            anim = GetComponent<Animator>();
+            //anim = GetComponent<Animator>();
             soundPlayer = GetComponentInChildren<AudioSource>();
+            previousPosition.x = transform.position.x - 3;
         }
 
         /// <summary>
@@ -83,10 +88,17 @@ namespace Szczesniak {
             if (Time.deltaTime > 0.25f) return; // lag spike? quit early, do nothing 
 
             // communicates w/ anim controller, which decides when to do the jump animation
-            anim.SetBool("isGrounded", isGrounded);
+            //anim.SetBool("isGrounded", isGrounded);
+
+            BackwardsCheck();
+
+            if ((transform.position - previousPosition).x >= -1) {
+                
+                //previousPosition = transform.position;
+            }
 
             MovementHorizontal();
-            
+
             CalcVerticalMovement();
 
             PlayerRotating();
@@ -97,6 +109,15 @@ namespace Szczesniak {
             aabb.RecalcAABB();
 
             //isGrounded = false;
+        }
+
+        private void BackwardsCheck()
+        {
+            if (transform.position.x < markerPoint.position.x)
+            {
+                transform.position = new Vector3(markerPoint.position.x, transform.position.y, transform.position.z);
+            }
+
         }
 
         /// <summary>
