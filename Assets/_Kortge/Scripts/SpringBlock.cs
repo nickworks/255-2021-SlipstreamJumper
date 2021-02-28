@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Kortge
 {
-    public class SpringBlock : OverlapObject
+    public class SpringBlock : OverlapObject // Shoots the player into the air upon collision.
     {
         public override void OnOverlap(PlayerMovement pm)
         {

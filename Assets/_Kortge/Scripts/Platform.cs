@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Kortge
 {
     [RequireComponent(typeof(AABB))] // Every Platform component MUST have an AABB component.
-    public class Platform : MonoBehaviour
+    public class Platform : MonoBehaviour // Objects that the player cannot pass through.
     {
         AABB aabb;
 

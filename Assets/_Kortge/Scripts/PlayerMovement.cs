@@ -8,12 +8,19 @@ using UnityEngine.SceneManagement;
 namespace Kortge
 {
     /// <summary>
-    /// This class gets input and moves the player with input and euler physics.
+    /// This class gets input and moves the player with input and euler physics. It also handles death and respawning.
     /// </summary>
     public class PlayerMovement : MonoBehaviour
     {
-        public int bandages = 0;
-        public int lives = 1;
+
+        /// <summary>
+        /// The current velocity of player.
+        /// </summary>
+        private Vector3 velocity = new Vector3();
+
+        public int bandages = 0; // Gives the player an extra life after five of these are collected.
+        public int lives = 1; // How many times the player can respawn after dying.
+        public Vector3 checkpoint; // The position that player would be sent to upon death with a life.
 
         public Transform cam;
         /// <summary>
@@ -21,6 +28,10 @@ namespace Kortge
         /// </summary>
 
         [Header("Horizontal Movement")]
+
+        /// <summary>
+        /// This value is used to accelerate the player.
+        /// </summary>
 
         public float scalarAcceleration;
 
@@ -36,49 +47,45 @@ namespace Kortge
 
         public float maxSpeed = 5;
 
+        [Header("Vertical Movement")]
+
         /// <summary>
         /// This is used to scale the player's downward acceleration due to gravity.
         /// </summary>
-
-        [Header("Horizontal Movement")]
-
         public float gravity;
         /// <summary>
         /// The velocity we launch the player when they jump. Measured in meters/second.
         /// </summary>
         public float jumpImpulse = 10;
 
-        public float terminalVelocity = 15;
+        public float terminalVelocity = 15; // The maximum speed the player can fall downwards.
 
-        /// <summary>
-        /// The current velocity of player.
-        /// </summary>
-        private Vector3 velocity = new Vector3();
         /// <summary>
         /// Whether or not the player is currently jumping upwards.
         /// </summary>
         private bool isJumpingUpwards = false;
+        private bool isGrounded = false; // Checks when the player is on the ground so that the player can jump.
+        /// <summary>
+        /// Checks if the player is moving into a wall so that wall jumps can be performed.
+        /// </summary>
+        private bool leftWallHug = false;
+        private bool rightWallHug = false;
 
         /// <summary>
         /// Do euler physics each tick.
         /// </summary>
 
-        public AABB aabb;
-        private bool isGrounded = false;
-        private bool leftWallHug = false;
-        private bool rightWallHug = false;
+        public AABB aabb; // The collision checking class.
 
-        public Vector3 checkpoint;
-
-        void Start()
+        void Start() // Get AABB.
         {
             aabb = GetComponent<AABB>();
         }
 
         // Update is called once per frame
-        void Update()
+        void Update() // Updates the position of the player.
         {
-            if (transform.position.x < cam.position.x-11.3f || transform.position.x > cam.position.x+11.3f || transform.position.y < cam.position.y - 6.6) KillPlayer();
+            if (transform.position.x < cam.position.x-11.3f || transform.position.x > cam.position.x+11.3f || transform.position.y < cam.position.y - 6.6) KillPlayer(); // Kills the player if straying too far to the left, right, or under the camera.
             if (Time.deltaTime > 0.25f) return; // quit early, do nothing
 
             CalcHorizontaMovement();
@@ -98,7 +105,7 @@ namespace Kortge
         /// </summary>
         /// 
 
-        private void CalcVerticalMovement()
+        private void CalcVerticalMovement() // Handles how jumping works.
         {
             float gravMultiplier = 1;
 
@@ -138,7 +145,7 @@ namespace Kortge
 
         }
 
-        private void CalcHorizontaMovement()
+        private void CalcHorizontaMovement() // Handles how running works.
         {
             float h = Input.GetAxisRaw("Horizontal");
 
@@ -212,13 +219,13 @@ namespace Kortge
             aabb.RecalcAABB();
         }
 
-        public void LaunchPlayer(Vector3 vel)
+        public void LaunchPlayer(Vector3 vel) // Shoots the player into the air much higher than a jump would.
         {
             vel.z = 0;
             this.velocity = vel;
         }
 
-        public void KillPlayer()
+        public void KillPlayer() // Decides whether to respawn the player or end the game on death.
         {
             if (lives > 0) 
             {
@@ -234,7 +241,7 @@ namespace Kortge
             SceneManager.LoadScene(scene.name);
         }
 
-        public void AddBandage()
+        public void AddBandage() // Adds a bandage or a life depending on how many bandages the player has.
         {
             bandages++;
             if (bandages >= 5)
