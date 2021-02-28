@@ -13,6 +13,7 @@ namespace Howley
 
         
 
+
         void Start()
         {
             
@@ -20,14 +21,9 @@ namespace Howley
 
         void LateUpdate()
         {
-            Vector3 pos = transform.position;
-            pos.x = target.position.x + 5;
-            pos.y = target.position.y;
-            //transform.position = pos;
-            // Ease towards the object.
-
-            transform.position += (pos - transform.position) * Time.deltaTime * 10; 
-            
+            Vector2 pos = new Vector2(transform.position.x, transform.position.y);
+            Vector2 targetPos = new Vector2(target.position.x, target.position.y);
+            pos = AnimMath.Slide(pos, target.position, .01f);
         }
     }
 }

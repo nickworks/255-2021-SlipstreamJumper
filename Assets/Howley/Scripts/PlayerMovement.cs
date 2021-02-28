@@ -208,6 +208,10 @@ namespace Howley
             velocity.z = 0;
             this.velocity = velocity; // Referring to the private property needs this. in front of it.
         }
+        public void StickToWall()
+        {
+            // TODO: Stick the player to the wall if holding the A or D key.
+        }
     }
 }
 
