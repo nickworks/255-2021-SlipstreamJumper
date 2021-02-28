@@ -5,10 +5,11 @@ using UnityEngine;
 namespace Jelsomeno
 {
 
-
     public class AABB : MonoBehaviour
     {
         public Vector3 boxSize;
+
+
 
         public Vector3 min;
         public Vector3 max;
@@ -19,7 +20,6 @@ namespace Jelsomeno
             RecalcAABB();
 
         }
-
 
 
         /// <summary>
@@ -95,5 +95,6 @@ namespace Jelsomeno
             // draws stuff in the scene view...
             Gizmos.DrawWireCube(transform.position, boxSize);
         }
+
     }
 }

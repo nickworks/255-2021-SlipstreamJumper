@@ -10,7 +10,7 @@ namespace Jelsomeno
 
         public void PlayerHit(PlayerMovement pm)
         {
-            pm.LaunchPlayer(new Vector3(0, 10, 0));
+            pm.LaunchPlayer(new Vector3(0, 25, 0));
         }
 
     }
