@@ -12,8 +12,8 @@ namespace Kortge
     /// </summary>
     public class PlayerMovement : MonoBehaviour
     {
-        private int bandages = 0;
-        private int lives = 0;
+        public int bandages = 0;
+        public int lives = 1;
 
         public Transform cam;
         /// <summary>
@@ -67,6 +67,8 @@ namespace Kortge
         private bool isGrounded = false;
         private bool leftWallHug = false;
         private bool rightWallHug = false;
+
+        public Vector3 checkpoint;
 
         void Start()
         {
@@ -220,7 +222,7 @@ namespace Kortge
         {
             if (lives > 0) 
             {
-                transform.position = cam.position + (transform.up * 4);
+                transform.position = checkpoint + transform.up;
                 lives--;
             }
             else Destroy(gameObject);

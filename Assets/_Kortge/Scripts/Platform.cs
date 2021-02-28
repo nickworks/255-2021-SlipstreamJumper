@@ -17,14 +17,10 @@ namespace Kortge
             // register this platform!
             Zone.main.AddPlatform(aabb);
         }
-        private void OnDestroy()
+        /*private void OnDestroy()
         {
             Zone.main.AddPlatform(aabb);
-        }
+        }*/
         // Update is called once per frame
-        void Update()
-        {
-
-        }
     }
 }
