@@ -75,7 +75,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f702d78e0430084d955f94ba1d61003, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawner: {fileID: 0}
+  cam: {fileID: 0}
+  player: {fileID: 0}
   connectionPoint: {fileID: 6471049589204071511}
+  movement: {fileID: 0}
 --- !u!1 &2996368755079819971
 GameObject:
   m_ObjectHideFlags: 0
@@ -89,7 +93,6 @@ GameObject:
   - component: {fileID: 2996368755079820029}
   - component: {fileID: 2996368755079819970}
   - component: {fileID: 1077099213263165657}
-  - component: {fileID: 4879450135932627779}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -188,16 +191,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 048bca0afbee7aa429efac0024a665b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &4879450135932627779
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2996368755079819971}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f702d78e0430084d955f94ba1d61003, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  connectionPoint: {fileID: 6471049589204071511}

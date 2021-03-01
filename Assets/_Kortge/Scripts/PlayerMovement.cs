@@ -47,6 +47,8 @@ namespace Kortge
 
         public float maxSpeed = 5;
 
+        public ParticleSystem blood; // Blood from Meat Boy's body is kicked up every time he runs or jumps.
+
         [Header("Vertical Movement")]
 
         /// <summary>
@@ -80,6 +82,7 @@ namespace Kortge
         void Start() // Get AABB.
         {
             aabb = GetComponent<AABB>();
+            blood = GetComponentInChildren<ParticleSystem>();
         }
 
         // Update is called once per frame
@@ -153,6 +156,8 @@ namespace Kortge
             { // user is pressing left or right (or both?)
               // applying acceleration to our velocity:
                 velocity.x += h * Time.deltaTime * scalarAcceleration;
+                if (isGrounded || leftWallHug || rightWallHug) blood.Play();
+                else blood.Stop();
             }
             else // user is NOT pushing left or right:
             {
@@ -173,6 +178,8 @@ namespace Kortge
                     velocity.x += scalarDeceleration * Time.deltaTime;
                     if (velocity.x > 0) { velocity.x = 0; }
                 }
+
+                blood.Stop();
             }
 
             //if (velocity.x < -maxSpeed) velocity.x = -maxSpeed;
