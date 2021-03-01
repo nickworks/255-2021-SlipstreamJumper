@@ -1247,6 +1247,7 @@ GameObject:
   - component: {fileID: 3498043562246091232}
   - component: {fileID: 3498043562246091233}
   - component: {fileID: 3498043562246091238}
+  - component: {fileID: 2103424706517232326}
   m_Layer: 0
   m_Name: Fan
   m_TagString: Untagged
@@ -1347,6 +1348,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 28156e2fc433a984684f0d4722175112, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2103424706517232326
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3498043562246091239}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ca4dac32d502c549abb37caa9e1f872, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &3498043562257119137
@@ -7195,7 +7208,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f702d78e0430084d955f94ba1d61003, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawner: {fileID: 0}
+  cam: {fileID: 0}
+  player: {fileID: 0}
   connectionPoint: {fileID: 1465735987780794607}
+  movement: {fileID: 0}
 --- !u!1 &3498043563056228230
 GameObject:
   m_ObjectHideFlags: 0
@@ -8831,7 +8848,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f702d78e0430084d955f94ba1d61003, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawner: {fileID: 0}
+  cam: {fileID: 0}
+  player: {fileID: 0}
   connectionPoint: {fileID: 1465735987780794607}
+  movement: {fileID: 0}
 --- !u!1 &4189218838401237755
 GameObject:
   m_ObjectHideFlags: 0
@@ -9551,7 +9572,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f702d78e0430084d955f94ba1d61003, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawner: {fileID: 0}
+  cam: {fileID: 0}
+  player: {fileID: 0}
   connectionPoint: {fileID: 1465735987780794607}
+  movement: {fileID: 0}
 --- !u!1 &7164368214027206944
 GameObject:
   m_ObjectHideFlags: 0
