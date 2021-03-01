@@ -81,6 +81,7 @@ namespace Jelsomeno {
         private bool isGrounded = false;
         private AABB aabb;
 
+        // reference to the sprite animation 
         private Animator anim;
 
         private AudioSource soundPlayer;
@@ -88,7 +89,7 @@ namespace Jelsomeno {
         private void Start()
         {
             aabb = GetComponent<AABB>();
-            anim = GetComponent<Animator>();
+            //anim = GetComponent<Animator>();
             soundPlayer = GetComponentInChildren<AudioSource>();
         }
 
@@ -99,7 +100,7 @@ namespace Jelsomeno {
             if (Time.deltaTime > 0.25f) return; // lag spike/ quit early do nothing
 
             //communicates with anim controller
-            anim.SetBool("isGrounded", isGrounded);
+            //anim.SetBool("isGrounded", isGrounded);
 
             CalcHorizontalMovement();
 
@@ -242,6 +243,10 @@ namespace Jelsomeno {
             velocity = vel;
         }
 
+
+        /// <summary>
+        /// when the player presses the left shift bar they can dash forward
+        /// </summary>
         private void Dash()
         {
             if (Input.GetKeyDown(KeyCode.LeftShift))

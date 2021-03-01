@@ -7,7 +7,9 @@ namespace Jelsomeno
 {
     public class Health : MonoBehaviour
     {
-        
+        /// <summary>
+        /// this is a health class for the player so they can take damage and die
+        /// </summary>
 
         // state:
         public float health { get; private set; }
