@@ -10,7 +10,7 @@ namespace Szczesniak
     public class ChunkSpawner : MonoBehaviour
     {
 
-        public Transform prefab;
+        public List<Transform> prefab = new List<Transform>();
         public Transform boasterPrefab;
 
         /// <summary>
@@ -71,15 +71,15 @@ namespace Szczesniak
 
         private void SpawningFloor()
         {
-            //float y = Random.Range(-2f, 2f);
-            Transform floors = Instantiate(prefab, new Vector3(floorID * 25, 0, 0), Quaternion.identity);
+            int y = Random.Range(0, prefab.Count);
+            Transform floors = Instantiate(prefab[y], new Vector3(floorID * 25, 0, 0), Quaternion.identity);
             inGameFloors.Add(floors);
 
 
             // Make boaster spawn
             // Make limiter/spawn designation for it 
 
-            if (boasterSpawnNum > randomNumBoaster)
+            /*if (boasterSpawnNum > randomNumBoaster)
             {
                 Transform boaster = Instantiate(boasterPrefab, new Vector3(floorID * 25 + 10, .5f, 0), Quaternion.identity);
                 boastersInGame.Add(boaster);
@@ -88,9 +88,11 @@ namespace Szczesniak
                 boasterSpawnNum = 0;
             }
 
+            boasterSpawnNum++;
+            */
             playerSpawnX += floorLength;
             floorID++;
-            boasterSpawnNum++;
+            
         }
 
         private void DestroyFloor()

@@ -519,7 +519,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95942c86f3ca21e4885bb9b1789e41df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 4916644984240341224, guid: d0a493bf25f96ce44b98529c41fa0f64, type: 3}
+  prefab:
+  - {fileID: 6580684764442656293, guid: d0a493bf25f96ce44b98529c41fa0f64, type: 3}
+  - {fileID: 1609126773671753442, guid: ded06ce32ab55a9479b09529597eaaf4, type: 3}
   boasterPrefab: {fileID: 5759595094113041659, guid: 504e5e285f2f1674dbd71030ea3a2d7b,
     type: 3}
 --- !u!114 &206631772
@@ -621,7 +623,7 @@ PrefabInstance:
     - target: {fileID: 3445204802079745886, guid: 0e5020d51e1c68b4995ce5d1db7835bd,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.3
+      value: 5.61
       objectReference: {fileID: 0}
     - target: {fileID: 3445204802079745886, guid: 0e5020d51e1c68b4995ce5d1db7835bd,
         type: 3}
