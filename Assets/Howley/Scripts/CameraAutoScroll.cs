@@ -28,9 +28,10 @@ namespace Howley
             float posY = transform.position.y;
             Vector2 pos = new Vector2(transform.position.x, transform.position.y);
             Vector2 targetPos = new Vector2(target.position.x, target.position.y);
+
             if (target.transform.position.y >= 3.5)
             {
-                transform.position = AnimMath.Slide(transform.position, target.position, .08f);
+                transform.position = AnimMath.Slide(transform.position, target.position, .008f);
             }
             else
             {

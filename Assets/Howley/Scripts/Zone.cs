@@ -16,7 +16,7 @@ namespace Howley
         // Singleton:
         public static Zone main;
 
-        public AABB player;
+        public AABB aabb;
 
         private List<AABB> platforms = new List<AABB>();
 
@@ -43,24 +43,24 @@ namespace Howley
 
         void LateUpdate()
         {
-            if (!player) return; // If the player is dead/doesn't exist
+            if (!aabb) return; // If the player is dead/doesn't exist
 
-            PlayerMovement pm = player.GetComponent<PlayerMovement>();
+            PlayerMovement pm = aabb.GetComponent<PlayerMovement>();
 
             // Checking collision between player and all platforms
             foreach(AABB box in platforms)
             {
-                if (player.OverlapCheck(box))
-                { 
+                if (aabb.OverlapCheck(box))
+                {
                     // Move the player out of the platform
-                    pm.ApplyFix(player.FindFix(box));
+                    pm.ApplyFix(aabb.FindFix(box));
                 }
             }
 
             // Checking collision between player and all overlap objects
             foreach(AABB power in powerups)
             {
-                if (player.OverlapCheck(power))
+                if (aabb.OverlapCheck(power))
                 {
                     // Do something.
                     OverlapObject oo = power.GetComponent<OverlapObject>();
@@ -70,7 +70,7 @@ namespace Howley
                     }
                 }
             }
-
+            
         }
 
         /// <summary>

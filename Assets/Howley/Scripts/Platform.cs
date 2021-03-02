@@ -9,8 +9,6 @@ namespace Howley
     {
         AABB aabb;
         
-
-
         void Start()
         {
             aabb = GetComponent<AABB>();

@@ -167,7 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7277761cbf749114d8ab40300f617dfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1751414691}
+  player: {fileID: 0}
   powerups: []
 --- !u!114 &868102469
 MonoBehaviour:
@@ -332,11 +332,12 @@ MonoBehaviour:
   acceleration: 20
   deceleration: 40
   maxSpeed: 5
-  gravity: 27
-  jumpImpulse: 12
+  gravity: 20
+  jumpImpulse: 11
   terminalVelocity: 7
   isJumpingUpwards: 0
   isGrounded: 0
+  hasDoubleJumped: 0
 --- !u!95 &1751414688
 Animator:
   serializedVersion: 3

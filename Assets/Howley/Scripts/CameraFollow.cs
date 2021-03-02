@@ -11,14 +11,6 @@ namespace Howley
         /// </summary>
         public Transform target;
 
-        
-
-
-        void Start()
-        {
-            
-        }
-
         void LateUpdate()
         {
             Vector2 pos = new Vector2(transform.position.x, transform.position.y);
