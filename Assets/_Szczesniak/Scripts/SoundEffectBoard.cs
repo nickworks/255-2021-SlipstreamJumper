@@ -30,6 +30,21 @@ namespace Szczesniak {
         public AudioClip pickupCoin;
 
         /// <summary>
+        /// Sound when the player hurts themselve
+        /// </summary>
+        public AudioClip playerHurt;
+
+        /// <summary>
+        /// Sound when the player overlaps with a boast object
+        /// </summary>
+        public AudioClip soundBoast;
+
+        /// <summary>
+        /// Sound when the player picks up a power up
+        /// </summary>
+        public AudioClip soundPowerUp;
+
+        /// <summary>
         /// Creating audio source to play sounds on
         /// </summary>
         private AudioSource player;
@@ -59,6 +74,41 @@ namespace Szczesniak {
         /// </summary>
         public static void PlayJump2() {
             main.player.PlayOneShot(main.soundJump);
+        }
+
+        /// <summary>
+        /// Plays the coin pickup sound file
+        /// </summary>
+        public static void PlayCoinPickup() {
+            main.player.PlayOneShot(main.pickupCoin);
+        }
+
+        /// <summary>
+        /// Plays the sound death file when the player dies
+        /// </summary>
+        public static void PlayDeathSound() {
+            main.player.PlayOneShot(main.soundDie);
+        }
+
+        /// <summary>
+        /// Plays the sound when the player takes damage
+        /// </summary>
+        public static void PlayerDamaged() {
+            main.player.PlayOneShot(main.playerHurt);
+        }
+
+        /// <summary>
+        /// Plays when the player is overlapping the boast objects
+        /// </summary>
+        public static void BoastSound() {
+            main.player.PlayOneShot(main.soundBoast);
+        }
+
+        /// <summary>
+        /// Plays when the player picks up the power up items
+        /// </summary>
+        public static void PowerUpSound() {
+            main.player.PlayOneShot(main.soundPowerUp);
         }
     }
 }

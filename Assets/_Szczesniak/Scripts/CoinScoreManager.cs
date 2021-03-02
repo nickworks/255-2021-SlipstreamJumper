@@ -19,6 +19,7 @@ namespace Szczesniak {
             // If the coinScore is stored
             if (coinScore) {
                 coinScore.coinsCollected += 5; // add 5 points to the coinsCollected
+                SoundEffectBoard.PlayCoinPickup();
 
                 Destroy(gameObject); // Destroy the coin game object
             }

@@ -17,6 +17,7 @@ namespace Szczesniak {
         /// </summary>
         /// <param name="pm"></param>
         public override void OnOverlap(PlayerMovement pm) {
+            SoundEffectBoard.BoastSound();
             pm.LaunchPlayer(new Vector3(50, 25, 0)); // This adds force to the player and launches them up and forward
         }
         

@@ -19,6 +19,7 @@ namespace Szczesniak {
             // If the local variable has the PlayerMovement 
             if (doubleJump) {
                 doubleJump.powerUpSpeed += 2; // adds two speed to player 
+                SoundEffectBoard.PowerUpSound();
                 Destroy(gameObject); // destroy power up game object
             }
         }

@@ -41,10 +41,16 @@ namespace Szczesniak {
         /// </summary>
         public GameObject gameOverText;
 
+        /// <summary>
+        /// Health text for the player to know how much health they have currently
+        /// </summary>
+        public Text healthNotifier;
+
         // behavior
 
         private void Start() {
             health = healthMax; // Assigning the health 
+            healthNotifier.text = "Health: " + health; // Sets up the current health when the game starts
         }
 
         private void Update() {
@@ -64,6 +70,9 @@ namespace Szczesniak {
             if (amt < 0) amt = 0; // negative numbers are ignored
             health -= amt; // health = health - amt;
 
+            healthNotifier.text = "Health: " + health; // updates health when player takes damage
+            SoundEffectBoard.PlayerDamaged();
+
             if (health <= 0) Die(); // when the player has no more health
         }
 
@@ -71,6 +80,7 @@ namespace Szczesniak {
         /// When the player has lost all health and dies
         /// </summary>
         public void Die(){
+            SoundEffectBoard.PlayDeathSound();
             Instantiate(blowUp, transform.position, transform.rotation); // spawning the blewUp particle effect
             gameOverText.SetActive(true); // showing the Game Over text
             Destroy(gameObject); // destroy player
