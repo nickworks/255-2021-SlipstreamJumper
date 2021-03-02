@@ -4,13 +4,26 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Szczesniak {
+    
+    /// <summary>
+    /// This Class if for all of the colliding and some of the physics that happen in our game world 
+    /// </summary>
     public class AABB : MonoBehaviour {
 
+        /// <summary>
+        /// Size of our object that the user sets in the inspector
+        /// </summary>
         public Vector3 boxSize;
 
+        /// <summary>
+        /// To be able to find the min and max of our AABB to check for collision
+        /// </summary>
         public Vector3 min;
         public Vector3 max;
 
+        /// <summary>
+        /// Starts once
+        /// </summary>
         void Start()
         {
             RecalcAABB();
@@ -29,6 +42,11 @@ namespace Szczesniak {
             max = transform.position + boxSize / 2;
         }
 
+        /// <summary>
+        /// Checks to see if there are any collisions between anything that has AABB attached to it
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
         public bool OverlapCheck(AABB other) {
 
             if (other.min.x > this.max.x) return false; // gap to right - NO COLLISION
@@ -43,6 +61,11 @@ namespace Szczesniak {
             return true;
         }
 
+        /// <summary>
+        /// This function does the colliding effect.
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
         public Vector3 FindFix(AABB other)
         {
             float moveRight = other.max.x - this.min.x; // positive number
@@ -77,6 +100,9 @@ namespace Szczesniak {
             return fix;
         }
 
+        /// <summary>
+        /// This draws the outline of the AABB box so we are able to see it
+        /// </summary>
         private void OnDrawGizmos() {
             // draws stuff in the scene view...
 

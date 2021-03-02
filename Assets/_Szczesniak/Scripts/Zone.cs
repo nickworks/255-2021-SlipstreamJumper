@@ -5,9 +5,12 @@ using UnityEngine;
 namespace Szczesniak {
     public class Zone : SlipstreamJumper.Zone {
 
-
+        /// <summary>
+        /// This is used to be able to know who owns this scene, what the name of the game is called, and the scene file name is.
+        /// </summary>
         new public static ZoneInfo info = new ZoneInfo() {
-            zoneName = "Name",
+            // Information on the game name, developer, and the scene file.
+            zoneName = "Mayhem Buggy",
             creator = "Gavin Szczesniak",
             sceneFile = "Zone_Szczesniak"
         };
@@ -20,8 +23,10 @@ namespace Szczesniak {
         // one variable to hold all of the platforms:
         private List<AABB> platforms = new List<AABB>();
 
+        // one variable to hold all of the powerups
         public List<AABB> powerups = new List<AABB>();
 
+        // Runs once
         private void Awake() {
             if (main != null) { // singleton already exist...
                 Destroy(gameObject);
@@ -30,10 +35,14 @@ namespace Szczesniak {
             }
         }
 
+        // When destroyed
         private void OnDestroy() {
             if (main == this) main = null;
         }
 
+        /// <summary>
+        ///  updates last compared to the other updates
+        /// </summary>
         void LateUpdate() {
 
             if (!player) return; // no player, don't do collision detection

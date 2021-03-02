@@ -11,10 +11,13 @@ namespace Szczesniak {
     public class PlayerMovement : MonoBehaviour
     {
         /// <summary>
-        /// This value is used to scale the player's deceleration.
+        /// These variables are for the horizontal movement of the player:
         /// </summary>
         [Header("Horizontal Movement")]
-       
+
+        /// <summary>
+        /// This value is used to scale the player's deceleration.
+        /// </summary>
         public float scalerDeceleration = 40;
 
         /// <summary>
@@ -28,10 +31,18 @@ namespace Szczesniak {
         public float maxSpeed = 5;
 
         /// <summary>
-        /// This is used to scale the player's downward accleration due to gravity.
+        /// This integer is for when the player collects the powerups to boast their speed 
+        /// </summary>
+        public int powerUpSpeed = 0;
+
+        /// <summary>
+        /// These varaiables are for the vertical movement of the player:
         /// </summary>
         [Header("Vertical Movement")]
-
+       
+        /// <summary>
+        /// This is used to scale the player's downward accleration due to gravity.
+        /// </summary>
         public float gravity = 50;
         
         /// <summary>
@@ -39,9 +50,10 @@ namespace Szczesniak {
         /// </summary>
         public float jumpImpulse = 15;
 
+        /// <summary>
+        /// When the player jumps this will turn true to be able to double jump
+        /// </summary>
         private bool committedJump = false;
-
-        public int powerUpSpeed = 0;
 
         /// <summary>
         /// This maximum fall speed for the player. (helps with discrete collision detection)
@@ -53,6 +65,9 @@ namespace Szczesniak {
         /// </summary>
         private Vector3 velocity = new Vector3();
 
+        /// <summary>
+        /// This is used to check the player's Y axis velocity
+        /// </summary>
         public float checkYVelocity = 0;
 
         /// <summary>
@@ -60,7 +75,9 @@ namespace Szczesniak {
         /// </summary>
         private bool isJumpingUpwards = false;
 
-
+        /// <summary>
+        /// This bool checks if the player is on the ground or not to know when the player can jump
+        /// </summary>
         private bool isGrounded = false;
 
         /// <summary>
@@ -68,24 +85,26 @@ namespace Szczesniak {
         /// </summary>
         //private Animator anim;
 
-        private AudioSource soundPlayer;
+        /// <summary>
+        /// This AudioSource plays the jump sound 
+        /// </summary>
+        //private AudioSource soundPlayer;
 
         /// <summary>
-        /// This value is used for the player to rotate while in mid air 
+        /// Bring in the AABB class to calculate the platforms the player is on
         /// </summary>
-
         private AABB aabb;
 
-        private Vector3 previousPosition;
-
+        /// <summary>
+        /// This transform checks to see if the player is going backwards
+        /// </summary>
         public Transform markerPoint;
 
         private void Start()
         {
             aabb = GetComponent<AABB>();
             //anim = GetComponent<Animator>();
-            soundPlayer = GetComponentInChildren<AudioSource>();
-            previousPosition.x = transform.position.x - 3;
+            //soundPlayer = GetComponentInChildren<AudioSource>();
         }
 
         /// <summary>
@@ -98,12 +117,8 @@ namespace Szczesniak {
             // communicates w/ anim controller, which decides when to do the jump animation
             //anim.SetBool("isGrounded", isGrounded);
 
+            // Calling these functions to see if we are going backwards, moving horizontally, and moving vertically.
             BackwardsCheck();
-
-            if ((transform.position - previousPosition).x >= -1) {
-                
-                //previousPosition = transform.position;
-            }
 
             MovementHorizontal();
 
@@ -114,13 +129,17 @@ namespace Szczesniak {
             // applying our velocity to our position:
             transform.position += velocity * Time.deltaTime;
 
-            aabb.RecalcAABB();
+            aabb.RecalcAABB(); // incase the position or size of the collider changes
 
             //isGrounded = false;
         }
 
+        /// <summary>
+        /// Checks to make sure that the player is moving back, if so it will make the player not move past a certain point
+        /// </summary>
         private void BackwardsCheck()
         {
+            // if the player moves past the markerpoint
             if (transform.position.x < markerPoint.position.x)
             {
                 transform.position = new Vector3(markerPoint.position.x, transform.position.y, transform.position.z);
@@ -133,20 +152,22 @@ namespace Szczesniak {
         /// </summary>
         private void CalcVerticalMovement() {
 
-            float gravMultiplier = 1;
+            float gravMultiplier = 1; // gravity multiplier
 
 
-            bool wantsToJump = Input.GetButtonDown("Jump");
+            bool wantsToJump = Input.GetButtonDown("Jump"); // When the player press the space bar
 
-            bool isHoldingJump = Input.GetButton("Jump");
+            bool isHoldingJump = Input.GetButton("Jump"); // When the player holds the space bar
 
+            // if the player is off the ground, jumped already and presses the space bar (This is Double Jump)
             if (!isGrounded && committedJump && wantsToJump)
             {
-                velocity.y = jumpImpulse;
-                committedJump = false;
-                SoundEffectBoard.PlayJump2();
+                velocity.y = jumpImpulse; // adds impulse to the y axis of the player
+                committedJump = false; 
+                SoundEffectBoard.PlayJump2(); // plays sound effect for jump
             }
-
+            
+            // if the player presses the space bar and is on the ground (This is Jump)
             if (wantsToJump && isGrounded) {
                 velocity.y = jumpImpulse;
                 isJumpingUpwards = true;
@@ -157,12 +178,13 @@ namespace Szczesniak {
                 SoundEffectBoard.PlayJump2();
             }
 
+            // if the player is not holding space bar and their y velocity is less than 0
             if (!isHoldingJump || velocity.y < 0) {
                 isJumpingUpwards = false;
             }
            
-
-            if (isJumpingUpwards) gravMultiplier = 0.5f;
+            // if the player is holding space bar the gravity multiplier lessens
+            if (isJumpingUpwards) gravMultiplier = 0.5f; 
 
             checkYVelocity = velocity.y;
 
@@ -189,6 +211,7 @@ namespace Szczesniak {
 
             if (h != 0) { // user is pressing left or right (or both)
 
+                // store scalerAcceleration into float accel
                 float accel = scalerAcceleration;
 
                 /*if (!isGrounded) // less acceleration while in air
@@ -201,17 +224,18 @@ namespace Szczesniak {
             }
             else { // user is NOT pushing left or right
 
+                // store scalerDeceleration into float decel
                 float decel = scalerDeceleration;
 
                 if (!isGrounded) {
                     decel = scalerDeceleration / 2; // less deceleration in air
                 }
 
-                if (velocity.x > 0) { // player is moving right
-                    velocity.x -= decel * Time.deltaTime;
-                    if (velocity.x < 0) velocity.x = 0;
+                if (velocity.x > 0) { // player is moving right and is not pressing anything 
+                    velocity.x -= decel * Time.deltaTime; // slows the player until stoped
+                    if (velocity.x < 0) velocity.x = 0; // if velocity is below 0 it keeps it assigned 0 to prevent unneccessary movement
                 }
-                if (velocity.x < 0) { // player is mocing left
+                if (velocity.x < 0) { // player is mocing left and is not pressing anything
                     velocity.x += decel * Time.deltaTime;
                     if (velocity.x > 0) velocity.x = 0;
                 }
@@ -220,6 +244,7 @@ namespace Szczesniak {
             //if (velocity.x < -maxSpeed) velocity.x = -maxSpeed;
             //if (velocity.x > maxSpeed) velocity.x = maxSpeed;
 
+            // Clams the player's reverse and forward speed, player can go faster when aquirering powerups
             velocity.x = Mathf.Clamp(velocity.x, -maxSpeed, maxSpeed + powerUpSpeed);
         }
 
@@ -247,6 +272,10 @@ namespace Szczesniak {
 
         }
 
+        /// <summary>
+        /// This launches hte player when they overlap with a Spring Block
+        /// </summary>
+        /// <param name="vel"></param>
         public void LaunchPlayer(Vector3 vel) {
             vel.z = 0;
             this.velocity = vel;

@@ -4,14 +4,15 @@ using UnityEngine;
 
 namespace Szczesniak
 {
-
-
-    
+    /// <summary>
+    /// This script spawns the random level chunks within the prefab list
+    /// </summary>
     public class ChunkSpawner : MonoBehaviour
     {
-
+        /// <summary>
+        /// This holds the level chunks that the developer puts in through the inspector
+        /// </summary>
         public List<Transform> prefab = new List<Transform>();
-        public Transform boasterPrefab;
 
         /// <summary>
         /// Player's starting spawn on the X axis
@@ -37,43 +38,35 @@ namespace Szczesniak
         /// Creating list to store and manage the floors and boasters
         /// </summary>
         private List<Transform> inGameFloors = new List<Transform>();
-        private List<Transform> boastersInGame = new List<Transform>();
 
-        /// <summary>
-        /// This will increment to know when to spawn the boaster box
-        /// </summary>
-        private float boasterSpawnNum = 0;
-
-        float randomNumBoaster = 1;
-
-        void Start()
-        {
-
-
-            for (int i = 0; i < 5; i++)
-            {
+        void Start() {
+            // Spawns the starting floors
+            for (int i = 0; i < 5; i++) {
                 SpawningFloor();
             }
 
         }
 
 
-        void Update()
-        {
-            if (transform.position.x - 50 > playerSpawnX - (floorLength * amountOfFloors))
-            {
+        void Update() {
+            // Checks the players position to know when to spawn and delete level chunks
+            if (transform.position.x - 50 > playerSpawnX - (floorLength * amountOfFloors)) {
                 SpawningFloor();
                 DestroyFloor();
-                print("going over");
             }
         }
 
-
-        private void SpawningFloor()
-        {
+        /// <summary>
+        /// This function spawns the floor(s)
+        /// </summary>
+        private void SpawningFloor() {
+            
+            // This chooses a random number to determine the level chunk that will be spawned
             int y = Random.Range(0, prefab.Count);
+
+            // This spawns/instantiate the level chunk
             Transform floors = Instantiate(prefab[y], new Vector3(floorID * 25, 0, 0), Quaternion.identity);
-            inGameFloors.Add(floors);
+            inGameFloors.Add(floors); // added to the list
 
 
             // Make boaster spawn
@@ -90,22 +83,18 @@ namespace Szczesniak
 
             boasterSpawnNum++;
             */
-            playerSpawnX += floorLength;
-            floorID++;
+            playerSpawnX += floorLength; // increments the floor length to the playerSpawnX
+            floorID++; // increments spawn number of the level chunk
             
         }
 
-        private void DestroyFloor()
-        {
-            // Destroy object
+        /// <summary>
+        /// This function destroys the floors
+        /// </summary>
+        private void DestroyFloor() {
+            // Destroys the last level chunk the player pasts
             Destroy(inGameFloors[0].gameObject);
             inGameFloors.RemoveAt(0); // Remove from list at location 0
-
-            // If the amount of boasters is greater than or equal to 5 in game
-            if (boastersInGame.Count >= 5)
-            {
-                Destroy(boastersInGame[0].gameObject);
-                boastersInGame.RemoveAt(0);
             }
         }
 
@@ -139,4 +128,3 @@ public class ChunkSpawner : MonoBehaviour
     }
 
 }*/
-}

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Szczesniak {
+    /// <summary>
+    /// This class is used to scroll the camera like a mario game (NOT USED)
+    /// </summary>
     public class CameraAutoScroll : MonoBehaviour {
 
         /// <summary>
@@ -11,13 +14,8 @@ namespace Szczesniak {
 
         public Vector3 scrollSpeed = new Vector3();
 
-        // Start is called before the first frame update
-        void Start() {
-
-        }
-
-        // Update is called once per frame
         void Update() {
+            // Moves the camera to the right at a specific speed
             transform.position += scrollSpeed * Time.deltaTime;
         }
     }
