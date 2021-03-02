@@ -14,6 +14,11 @@ namespace Jelsomeno
         // state:
         public float currentHealth = 100;
         public float healthMax = 100;
+
+        /// <summary>
+        /// this is so we can place the empty game object and be the location for the respawn
+        /// </summary>
+        public Transform spawnPoint;
        //public HealthBarBehavior HealthBar;
 
         private float cooldownInvulnerability = 0;
@@ -44,7 +49,15 @@ namespace Jelsomeno
 
         public void Die()
         {
-            Destroy(gameObject);
+            Respawn();
+            
+            currentHealth = healthMax; // resets the players health once they respawn
+
+        }
+
+        public void Respawn()
+        {
+            this.transform.position = spawnPoint.position;
         }
     }
 }

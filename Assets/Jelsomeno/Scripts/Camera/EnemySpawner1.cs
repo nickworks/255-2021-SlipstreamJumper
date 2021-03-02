@@ -14,10 +14,11 @@ namespace Jelsomeno
         {
 
 
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 5; i++)
             {
-
-                float y = Random.Range(25, 40f);
+                // this will randomize how far the chunks can spawn the y and x axises
+                float y = Random.Range(30, 50f);
+                float x = Random.Range(25, 55f);
                 Instantiate(enemy, new Vector3(i * 30, y, 0), Quaternion.identity);
 
 
