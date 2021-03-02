@@ -9,12 +9,17 @@ namespace Jelsomeno
 
     public class OverlapObject : MonoBehaviour
     {
-        AABB aabb;
+        public AABB aabb;
 
         void Start()
         {
             aabb = GetComponent<AABB>();
             Zone.main.powerups.Add(aabb);
+        }
+
+        private void Update()
+        {
+            
         }
 
         private void OnDestroy()

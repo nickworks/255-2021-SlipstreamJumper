@@ -68,6 +68,7 @@ namespace Jelsomeno {
         ///  The maximum fall speed for the player. (helps with discrete collision detection)
         /// </summary>
 
+        public int boostSpeed = 0;
 
         private Vector3 velocity = new Vector3();
 
@@ -93,6 +94,7 @@ namespace Jelsomeno {
             soundPlayer = GetComponentInChildren<AudioSource>();
         }
 
+
         // Update is called once per frame
         void Update()
         {
@@ -101,6 +103,7 @@ namespace Jelsomeno {
 
             //communicates with anim controller
             //anim.SetBool("isGrounded", isGrounded);
+
 
             CalcHorizontalMovement();
 

@@ -57,6 +57,7 @@ namespace Jelsomeno
             {
                 if (player.OverlapCheck(box))
                 {
+                    // move player out of the platf
                     pm.ApplyFix(player.FindFix(box));
                 }
             }

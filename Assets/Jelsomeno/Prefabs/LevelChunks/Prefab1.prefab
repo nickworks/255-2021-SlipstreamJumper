@@ -1924,7 +1924,7 @@ PrefabInstance:
     - target: {fileID: 8971287696505444169, guid: 860eade349084d745876371a41c561e2,
         type: 3}
       propertyPath: boxSize.x
-      value: 15.27
+      value: 14.55
       objectReference: {fileID: 0}
     - target: {fileID: 8971287696505444169, guid: 860eade349084d745876371a41c561e2,
         type: 3}
@@ -1934,7 +1934,7 @@ PrefabInstance:
     - target: {fileID: 8971287696505444169, guid: 860eade349084d745876371a41c561e2,
         type: 3}
       propertyPath: boxSize.z
-      value: 1.4
+      value: 2.7
       objectReference: {fileID: 0}
     - target: {fileID: 9203265002586854755, guid: 860eade349084d745876371a41c561e2,
         type: 3}

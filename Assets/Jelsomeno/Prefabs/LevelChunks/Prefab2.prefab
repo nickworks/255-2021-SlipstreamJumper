@@ -39,6 +39,7 @@ GameObject:
   - component: {fileID: 5973323848839316796}
   - component: {fileID: 8196359387471074933}
   - component: {fileID: 1494084982471579647}
+  - component: {fileID: 6604828147945330742}
   m_Layer: 0
   m_Name: Mid
   m_TagString: Untagged
@@ -124,6 +125,18 @@ MonoBehaviour:
   boxSize: {x: 4.15, y: 13.36, z: 2.35}
   min: {x: 0, y: 0, z: 0}
   max: {x: 0, y: 0, z: 0}
+--- !u!114 &6604828147945330742
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2564944532313057147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c67d6bdd57dc360498307d639a435346, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1852630175838108856
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -475,7 +488,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64bcd3a2e530c1943afcafcb70c72944, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boxSize: {x: 9.9, y: 1.17, z: 0.9}
+  boxSize: {x: 14.2, y: 1.17, z: 0.9}
   min: {x: 0, y: 0, z: 0}
   max: {x: 0, y: 0, z: 0}
 --- !u!114 &816448555876863669
@@ -615,7 +628,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64bcd3a2e530c1943afcafcb70c72944, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boxSize: {x: 9.9, y: 1.17, z: 0.9}
+  boxSize: {x: 14.06, y: 1.17, z: 0.9}
   min: {x: 0, y: 0, z: 0}
   max: {x: 0, y: 0, z: 0}
 --- !u!114 &258732321616526319

@@ -12,14 +12,16 @@ namespace Jelsomeno
         /// </summary>
 
         // state:
-        public float health { get; private set; }
+        public float currentHealth = 100;
         public float healthMax = 100;
+       //public HealthBarBehavior HealthBar;
 
         private float cooldownInvulnerability = 0;
 
         private void Start()
         {
-            health = healthMax;
+            currentHealth = healthMax;
+            //HealthBarBehavior.SetHealth(health, healthMax);
         }
 
 
@@ -36,8 +38,8 @@ namespace Jelsomeno
 
 
             if (amt < 0) amt = 0;// negative numbers are ignored
-            health -= amt;
-            if (health <= 0) Die();// die
+            currentHealth -= amt;
+            if (currentHealth <= 0) Die();// die
         }
 
         public void Die()

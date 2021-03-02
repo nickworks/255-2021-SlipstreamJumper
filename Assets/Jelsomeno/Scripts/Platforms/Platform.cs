@@ -20,6 +20,10 @@ namespace Jelsomeno
             Zone.main.AddPlatform(aabb);
         }
 
+
+        /// <summary>
+        /// remove the platform from the list 
+        /// </summary>
         private void OnDestroy()
         {
             Zone.main.RemovePlatform(aabb);
