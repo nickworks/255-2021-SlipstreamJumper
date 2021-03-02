@@ -11,6 +11,9 @@ namespace ASmith
         /// </summary>
         public static SoundEffectBoard main;
 
+        /// <summary>
+        /// AudioClips for all available sounds in the game 
+        /// </summary>
         public AudioClip soundJump;
         public AudioClip soundDoubleJump;
         public AudioClip soundDie;
@@ -18,6 +21,9 @@ namespace ASmith
         public AudioClip soundPointPickup;
         public AudioClip soundSpringBlock;
 
+        /// <summary>
+        /// Property for the AudioSource used to play AudioClips
+        /// </summary>
         public AudioSource player;
 
         void Start()
@@ -25,13 +31,13 @@ namespace ASmith
             if (main == null)
             {
                 main = this;
-                player = GetComponent<AudioSource>();
+                player = GetComponent<AudioSource>(); // Gets a reference to the AudioSource
             }
             else
             {
                 Destroy(this.gameObject);
             }
-            //PlayMusic();
+            //PlayMusic(); // Originally used to play the background music before it was given its' own AudioSource in the Inspector
         }
 
         //public static void PlayJump(Vector3 pos) // still considered 3D sound DOES NOT WORK!!!
@@ -44,27 +50,27 @@ namespace ASmith
             main.player.PlayOneShot(main.soundJump);
         }
 
-        public static void PlayDoubleJump()
+        public static void PlayDoubleJump() // plays double jump audio
         {
             main.player.PlayOneShot(main.soundDoubleJump);
         }
 
-        public static void PlayDamage()
+        public static void PlayDamage() // plays damage audio
         {
             main.player.PlayOneShot(main.soundDamage);
         }
 
-        public static void PlayDie()
+        public static void PlayDie() // plays death audio
         {
             main.player.PlayOneShot(main.soundDie);
         }
 
-        public static void PlaySpringBlock()
+        public static void PlaySpringBlock() // plays springblock audio
         {
             main.player.PlayOneShot(main.soundSpringBlock);
         }
 
-        public static void PlayPointPickup()
+        public static void PlayPointPickup() // plays point pickup audio
         {
             main.player.PlayOneShot(main.soundPointPickup);
         }

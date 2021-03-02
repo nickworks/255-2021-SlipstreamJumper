@@ -18,7 +18,6 @@ namespace ASmith
             RecalcAABB();
         }
 
-
         /// <summary>
         /// Called whenever position/size of collider changes
         /// </summary>

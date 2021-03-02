@@ -283,7 +283,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: e9bb57ec9af9a304d9375b9df5ac118b, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.25
+  m_Volume: 0.05
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -520,8 +520,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1001213576}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.136, z: 0}
-  m_LocalScale: {x: 1.9859716, y: 1.9859716, z: 1.9859716}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 1092140990}
   m_RootOrder: 0
@@ -566,7 +566,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 1547261401746236500, guid: ab0e15947ac45414eb2e62ffee7d417e,
+  m_Sprite: {fileID: -824388629846048450, guid: ee7a792493ea76e45adf15c1f5daca90,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -636,7 +636,8 @@ MonoBehaviour:
   dashImpulse: 15
   terminalVelocity: 15
   velocity: {x: 0, y: 0, z: 0}
-  isDashing: 0
+  playerLocation: {fileID: 1092140990}
+  cam: {fileID: 1796565348}
 --- !u!114 &1092140988
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -678,7 +679,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee2500b326ea87f429e8fcbcebf69c5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boxSize: {x: 1, y: 2, z: 2}
+  boxSize: {x: 2, y: 2.5, z: 2}
   min: {x: 0, y: 0, z: 0}
   max: {x: 0, y: 0, z: 0}
 --- !u!1 &1477340883
@@ -915,3 +916,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scrollSpeed: {x: 3, y: 0, z: 0}
+  isPickedUp: 0

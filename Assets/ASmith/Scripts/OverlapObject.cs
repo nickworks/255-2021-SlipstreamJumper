@@ -7,16 +7,14 @@ namespace ASmith
     [RequireComponent(typeof(AABB))]
     public class OverlapObject : MonoBehaviour // Parent class for all Hazards and Powerups
     {
+        /// <summary>
+        /// Gets a reference to the AABB class
+        /// </summary>
         AABB aabb;
         void Start()
         {
-            aabb = GetComponent<AABB>();
+            aabb = GetComponent<AABB>(); // Gets a reference to the AABB class for access to the aabb collision detector
             Zone.main.powerups.Add(aabb);
-        }
-
-        void Update()
-        {
-
         }
 
         private void OnDestroy()

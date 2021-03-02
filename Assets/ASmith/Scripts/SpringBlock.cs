@@ -15,13 +15,13 @@ namespace ASmith
         {
             if (cooldownSpringBlock > 0)
             {
-                cooldownSpringBlock -= Time.deltaTime;
+                cooldownSpringBlock -= Time.deltaTime; // if cooldownSpringBlock still has time life, countdown timer
             }
         }
 
         public override void OnOverlap(PlayerMovement pm)
         {
-            pm.LaunchPlayer(new Vector3(0, 20, 0));
+            pm.LaunchPlayer(new Vector3(0, 20, 0)); // Launch player upward on overlap
             if (cooldownSpringBlock > 0) return; // still on cooldown, dont play audio
             cooldownSpringBlock = .25f; // cooldown till audio can play again
             SoundEffectBoard.PlaySpringBlock(); // plays springblock audio
