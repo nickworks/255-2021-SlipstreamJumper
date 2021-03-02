@@ -9,7 +9,7 @@ namespace Szczesniak {
         }
 
         public override void OnOverlap(PlayerMovement pm) {
-        pm.LaunchPlayer(new Vector3(50, 25, 0));
+            pm.LaunchPlayer(new Vector3(50, 25, 0));
         }
         
     }

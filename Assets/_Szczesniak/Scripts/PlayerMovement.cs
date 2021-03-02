@@ -39,6 +39,10 @@ namespace Szczesniak {
         /// </summary>
         public float jumpImpulse = 15;
 
+        private bool committedJump = false;
+
+        public int powerUpSpeed = 0;
+
         /// <summary>
         /// This maximum fall speed for the player. (helps with discrete collision detection)
         /// </summary>
@@ -49,10 +53,14 @@ namespace Szczesniak {
         /// </summary>
         private Vector3 velocity = new Vector3();
 
+        public float checkYVelocity = 0;
+
         /// <summary>
         /// Whether or not the player is currently jumping upwards.
         /// </summary>
         private bool isJumpingUpwards = false;
+
+
         private bool isGrounded = false;
 
         /// <summary>
@@ -101,7 +109,7 @@ namespace Szczesniak {
 
             CalcVerticalMovement();
 
-            PlayerRotating();
+            
 
             // applying our velocity to our position:
             transform.position += velocity * Time.deltaTime;
@@ -132,19 +140,31 @@ namespace Szczesniak {
 
             bool isHoldingJump = Input.GetButton("Jump");
 
+            if (!isGrounded && committedJump && wantsToJump)
+            {
+                velocity.y = jumpImpulse;
+                committedJump = false;
+                SoundEffectBoard.PlayJump2();
+            }
+
             if (wantsToJump && isGrounded) {
                 velocity.y = jumpImpulse;
                 isJumpingUpwards = true;
                 isGrounded = false;
                 //soundPlayer.Play();
+                committedJump = true;
 
                 SoundEffectBoard.PlayJump2();
             }
+
             if (!isHoldingJump || velocity.y < 0) {
                 isJumpingUpwards = false;
             }
+           
 
             if (isJumpingUpwards) gravMultiplier = 0.5f;
+
+            checkYVelocity = velocity.y;
 
             // apply force of gravtiy to our velocity:
             velocity.y -= gravity * Time.deltaTime * gravMultiplier;
@@ -200,7 +220,7 @@ namespace Szczesniak {
             //if (velocity.x < -maxSpeed) velocity.x = -maxSpeed;
             //if (velocity.x > maxSpeed) velocity.x = maxSpeed;
 
-            velocity.x = Mathf.Clamp(velocity.x, -maxSpeed, maxSpeed);
+            velocity.x = Mathf.Clamp(velocity.x, -maxSpeed, maxSpeed + powerUpSpeed);
         }
 
         /// <summary>
@@ -232,6 +252,7 @@ namespace Szczesniak {
             this.velocity = vel;
         }
 
+        /*
         private void PlayerRotating() {
             float rotationAccel = scalerAcceleration;
 
@@ -242,6 +263,6 @@ namespace Szczesniak {
             if (Input.GetKey("right") && !isGrounded) {
                 
             }
-        }
+        }*/
     }
 }

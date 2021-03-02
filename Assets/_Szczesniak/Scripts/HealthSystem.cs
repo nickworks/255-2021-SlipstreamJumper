@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Szczesniak {
     public class HealthSystem : MonoBehaviour {
@@ -15,6 +16,9 @@ namespace Szczesniak {
         public float healthMax = 100;
 
         private float coolDownInvulnerability = 0;
+
+        public ParticleSystem blowUp;
+        public GameObject gameOverText;
 
         // behavior
 
@@ -39,6 +43,8 @@ namespace Szczesniak {
         }
 
         public void Die(){
+            Instantiate(blowUp, transform.position, transform.rotation);
+            gameOverText.SetActive(true);
             Destroy(gameObject);
         }
     }
