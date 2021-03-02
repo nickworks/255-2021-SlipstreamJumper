@@ -55,18 +55,8 @@ namespace Pattison {
         private bool isGrounded = false;
         private AABB aabb;
 
-        /// <summary>
-        /// A reference to an "Animation Controller", which is an animation state machine
-        /// </summary>
-        private Animator anim;
-
-        private AudioSource soundPlayer;
-
-
         private void Start() {
             aabb = GetComponent<AABB>();
-            anim = GetComponent<Animator>();
-            soundPlayer = GetComponentInChildren<AudioSource>();
         }
 
         /// <summary>
@@ -75,9 +65,6 @@ namespace Pattison {
         void Update() {
 
             if (Time.deltaTime > 0.25f) return; // lag spike? quit early, do nothing
-
-            // communicate w/ anim controller, which decides when to switch animations:
-            anim.SetBool("isGrounded", isGrounded);
 
             CalcHorizontalMovement();
 
@@ -103,12 +90,6 @@ namespace Pattison {
             if (wantsToJump && isGrounded) {
                 velocity.y = jumpImpulse;
                 isJumpingUpwards = true;
-                isGrounded = false;
-                //anim.SetBool("isGrounded", false);
-                //soundPlayer.Play();
-
-                SoundEffectBoard.PlayJump2();
-
             }
             if (!isHoldingJump || velocity.y < 0) {
                 isJumpingUpwards = false;
@@ -137,6 +118,10 @@ namespace Pattison {
 
                 float accel = scalarAcceleration;
 
+                if (!isGrounded) { // less acceleration while in the air:
+                    accel = scalarAcceleration / 5;
+                }
+
                 // applying acceleration to our velocity:
                 velocity.x += h * Time.deltaTime * accel;
 
@@ -145,7 +130,7 @@ namespace Pattison {
                 float decel = scalarDeceleration;
 
                 if (!isGrounded) { // less deceleration while in air:
-                    decel = scalarDeceleration / 3;
+                    decel = scalarDeceleration / 5;
                 }
 
 

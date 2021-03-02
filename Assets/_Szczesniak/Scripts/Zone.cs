@@ -42,7 +42,7 @@ namespace Szczesniak {
 
             // checking collision between PLAYER and all PLATFORMS:
             foreach(AABB box in platforms) {
-                if (player.OverlapCheck(box)) {
+                if (player.OverlapCheck(box) && pm.checkYVelocity < .5f) {
                     pm.ApplyFix(player.FindFix(box));
                 }
             }

@@ -34,30 +34,25 @@ namespace Pattison {
 
         void LateUpdate() {
 
-            if (!player) return; // no player, don't do collision detection
-
             PlayerMovement pm = player.GetComponent<PlayerMovement>();
 
-            // checking collision between PLAYER and all PLATFORMS:
             foreach(AABB box in platforms) {
                 if (player.OverlapCheck(box)) {
                     pm.ApplyFix(player.FindFix(box));
                 }
             }
 
-            // checking collision between PLAYER and all OVERLAP-OBJECTS
             foreach(AABB power in powerups) {
                 if (player.OverlapCheck(power)) {
                     // player collides with powerup!
                     // do something....
-
-                    OverlapObject oo = power.GetComponent<OverlapObject>();
-
-                    if (oo) {
-                        oo.OnOverlap(pm);
+                    SpringBlock sb = power.GetComponent<SpringBlock>();
+                    if (sb) {
+                        sb.PlayerHit(pm);
                     }
                 }
             }
+
 
         }
         /// <summary>

@@ -5,25 +5,15 @@ using UnityEngine;
 namespace Pattison {
     public class ChunkSpawner : MonoBehaviour {
 
-        public Chunk prefab;
-        private List<Chunk> chunks = new List<Chunk>();
+        public Transform prefab;
 
         void Start() {
 
             for (int i = 0; i < 5; i++) {
 
-                Vector3 pos = Vector3.zero;
+                float y = Random.Range(-2, 2f);
+                Instantiate(prefab, new Vector3(i * 20, y, 0), Quaternion.identity);
 
-                if (chunks.Count > 0) {
-                    Chunk lastChunk = chunks[chunks.Count - 1];
-                    pos = lastChunk.connectionPoint.position;
-                }
-
-                //float y = Random.Range(-2, 2f);
-                //pos.y += y;
-
-                Chunk newChunk = Instantiate(prefab, pos, Quaternion.identity);
-                chunks.Add(newChunk);
             }
         }
 
