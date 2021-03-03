@@ -4,29 +4,27 @@ using UnityEngine;
 
 namespace ASmith
 {
-    public class SpringBlock : MonoBehaviour
+    public class SpringBlock : OverlapObject
     {
-        AABB aabb;
-        void Start()
+        /// <summary>
+        /// Springblock cooldown to prevent audio stacking
+        /// </summary>
+        private float cooldownSpringBlock = 0;
+
+        private void Update()
         {
-            aabb = GetComponent<AABB>();
-            Zone.main.powerups.Add(aabb);
+            if (cooldownSpringBlock > 0)
+            {
+                cooldownSpringBlock -= Time.deltaTime; // if cooldownSpringBlock still has time life, countdown timer
+            }
         }
 
-        void Update()
+        public override void OnOverlap(PlayerMovement pm)
         {
-
-        }
-
-        private void OnDestroy()
-        {
-            if (Zone.main == null) return; // do nothing
-            Zone.main.powerups.Remove(aabb);
-        }
-
-        public void PlayerHit(PlayerMovement pm)
-        {
-            pm.LaunchPlayer(new Vector3(0, 20, 0));
+            pm.LaunchPlayer(new Vector3(0, 20, 0)); // Launch player upward on overlap
+            if (cooldownSpringBlock > 0) return; // still on cooldown, dont play audio
+            cooldownSpringBlock = .25f; // cooldown till audio can play again
+            SoundEffectBoard.PlaySpringBlock(); // plays springblock audio
         }
     }
 }
