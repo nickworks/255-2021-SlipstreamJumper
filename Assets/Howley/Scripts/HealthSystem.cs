@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using SlipstreamJumper;
 
 namespace Howley
 {
@@ -46,6 +47,7 @@ namespace Howley
         public void Die()
         {
             Destroy(gameObject);
+            Game.GameOver();
         }
     }
 

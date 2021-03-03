@@ -11,6 +11,11 @@ namespace Howley
     public class AABB : MonoBehaviour
     {
         /// <summary>
+        /// Used to designate a platform as a one way platform.
+        /// </summary>
+        public bool isOneWay = false;
+         
+        /// <summary>
         /// This value gets the width, height, and depth of the game object.
         /// </summary>
         public Vector3 boxSize;
@@ -25,9 +30,23 @@ namespace Howley
         /// </summary>
         public Vector3 max;
 
+        /// <summary>
+        /// Calculate and store velocity.
+        /// </summary>
+        private Vector3 velocityCache;
+        private Vector3 prevPos;
+
+
         void Start()
         {
             RecalcAABB();
+        }
+
+        void Update()
+        {
+            // Already has deltaTime   
+            velocityCache = prevPos - transform.position;
+            prevPos = transform.position;
         }
 
         /// <summary>
@@ -51,6 +70,12 @@ namespace Howley
         /// </summary>
         public bool OverlapCheck(AABB other)
         {
+            if (other.isOneWay)
+            {
+                if (this.velocityCache.x < 0) return false; // The AABB is moving to the right.
+                if (this.min.x < other.transform.position.x) return false;
+            }
+
             if (other.min.x > this.max.x) return false; // gap to the right - NO COLLISION
             if (other.max.x < this.min.x) return false; // gap to the left - NO COLLISION
 
@@ -77,6 +102,11 @@ namespace Howley
             float moveDown = other.min.y - this.max.y; // Negative num
 
             Vector3 fix = Vector3.zero;
+
+            if (other.isOneWay)
+            {
+                return new Vector3(moveRight, 0, 0);
+            }
 
             if (Mathf.Abs(moveLeft) < Mathf.Abs(moveRight))
             {

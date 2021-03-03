@@ -338,9 +338,9 @@ MonoBehaviour:
   acceleration: 20
   deceleration: 40
   maxSpeed: 5
-  gravity: 20
-  jumpImpulse: 11
-  terminalVelocity: 7
+  gravity: 21
+  jumpImpulse: 13
+  terminalVelocity: 9
   isJumpingUpwards: 0
   isGrounded: 0
   hasDoubleJumped: 0
