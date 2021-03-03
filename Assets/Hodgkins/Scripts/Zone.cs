@@ -10,7 +10,7 @@ namespace Hodgkins
 
         new public static ZoneInfo info = new ZoneInfo()
         {
-            zoneName = "Tom's Zone",
+            zoneName = "Tom's Green Zone",
             creator = "Tom Hodgkins",
             sceneFile = "ZoneHodgkins"
         };

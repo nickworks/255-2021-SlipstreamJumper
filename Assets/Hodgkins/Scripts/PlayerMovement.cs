@@ -56,10 +56,14 @@ namespace Hodgkins
         private bool isGrounded = false;
 
         private AABB aabb;
+
+
+        //private AudioSource soundPlayer;
         
-        void Start()
+        private void Start()
         {
             aabb = GetComponent<AABB>();
+            //soundPlayer = GetComponentInChildren<AudioSource>();
         }
 
         /// <summary>
@@ -93,6 +97,10 @@ namespace Hodgkins
             {
                 velocity.y = jumpInpulse;
                 isJumpingUpwards = true;
+                isGrounded = false;
+
+                SoundEffectBoard.PlayJump();
+                
             }
             if (!isHoldingJump) {
                 isJumpingUpwards = false;
@@ -129,7 +137,7 @@ namespace Hodgkins
                 }
 
                 //applying acceleration to velocity
-                velocity.x += h * Time.deltaTime * accel;
+                velocity.x += h * accel;
             }
             else
             { // user is not pushing left or right
@@ -187,7 +195,7 @@ namespace Hodgkins
         public void LaunchPlayer(Vector3 vel)
         {
             vel.z = 0;
-            this.velocity = vel;
+            this.velocity = vel;        
         }
     }
 }

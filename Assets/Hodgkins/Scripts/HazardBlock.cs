@@ -18,9 +18,9 @@ namespace Hodgkins
 
             Vector3 vToPlayer = (pm.transform.position - this.transform.position).normalized;
             
-
             pm.LaunchPlayer(vToPlayer * 15);
 
+            SoundEffectBoard.PlayHit();
         }
     }
 }
