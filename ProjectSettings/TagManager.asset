@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Powerup
+  - Pick Up
   layers:
   - Default
   - TransparentFX
