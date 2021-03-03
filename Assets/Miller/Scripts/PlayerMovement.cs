@@ -37,7 +37,7 @@ namespace Miller
         /// <summary>
         /// The velocity we launch the player when they jump. Measured in meters/second.
         /// </summary>
-        public float jumpImpuse = 10;
+        public float jumpImpulse = 10;
 
         /// <summary>
         /// The maximum fall speed for the player. (helps with discrete collision detection)
@@ -54,6 +54,8 @@ namespace Miller
         /// </summary>
         private bool isJumpingUpwards = false;
         private bool isGrounded = false;
+        
+
         private AABB aabb;
 
         private void Start()
@@ -88,12 +90,13 @@ namespace Miller
             bool wantstoJump = Input.GetButtonDown("Jump");
             bool isHoldingJump = Input.GetButton("Jump");
 
+
             if (wantstoJump && isGrounded)
             {
-                velocity.y = jumpImpuse;
+                velocity.y = jumpImpulse;
                 isJumpingUpwards = true;
             }
-            if(!isHoldingJump || velocity.y < 0)
+            if (!isHoldingJump || velocity.y < 0)
             {
                 isJumpingUpwards = false;
             }
@@ -104,7 +107,7 @@ namespace Miller
             velocity.y -= gravity * Time.deltaTime * gravMultiplier;
 
 
-            // clamp vertical speed to creat terminal velocity
+            // clamp vertical speed to create terminal velocity
             if (velocity.y < -terminalVelocity) velocity.y = -terminalVelocity;
 
         }
@@ -119,25 +122,21 @@ namespace Miller
 
             if (h != 0) // user is pressing left or right or (both?)
             {
+                float accel = scalarAcceleration;
+
+
                 // applying acceleration to our velocity:
-                velocity.x += h * Time.deltaTime * scalarAcceleration;
+                velocity.x += h * Time.deltaTime * accel;
             }
             else // user is NOT pressing left our right
             {
-
-                float accel = scalarAcceleration;
-
-                if(!isGrounded) // less acceleration while in the air
-                {
-                    accel = scalarAcceleration / 10;
-                }
 
 
                 float decel = scalarDeceleration;
 
                 if (!isGrounded) // less deceleration while in the air
                 {
-                    decel = scalarDeceleration / 10;
+                    decel = scalarDeceleration / 3;
                 }
 
 
@@ -191,6 +190,14 @@ namespace Miller
         {
             velocity.z = 0;
             velocity = vel;
+        }
+
+        void OnTriggerEnter(Collider other)
+        {
+            if(other.gameObject.CompareTag("Pick Up"))
+            {
+                other.gameObject.SetActive(false);
+            }
         }
     }
 }
