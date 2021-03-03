@@ -40,5 +40,10 @@ namespace Hodgkins
         {
             main.player.PlayOneShot(main.soundHit);
         }
+
+        public static void PlayDie()
+        {
+            main.player.PlayOneShot(main.soundDie);
+        }
     }
 }

@@ -37,6 +37,7 @@ namespace Hodgkins
         public void Die()
         {
             Destroy(gameObject);
+            SoundEffectBoard.PlayDie();
         }
 
     }

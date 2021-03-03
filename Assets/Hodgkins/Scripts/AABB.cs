@@ -5,11 +5,9 @@ using UnityEngine;
 
 namespace Hodgkins
 {
-
     public class AABB : MonoBehaviour
     {
         public Vector3 boxSize;
-
         public Vector3 min;
         public Vector3 max;
 
@@ -23,14 +21,9 @@ namespace Hodgkins
         /// or size of the collider changes
         /// </summary>
         public void RecalcAABB()
-        {
-            //min.x = transform.position.x - boxSize.x / 2;
-            //min.y = transform.position.y - boxSize.y / 2;
-            //min.z = transform.position.z - boxSize.z / 2;
-
+        {            
             min = transform.position - boxSize / 2;
             max = transform.position + boxSize / 2;
-
         }
 
         public bool OverlapCheck(AABB other)
@@ -43,7 +36,6 @@ namespace Hodgkins
 
             if (other.min.z > this.max.z) return false; //gap 'forward' == no collision
             if (other.max.z < this.min.z) return false; //gap 'behind' == no collision
-
 
             return true;
         }
@@ -78,17 +70,12 @@ namespace Hodgkins
                 fix.x = 0; //going with vertical solution; clearing horizontal...
             }
 
-
-
-
-
             return fix;
         }
 
         private void OnDrawGizmos()
         {
-            // draws stuff in scene view.
-
+            // draws AABB cube in scene view.
             Gizmos.DrawWireCube(transform.position, boxSize);
         }
     }
