@@ -7,10 +7,11 @@ namespace Howley
     [RequireComponent(typeof(AABB))] // Every platform component must have AABB 
     public class Platform : MonoBehaviour
     {
+        /// <summary>
+        /// Hold reference to the AABB script.
+        /// </summary>
         AABB aabb;
         
-
-
         void Start()
         {
             aabb = GetComponent<AABB>();

@@ -64,15 +64,42 @@ namespace Howley
         /// <summary>
         /// Whether or not the player is currently holding the spacebar down.
         /// </summary>
-        private bool isJumpingUpwards = false;
+        public bool isJumpingUpwards = false;
 
-        private bool isGrounded = false;
+        /// <summary>
+        /// This boolean tracks whether the player is on the ground's AABB or not.
+        /// </summary>
+        public bool isGrounded = false;
 
-        private AABB aabb;
+        /// <summary>
+        /// This boolean tracks if the player has double jumped in the last 5 seconds.
+        /// </summary>
+        public bool hasDoubleJumped = false;
+
+        /// <summary>
+        /// A reference to the AABB script.
+        /// </summary>
+        public AABB aabb;
+
+        /// <summary>
+        /// A reference to an "Animation Controller", or animation state machine.
+        /// </summary>
+        private Animator anim;
+
+        /// <summary>
+        /// This is a cooldown for the player to be able to double jump
+        /// </summary>
+        private float cooldownDJ = 0;
+
+        /// <summary>
+        /// A cooldown between the first jump, and the double jump.
+        /// </summary>
+        private float cooldownBetweenJump = 0;
 
         void Start()
         {
             aabb = GetComponent<AABB>();
+            anim = GetComponent<Animator>();
         }
 
         /// <summary>
@@ -81,15 +108,29 @@ namespace Howley
         /// </summary>
         void Update()
         {
+            if (Time.deltaTime > 0.25f) return;
+
             HorizontalMovement();
 
             VerticalMovement();
+
+            DoubleJumpCooldown();
 
             // Apply velocity to player position.
             transform.position += velocity * Time.deltaTime; // Adding velocity to position
             aabb.RecalcAABB();
 
             isGrounded = false;
+        }
+
+        /// <summary>
+        /// This function runs the cooldowns for double jump, and time between the first jump and the double jump.
+        /// </summary>
+        private void DoubleJumpCooldown()
+        {
+            cooldownBetweenJump -= Time.deltaTime;
+            cooldownDJ -= Time.deltaTime;
+            if (cooldownDJ <= 0) hasDoubleJumped = false;
         }
 
         /// <summary>
@@ -109,7 +150,18 @@ namespace Howley
             {
                 velocity.y = jumpImpulse;
                 isJumpingUpwards = true;
+                isGrounded = false;
+                cooldownBetweenJump = .2f;
             }
+
+            if (wantsToJump && !isGrounded && !hasDoubleJumped && cooldownBetweenJump <= 0)
+            {
+                velocity.y = jumpImpulse;
+                isJumpingUpwards = true;
+                hasDoubleJumped = true;
+                cooldownDJ = 5;
+            }
+
             if (!isHoldingJump || velocity.y < 0) // If you've reached peak jump, or not holding space
             {
                 isJumpingUpwards = false;
@@ -153,7 +205,7 @@ namespace Howley
 
                 if (!isGrounded) // Less deceleration in the air.
                 {
-                    decel = deceleration / 4;
+                    decel = deceleration / 3;
                 }
 
                 if (velocity.x > 0) // Player is moving right
@@ -194,11 +246,18 @@ namespace Howley
 
             aabb.RecalcAABB();
         }
+
+        /// <summary>
+        /// This function launches the player directly upwards.
+        /// </summary>
+        /// <param name="velocity"></param>
         public void LauchPlayer(Vector3 velocity)
         {
             velocity.z = 0;
             this.velocity = velocity; // Referring to the private property needs this. in front of it.
         }
+        
+
     }
 }
 

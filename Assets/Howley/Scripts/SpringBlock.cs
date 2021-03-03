@@ -4,29 +4,15 @@ using UnityEngine;
 
 namespace Howley
 {
-    [RequireComponent(typeof(AABB))]
-    public class SpringBlock : MonoBehaviour
+    public class SpringBlock : OverlapObject
     {
-        AABB aabb;
-
-        void Start()
+        /// <summary>
+        /// This function launches the player when they overlap a spring block.
+        /// </summary>
+        /// <param name="pm"></param>
+        public override void OnOverlap(PlayerMovement pm)
         {
-            aabb = GetComponent<AABB>();
-            Zone.main.powerups.Add(aabb);
-        }
-
-        void Update()
-        {
-
-        }
-        private void OnDestroy()
-        {
-            if (Zone.main == null) return;
-            Zone.main.powerups.Remove(aabb);
-        }
-        public void PlayerHit(PlayerMovement pm)
-        {
-            pm.LauchPlayer(new Vector3(0, 25, 0));
+            pm.LauchPlayer(new Vector3(0, 20, 0));
         }
     }
 }

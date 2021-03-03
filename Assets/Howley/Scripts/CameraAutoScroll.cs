@@ -11,14 +11,42 @@ namespace Howley
         /// </summary>
         public Vector3 scrollSpeed = new Vector3();
 
+        /// <summary>
+        /// Hold reference to the camera.
+        /// </summary>
+        private Camera cam;
+
+        /// <summary>
+        /// Hold reference to a transform.
+        /// </summary>
+        public Transform target;
+
+        /// <summary>
+        /// Hold reference to the playermovement class.
+        /// </summary>
+        public PlayerMovement player;
+
         void Start()
         {
-
+            player = GetComponent<PlayerMovement>();
+            cam = GetComponentInChildren<Camera>();
         }
 
         void Update()
         {
-            transform.position += scrollSpeed * Time.deltaTime;
+            float posY = transform.position.y;
+            Vector2 pos = new Vector2(transform.position.x, transform.position.y);
+            Vector2 targetPos = new Vector2(target.position.x, target.position.y);
+
+            if (target.transform.position.y >= 3.5)
+            {
+                transform.position = AnimMath.Slide(transform.position, target.position, .008f);
+            }
+            else
+            {
+                transform.position += scrollSpeed * Time.deltaTime;                
+            }
+            
         }
     }
 }
