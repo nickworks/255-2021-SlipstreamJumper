@@ -47,8 +47,7 @@ namespace Jelsomeno
 
         void LateUpdate()
         {
-            if (!player) return; // no player, do not do collision detection
-
+            //if (!player) return; // no player, do not do collision detection
 
             PlayerMovement pm = player.GetComponent<PlayerMovement>();
 
@@ -89,12 +88,21 @@ namespace Jelsomeno
 
         }
 
+
+        /// <summary>
+        /// This function adds a platform to our big list of platforms.
+        /// </summary>
+        /// <param name="platform"></param>
         public void AddPlatform(AABB platform)
         {
             platforms.Add(platform);
 
         }
 
+        /// <summary>
+        /// This function removes a platform from our big list of platforms.
+        /// </summary>
+        /// <param name="platform"></param>
         public void RemovePlatform(AABB platform)
         {
             platforms.Remove(platform);

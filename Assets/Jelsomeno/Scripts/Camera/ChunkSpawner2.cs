@@ -17,9 +17,9 @@ namespace Jelsomeno
             for (int i = 0; i < 2; i++)
             {
                 // this will randomize how far the chunks can spawn the y and x axises
-                float y = Random.Range(35, 45f);
-                float x = Random.Range(30, 75f);
-                Instantiate(prefab, new Vector3(i * 100, y, 0), Quaternion.identity);
+                float y = Random.Range(40, 45f);
+                //float x = Random.Range(45, 65f);
+                Instantiate(prefab, new Vector3(i * 110, y, 0), Quaternion.identity);
 
 
 
