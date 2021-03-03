@@ -99,6 +99,17 @@ namespace Velting
             return fix;
         }
 
+        public Vector3 FindOneWay(AABB other)
+        {
+            float passThrough = other.max.y - this.min.y;
+
+            Vector3 passUp = Vector3.zero;
+
+            passUp.y = passThrough;
+            passUp.x = 0;
+            return passUp;
+        }
+
         private void OnDrawGizmos()
         {
             //draws stuff in the scene view

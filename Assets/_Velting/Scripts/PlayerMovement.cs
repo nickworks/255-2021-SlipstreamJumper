@@ -6,6 +6,10 @@ namespace Velting
 {
     public class PlayerMovement : MonoBehaviour
     {
+
+        private Animator anim;
+
+        private AudioSource soundPlayer;
         /// <summary>
         /// When the player wants to move, this value
         /// is used to scale the players acceleration
@@ -53,13 +57,16 @@ namespace Velting
         void Start()
         {
             aabb = GetComponent<AABB>();
+            anim = GetComponentInChildren<Animator>();
+            soundPlayer = GetComponentInChildren<AudioSource>();
         }
 
        
         void Update()
         {
             //detect if on ground:
-           
+
+            anim.SetBool("isGrounded", isGrounded);
             CalcVerticalMovement();
             CalcMovementHorizontal();
 
@@ -83,10 +90,7 @@ namespace Velting
 
                 float airAccel = acceleration;
 
-                if (!isGrounded)
-                {
-                    airAccel /= 5;
-                }
+               
                 //applying acceleration to our velocity:
                 velocity.x += h * Time.deltaTime * airAccel;
             }
@@ -124,7 +128,12 @@ namespace Velting
         private void CalcVerticalMovement()
         {
             float gravMultiplier = 1;
+            float doubleJumpCooldown = .5f;
+            doubleJumpCooldown -= Time.deltaTime;
 
+            bool canJumpAgain = false;
+
+            if (doubleJumpCooldown == 0) canJumpAgain = true;
 
 
             //Jump Mechanic
@@ -136,6 +145,21 @@ namespace Velting
             {
                 velocity.y = jumpImpulse;
                 isJumpingUpwards = true;
+
+                AudioSource.PlayClipAtPoint(SoundEffectBoard.main.soundJump, transform.position);
+
+                
+            }
+
+            if (wantsToJump && isGrounded && canJumpAgain)
+            {
+                velocity.y = jumpImpulse;
+                isJumpingUpwards = true;
+                doubleJumpCooldown += .5f;
+
+                AudioSource.PlayClipAtPoint(SoundEffectBoard.main.soundJump, transform.position);
+
+
             }
 
             if (!isHoldingJump || velocity.y < 0)
@@ -170,6 +194,23 @@ namespace Velting
                 }
 
                 aabb.RecalcAABB();
+        }
+
+        public void ApplyOneWay(Vector3 passUp)
+        {
+            transform.position += passUp;
+            if (passUp.y > 0) isGrounded = true;
+            if (passUp.y != 0)
+            {
+                velocity.y = 0;
+            }
+
+            if (passUp.x != 0)
+            {
+                velocity.x = 0;
+            }
+
+            aabb.RecalcAABB();
         }
 
         public void LaunchPlayer(Vector3 velocity)

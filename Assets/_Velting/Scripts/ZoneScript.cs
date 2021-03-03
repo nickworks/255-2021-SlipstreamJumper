@@ -26,6 +26,10 @@ namespace Velting
 
         public List<AABB> powerups = new List<AABB>();
 
+        public List<AABB> hazards = new List<AABB>();
+
+        public List<AABB> oneWayPlatforms = new List<AABB>();
+
         // Start is called before the first frame update
         public void Awake()
         {
@@ -47,6 +51,16 @@ namespace Velting
         {
             platforms.Remove(platform);
         }
+
+        public void AddOneWayPlatform(AABB oneWayPlatform)
+        {
+            oneWayPlatforms.Add(oneWayPlatform);
+        }
+
+        public void RemoveOneWayPlatform(AABB oneWayPlatform)
+        {
+            oneWayPlatforms.Remove(oneWayPlatform);
+        }
         private void OnDestroy()
         {
             if (main == this) main = null;
@@ -56,9 +70,11 @@ namespace Velting
         // Update is called once per frame
         void LateUpdate()
         {
-            PlayerMovement pm = player.GetComponent<PlayerMovement>();
-            print(platforms.Count);
+            if (!player) return; //no player don't do collision detection
 
+            PlayerMovement pm = player.GetComponent<PlayerMovement>();
+
+            //checking collision between PLAYER and all PLATFORMS:
             foreach(AABB box in platforms)
             {
                 if(player.OverlapCheck(box))
@@ -68,15 +84,29 @@ namespace Velting
                 }
             }
 
+            //checking collision between PLAYER and all OVERLAP-OBJECTS
             foreach(AABB power in powerups)
             {
                 if(player.OverlapCheck(power))
                 {
                     //player collides with powerup
-                    SpringBlock sb = power.GetComponent<SpringBlock>();
-                    if(sb)
+
+                    OverlapObject oo = power.GetComponent<OverlapObject>();
+
+                    if(oo)
                     {
-                        sb.PlayerHit(pm);
+                        oo.OnOverlap(pm);
+                    }
+
+                    
+
+                }
+
+                foreach (AABB oneWay in oneWayPlatforms)
+                {
+                    if(player.OverlapCheck(oneWay))
+                    {
+                        pm.ApplyOneWay(player.FindOneWay(oneWay));
                     }
                 }
             }
