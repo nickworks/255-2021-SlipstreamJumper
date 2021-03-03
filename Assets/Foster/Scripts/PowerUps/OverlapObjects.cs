@@ -5,32 +5,26 @@ using UnityEngine;
 
 namespace Foster
 {
-    public class SpringBlock : MonoBehaviour
+    [RequireComponent(typeof(AABB))]
+    public class OverlapObjects : MonoBehaviour
     {
         AABB aabb;
-
-       
         void Start()
         {
             aabb = GetComponent<AABB>();
             Zone.main.powerups.Add(aabb);
         }
-
-      
-        void Update()
-        {
-
-        }
-
         private void OnDestroy()
         {
             if (Zone.main == null) return;
             Zone.main.powerups.Remove(aabb);
         }
 
-        public void PlayerHit(PlayerMovement pm)
+        //this function will be over written by child classes
+       virtual public void OnOverlap(PlayerMovement pm)
         {
-            pm.LaunchPlayer(new Vector3(0, 30, 0));
+
         }
+
     }
 }
