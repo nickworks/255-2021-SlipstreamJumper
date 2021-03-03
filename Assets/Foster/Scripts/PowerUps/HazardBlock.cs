@@ -22,7 +22,7 @@ namespace Foster
 
            Vector3 vToPlayer = (pm.transform.position - this.transform.position).normalized;
 
-            pm.LaunchPlayer(vToPlayer * 30);
+            pm.LaunchPlayer(vToPlayer * 20);
 
         }
     }

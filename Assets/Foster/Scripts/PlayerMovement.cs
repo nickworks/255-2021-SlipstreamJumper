@@ -18,7 +18,8 @@ namespace Foster
             [Header("Horizontal movement")]
             public float speed = 5;
             public float despeed = 40;
-            public float maxSpeed = 5;
+            public float maxSpeed = 250;
+            public float dash = 5;
             /// <summary>
             /// this values help scale the players jump
             /// </summary>
@@ -36,6 +37,8 @@ namespace Foster
             /// The current velocity for the player in meters per seconds
             /// </summary>
             private Vector3 velocity = new Vector3();
+
+            float coolDownDash = 0;
 
             private AABB aabb;
 
@@ -61,6 +64,8 @@ namespace Foster
             if (Time.deltaTime > .25f) return; //lag spike quit early
           
 
+                coolDownDash -= Time.deltaTime;
+            if (coolDownDash <= 0) coolDownDash = 0;
                 MovementHorizontal();
 
                 VerticalMovement();
@@ -115,19 +120,48 @@ namespace Foster
             private void MovementHorizontal()
             {
                 float h = Input.GetAxisRaw("Horizontal");
+                bool dashIsOn = Input.GetButtonDown("Fire1");
 
                 //Euler Physics intergation
                 if (h != 0)
                 {
-
                 float accel = speed;
+
                 if (!isGrounded)
                 {
                     accel = speed / 2;
                 }
 
+                float regSpeed = h * Time.deltaTime * accel;
 
-                    velocity.x += h * Time.deltaTime * accel;
+                if (coolDownDash <= 0 && dashIsOn)
+                {
+                    coolDownDash = .5f;
+                }
+                if (coolDownDash > 0)
+                {
+
+                    float dasher = speed * dash;
+
+                    if (!isGrounded)
+                    {
+                        accel = dasher / 2;
+                    }
+
+                    float dashSpeed = h * Time.deltaTime * dasher;
+                    velocity.x += regSpeed + dashSpeed * 2;
+                }
+                else
+                {
+
+                    velocity.x += regSpeed;
+                    print("regular speed");
+                }
+
+                //print(regSpeed);
+                print(velocity.x);
+                //print(coolDownDash);
+                
                 }
                 else
                 {
@@ -150,8 +184,8 @@ namespace Foster
                         if (velocity.x > 0) velocity.x = 0;
                     }
                 }
-
-                velocity.x = Mathf.Clamp(velocity.x, -maxSpeed, maxSpeed);
+                if (coolDownDash <= 0 && dashIsOn) velocity.x = Mathf.Clamp(velocity.x, -50, 50);
+                else velocity.x = Mathf.Clamp(velocity.x, -maxSpeed, maxSpeed);
             }
 
 
@@ -166,10 +200,10 @@ namespace Foster
                     velocity.y = 0;
                 }
 
-                if (fix.x != 0)
-                {
-                    velocity.x = 0;
-                }
+             //   if (fix.x != 0)
+              //  {
+              //      velocity.x = 0;
+              //  }
 
                 aabb.RecalAABB();
             }

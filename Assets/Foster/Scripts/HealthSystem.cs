@@ -12,6 +12,7 @@ namespace Foster {
         public float healthMax = 100;
 
         private float coolDownInv = 0;
+        private float coolDownHealth = 0;
 
         private void Start()
         {
@@ -23,7 +24,15 @@ namespace Foster {
             if(coolDownInv >0) coolDownInv -= Time.deltaTime;
             
         }
+        public void Heal(float heal)
+        {
+            if (coolDownHealth > 0) return;
+            coolDownHealth = .25f;
+            if (heal < 0) heal = 0;
+            health += heal;
+            if (health >= 100) health = 100;
 
+        }
         public void TakeDamage(float amt)
         {
             if (coolDownInv > 0) return;
