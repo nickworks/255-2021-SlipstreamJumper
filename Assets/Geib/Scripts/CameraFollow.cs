@@ -11,11 +11,6 @@ namespace Geib
         /// This should be the palyer.
         /// </summary>
         public Transform target;
-        // Start is called before the first frame update
-        void Start()
-        {
-
-        }
 
         // Update is called once per frame
         void LateUpdate()
@@ -28,8 +23,10 @@ namespace Geib
 
             // asympottic easing:
             // exponential slide:
-            transform.position += (pos - transform.position) * Time.deltaTime * 10;
-
+            if (transform.position.x > transform.position.x - 1)
+            {
+                transform.position += (pos - transform.position) * Time.deltaTime * 10;
+            }
         }
     }
 }

@@ -56,13 +56,28 @@ namespace Geib // This namespace needs to be in all of my scripts!
         /// </summary>
         private Vector3 velocity = new Vector3();
 
+        /// <summary>
+        /// A boolean variable to determine whether or not the player is on the ground.
+        /// </summary>
         private bool isGrounded = false;
 
+        /// <summary>
+        /// This is a reference to the AABB collision system
+        /// </summary>
         private AABB aabb;
+
+        /// <summary>
+        /// A referecne to an "Animator Controller", which is an animation state machine
+        /// </summary>
+        private Animator anim;
+
+        private AudioSource soundPlayer;
 
         void Start()
         {
             aabb = GetComponent<AABB>();
+            anim = GetComponent<Animator>();
+            soundPlayer = GetComponentInChildren<AudioSource>();
         }
 
         /// <summary>
@@ -71,6 +86,10 @@ namespace Geib // This namespace needs to be in all of my scripts!
         void Update()
         {
             if (Time.deltaTime > 0.25) return; // Lag spike? quit early, do nothing
+            //print(isGrounded);
+
+            // Communicates w/ animation controller to determine what animation needs to be running. 
+            anim.SetBool("isGrounded", isGrounded);
             
             CalcMovementHorizontal();
 
@@ -102,6 +121,11 @@ namespace Geib // This namespace needs to be in all of my scripts!
             {
                 velocity.y = jumpImpulse;
                 isJumpingUpwards = true;
+                isGrounded = false;
+
+                SoundEffectBoard.PlayJump2();
+
+
             }
             if(!isHoldingJump || velocity.y < 0)
             {
