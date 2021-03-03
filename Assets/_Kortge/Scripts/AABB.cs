@@ -7,10 +7,12 @@ namespace Kortge
 {
     public class AABB : MonoBehaviour
     {
-        public Vector3 boxSize;
+        public Vector3 boxSize; // The space the collision box is covering.
 
-        public Vector3 min;
-        public Vector3 max;
+        public Vector3 min;// The least amount the player should be moved upon overlapping with an object.
+        public Vector3 max; // The most amount the player should be moved upon overlapping with an object.
+
+        public bool oneWay; // Decides if a platform can be passed through from the bottom.
 
         // Start is called before the first frame update
         void Start()
@@ -18,22 +20,13 @@ namespace Kortge
             RecalcAABB();
         }
 
-        // Update is called once per frame
-        void Update()
+        public void RecalcAABB() // Moves an object when colliding with another object.
         {
-        }
-
-        public void RecalcAABB()
-        {
-            //min.x = transform.position.x - boxSize.x / 2;
-            //min.y = transform.position.y - boxSize.y / 2;
-            //min.z = transform.position.z - boxSize.z / 2;
-
             min = transform.position - boxSize / 2;
             max = transform.position + boxSize / 2;
         }
 
-        public bool OverlapCheck(AABB other)
+        public bool OverlapCheck(AABB other) // Checks for overlap with other objects.
         {
             if (other.min.x > this.max.x) return false; // Gap to right.
             if (other.max.x < this.min.x) return false; // Gat to left.
@@ -47,7 +40,7 @@ namespace Kortge
             return true;
         }
 
-        public Vector3 FindFix(AABB other)
+        public Vector3 FindFix(AABB other) // Finds a new position for an object when colliding with another object.
         {
             float moveRight = other.max.x - this.min.x;
             float moveLeft = other.min.x - this.max.x;
@@ -65,10 +58,10 @@ namespace Kortge
                 fix.x = moveRight;
             }
 
-            if(Math.Abs(moveUp) < Mathf.Abs(moveDown))
+            if(Math.Abs(moveUp) < Mathf.Abs(moveDown)) // Important for one-way platforms.
             {
                 fix.y = moveUp;
-            } else
+            } else if (!other.oneWay)
             {
                 fix.y = moveDown;
             }

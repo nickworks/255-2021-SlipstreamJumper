@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Kortge
 {
     [RequireComponent(typeof(AABB))] // Every Platform component MUST have an AABB component.
-    public class Platform : MonoBehaviour
+    public class Platform : MonoBehaviour // Objects that the player cannot pass through.
     {
         AABB aabb;
 
@@ -17,14 +17,10 @@ namespace Kortge
             // register this platform!
             Zone.main.AddPlatform(aabb);
         }
-        private void OnDestroy()
+        /*private void OnDestroy()
         {
             Zone.main.AddPlatform(aabb);
-        }
+        }*/
         // Update is called once per frame
-        void Update()
-        {
-
-        }
     }
 }

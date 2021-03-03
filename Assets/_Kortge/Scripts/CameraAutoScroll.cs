@@ -11,16 +11,10 @@ namespace Kortge
         /// </summary>
         public Vector3 scrollSpeed = new Vector3();
 
-        // Start is called before the first frame update
-        void Start()
-        {
-
-        }
-
         // Update is called once per frame
         void Update()
         {
-            transform.position += scrollSpeed * Time.deltaTime;
+            transform.position += scrollSpeed * Time.deltaTime; // Camera moves with time.
         }
     }
 }
