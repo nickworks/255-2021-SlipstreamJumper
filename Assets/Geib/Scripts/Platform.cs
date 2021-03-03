@@ -20,8 +20,11 @@ namespace Geib
 
         private void OnDestroy()
         {
-            // Remove this platform from the list:
-            Zone.main.RemovePlatform(aabb);
+            if (Zone.main != null)
+            {
+                // Remove this platform from the list:
+                Zone.main.RemovePlatform(aabb);
+            }
         }
 
     }

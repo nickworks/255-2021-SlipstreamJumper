@@ -23,6 +23,9 @@ namespace Geib
             Vector3 vToPlayer = (pm.transform.position - this.transform.position).normalized;
 
             pm.LaunchPlayer(vToPlayer * 20);
+            if (health.health > 25) SoundEffectBoard.PlayDamage();
+            else SoundEffectBoard.PlayDeath();
+
 
         }
     }

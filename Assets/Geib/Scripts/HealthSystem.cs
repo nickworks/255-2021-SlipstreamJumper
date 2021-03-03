@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 namespace Geib
@@ -8,16 +9,32 @@ namespace Geib
     {
         
         //state:
+        /// <summary>
+        /// Health is the player's health, or the amount of damage 
+        /// the player can withstand before dying.
+        /// </summary>
         public float health { get; private set; }
+        /// <summary>
+        /// This is the maximum health the player can have.
+        /// </summary>
         public float healthMax = 100;
 
-        private float cooldownInvulnerability = 0;
+        /// <summary>
+        /// This is how log the player is immune from taking damage after taking damage.
+        /// </summary>
+        private float cooldownInvulnerability = 3;
+
+        /// <summary>
+        /// This is the scene for ZoneGeib
+        /// </summary>
+        private Scene scene;
 
         //behavior
 
         private void Start()
         {
             health = healthMax;
+            scene = SceneManager.GetActiveScene();
         }
 
         private void Update()
@@ -26,6 +43,8 @@ namespace Geib
             {
                 cooldownInvulnerability -= Time.deltaTime;
             }
+
+            
         }
 
         public void TakeDamage(float amt)
@@ -42,7 +61,12 @@ namespace Geib
 
         public void Die()
         {
-            Destroy(gameObject);
+            SoundEffectBoard.PlayDeath();
+            new WaitForSeconds(100);
+            Application.LoadLevel(scene.name);
+            
+           
+            //Destroy(gameObject);
         }
 
     }

@@ -11,7 +11,7 @@ namespace Geib
         public override void OnOverlap(PlayerMovement pm)
         {
             pm.LaunchPlayer(new Vector3(0, 20, 0));
-
+            SoundEffectBoard.PlaySpring();
         }
     }
 }
