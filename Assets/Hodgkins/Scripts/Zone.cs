@@ -10,7 +10,7 @@ namespace Hodgkins
 
         new public static ZoneInfo info = new ZoneInfo()
         {
-            zoneName = "Tom's Zone",
+            zoneName = "Tom's Green Zone",
             creator = "Tom Hodgkins",
             sceneFile = "ZoneHodgkins"
         };
@@ -44,6 +44,8 @@ namespace Hodgkins
 
         void LateUpdate()
         {
+            if (!player) return; // no player, don't do collision
+            
             PlayerMovement pm = player.GetComponent<PlayerMovement>();
 
             foreach(AABB box in platforms)
@@ -54,6 +56,7 @@ namespace Hodgkins
                 }
             }        
             
+            // checking collision between PLAYER and all OVERLAP-OBJECTS
             foreach(AABB power in powerups)
             {
                 if (player.OverlapCheck(power))
@@ -61,11 +64,13 @@ namespace Hodgkins
                     //player collides with powerup!
                     // do something...
 
-                    SpringBlock sb = power.GetComponent<SpringBlock>();
-                    if (sb)
+                    OverlapObject oo = power.GetComponent<OverlapObject>();
+
+                    if (oo)
                     {
-                        sb.PlayerHit(pm);
+                        oo.OnOverlap(pm);
                     }
+
                 }
             }
         }

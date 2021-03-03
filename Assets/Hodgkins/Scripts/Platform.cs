@@ -17,6 +17,11 @@ namespace Hodgkins
             //register this platform
             Zone.main.AddPlatform(aabb);
         }
+
+        private void Update()
+        {
+            aabb.RecalcAABB(); //made specifically for boundary walls to update those AABB boxes every frame.
+        }
         private void OnDestroy()
         {
             Zone.main.RemovePlatform(aabb);   
