@@ -79,7 +79,7 @@ namespace Howley
         /// <summary>
         /// A reference to the AABB script.
         /// </summary>
-        private AABB aabb;
+        public AABB aabb;
 
         /// <summary>
         /// A reference to an "Animation Controller", or animation state machine.

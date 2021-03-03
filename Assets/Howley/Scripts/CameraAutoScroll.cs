@@ -11,10 +11,19 @@ namespace Howley
         /// </summary>
         public Vector3 scrollSpeed = new Vector3();
 
+        /// <summary>
+        /// Hold reference to the camera.
+        /// </summary>
         private Camera cam;
 
+        /// <summary>
+        /// Hold reference to a transform.
+        /// </summary>
         public Transform target;
 
+        /// <summary>
+        /// Hold reference to the playermovement class.
+        /// </summary>
         public PlayerMovement player;
 
         void Start()

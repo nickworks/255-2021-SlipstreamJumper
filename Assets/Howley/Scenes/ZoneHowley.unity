@@ -154,7 +154,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dce85a0d5e8b7241b4638b426a2ec50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 3717637697838029596, guid: e649d91e241a1be42a2ebe6044f8421e, type: 3}
+  prefab: {fileID: 7600373049461998421, guid: 49b677e22c785ff45ad43c661d01a550, type: 3}
+  prefab1: {fileID: 3884579148120715780, guid: bb2490582ac6189429f8d1b1194c1d3d, type: 3}
+  prefab2: {fileID: 3717637697838029596, guid: e649d91e241a1be42a2ebe6044f8421e, type: 3}
+  prefab3: {fileID: 4586736540789547044, guid: af4405090cc8c17488e1e8c6f4b1a9e2, type: 3}
+  prefab4: {fileID: 3086576585409084391, guid: da2ffcd33ab2e5448b9c3285c064c95e, type: 3}
 --- !u!114 &868102468
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -167,8 +171,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7277761cbf749114d8ab40300f617dfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
+  aabb: {fileID: 1751414691}
+  platforms: []
   powerups: []
+  oneWay: []
 --- !u!114 &868102469
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -181,7 +187,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a3a036785f9cfb4f91fd4ed3083c7f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scrollSpeed: {x: 2, y: 0, z: 0}
+  scrollSpeed: {x: 3, y: 0, z: 0}
   target: {fileID: 1751414690}
   player: {fileID: 1751414687}
 --- !u!4 &868102470
@@ -277,7 +283,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1751006195}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 0, y: -3, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 868102470}
@@ -338,6 +344,7 @@ MonoBehaviour:
   isJumpingUpwards: 0
   isGrounded: 0
   hasDoubleJumped: 0
+  aabb: {fileID: 1751414691}
 --- !u!95 &1751414688
 Animator:
   serializedVersion: 3

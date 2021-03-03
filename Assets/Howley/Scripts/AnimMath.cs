@@ -6,6 +6,15 @@ namespace Howley
 {
     public static class AnimMath
     {
+
+        /// <summary>
+        /// This function lerps between two floats.
+        /// </summary>
+        /// <param name="min"></param>
+        /// <param name="max"></param>
+        /// <param name="p"></param>
+        /// <param name="allowExtrapolation"></param>
+        /// <returns></returns>
         public static float Lerp(float min, float max, float p, bool allowExtrapolation = true)
         {
             if (!allowExtrapolation)
@@ -16,6 +25,14 @@ namespace Howley
             return (max - min) * p + min;
         }
 
+        /// <summary>
+        /// This function lerps between two vector3's
+        /// </summary>
+        /// <param name="min"></param>
+        /// <param name="max"></param>
+        /// <param name="p"></param>
+        /// <param name="allowExtrapolation"></param>
+        /// <returns></returns>
         public static Vector3 Lerp(Vector3 min, Vector3 max, float p, bool allowExtrapolation = true)
         {
             if (!allowExtrapolation)
@@ -26,6 +43,14 @@ namespace Howley
             return (max - min) * p + min;
         }
 
+        /// <summary>
+        /// This function lerps between two quaternions.
+        /// </summary>
+        /// <param name="min"></param>
+        /// <param name="max"></param>
+        /// <param name="p"></param>
+        /// <param name="allowExtrapolation"></param>
+        /// <returns></returns>
         public static Quaternion Lerp(Quaternion min, Quaternion max, float p, bool allowExtrapolation = true)
         {
             //Quaternion rot = Quaternion.identity; // A quaternion with no rotation value
@@ -45,17 +70,39 @@ namespace Howley
             return rot;
         }
 
+        /// <summary>
+        /// This function eases to a target with two floats.
+        /// </summary>
+        /// <param name="current"></param>
+        /// <param name="target"></param>
+        /// <param name="percentLeftAfter1Second"></param>
+        /// <returns></returns>
         public static float Slide(float current, float target, float percentLeftAfter1Second)
         {
             float p = 1 - Mathf.Pow(percentLeftAfter1Second, Time.deltaTime);
             return AnimMath.Lerp(current, target, p);
         }
+
+        /// <summary>
+        /// This function eases between two Vector3's.
+        /// </summary>
+        /// <param name="current"></param>
+        /// <param name="target"></param>
+        /// <param name="percentLeftAfter1Second"></param>
+        /// <returns></returns>
         public static Vector3 Slide(Vector3 current, Vector3 target, float percentLeftAfter1Second)
         {
             float p = 1 - Mathf.Pow(percentLeftAfter1Second, Time.deltaTime);
             return AnimMath.Lerp(current, target, p);
         }
 
+        /// <summary>
+        /// This function eases between two quaternions.
+        /// </summary>
+        /// <param name="current"></param>
+        /// <param name="target"></param>
+        /// <param name="percentLeftAfter1Second"></param>
+        /// <returns></returns>
         public static Quaternion Slide(Quaternion current, Quaternion target, float percentLeftAfter1Second = .05f)
         {
             float p = 1 - Mathf.Pow(percentLeftAfter1Second, Time.deltaTime);

@@ -7,6 +7,9 @@ namespace Howley
     [RequireComponent(typeof(AABB))]
     public class OverlapObject : MonoBehaviour
     {
+        /// <summary>
+        /// Give all subclasses a reference to the AABB script.
+        /// </summary>
         public AABB aabb;
 
         void Start()
@@ -15,6 +18,9 @@ namespace Howley
             Zone.main.powerups.Add(aabb);
         }
 
+        /// <summary>
+        /// This function removes powerups from the array when they are destroyed.
+        /// </summary>
         private void OnDestroy()
         {
             if (Zone.main == null) return;

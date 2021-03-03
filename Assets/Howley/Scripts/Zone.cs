@@ -6,9 +6,12 @@ namespace Howley
 {
     public class Zone : SlipstreamJumper.Zone // Subclass of the whole project's zone class.
     {
+        /// <summary>
+        /// Hold information on the master Zone script.
+        /// </summary>
         new static public ZoneInfo info = new ZoneInfo()
         {
-            zoneName = "TBD",
+            zoneName = "High Sky Jumper",
             creator = "Erik Howley",
             sceneFile = "ZoneHowley"
         };
@@ -16,11 +19,25 @@ namespace Howley
         // Singleton:
         public static Zone main;
 
+        /// <summary>
+        /// Hold reference to the AABB script.
+        /// </summary>
         public AABB aabb;
 
-        private List<AABB> platforms = new List<AABB>();
+        /// <summary>
+        /// Create an array to hold all platforms in the level.
+        /// </summary>
+        public List<AABB> platforms = new List<AABB>();
 
+        /// <summary>
+        /// Create an array to hold all powerups in the level.
+        /// </summary>
         public List<AABB> powerups = new List<AABB>();
+
+        /// <summary>
+        /// Create an array to hold all one way platforms in the level.
+        /// </summary>
+        public List<AABB> oneWay = new List<AABB>();
 
         /// <summary>
         /// Runs before the start function.
@@ -36,6 +53,10 @@ namespace Howley
             }
             
         }
+
+        /// <summary>
+        /// If the Zone is destroyed, it now is null.
+        /// </summary>
         private void OnDestroy()
         {
             if (main == this) main = null;
@@ -70,6 +91,16 @@ namespace Howley
                     }
                 }
             }
+
+            foreach(AABB one in oneWay)
+            {
+                if (aabb.OverlapCheck(one))
+                {
+                    OneWayPlatform ow = one.GetComponent<OneWayPlatform>();
+                    ow.timesOverlapped ++;
+                    pm.ApplyFix(aabb.FindFix(one));
+                }
+            }
             
         }
 
@@ -82,6 +113,10 @@ namespace Howley
             platforms.Add(platform);
         }
 
+        /// <summary>
+        /// This function removes platforms from the array.
+        /// </summary>
+        /// <param name="platform"></param>
         public void RemovePlatform(AABB platform)
         {
             platforms.Remove(platform);
