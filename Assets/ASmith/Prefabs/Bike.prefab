@@ -143,4 +143,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a25f1f1668204f948be8a984b740877e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  camScroll: {fileID: 0}
   pickup: {fileID: 7196283605756372569}
