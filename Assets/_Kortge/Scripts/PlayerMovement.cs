@@ -244,8 +244,7 @@ namespace Kortge
 
         private void OnDestroy() // Restarts the scene when death occurs.
         {
-            Scene scene = SceneManager.GetActiveScene();
-            SceneManager.LoadScene(scene.name);
+            SlipstreamJumper.Game.GameOver();
         }
 
         public void AddBandage() // Adds a bandage or a life depending on how many bandages the player has.
