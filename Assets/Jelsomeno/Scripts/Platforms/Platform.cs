@@ -10,11 +10,14 @@ namespace Jelsomeno
     {
 
         AABB aabb;
+        public bool isOneWay = false;
 
         // Start is called before the first frame update
         void Start()
         {
             aabb = GetComponent<AABB>();
+
+            aabb.isOneWay = isOneWay;
 
             //registar this platform
             Zone.main.AddPlatform(aabb);
@@ -26,6 +29,8 @@ namespace Jelsomeno
         /// </summary>
         private void OnDestroy()
         {
+            if (Zone.main == null) return;
+            // remove this platform from the list:
             Zone.main.RemovePlatform(aabb);
         }
 

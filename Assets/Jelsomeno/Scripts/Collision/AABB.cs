@@ -7,18 +7,31 @@ namespace Jelsomeno
 
     public class AABB : MonoBehaviour
     {
-        public Vector3 boxSize;
+        /// <summary>
+        /// designates which platforms that allow the player to be pushed up
+        /// </summary>
+        public bool isOneWay = false;
 
+        public Vector3 boxSize;
 
 
         public Vector3 min;
         public Vector3 max;
+
+        private Vector3 velocityCache;
+        private Vector3 previousPosition;
 
         // Start is called before the first frame update
         void Start()
         {
             RecalcAABB();
 
+        }
+
+        private void Update()
+        {
+            velocityCache = previousPosition = transform.position;
+            previousPosition = transform.position;
         }
 
 
@@ -35,6 +48,11 @@ namespace Jelsomeno
 
         public bool OverlapCheck(AABB other)
         {
+            if (other.isOneWay){
+                if (this.velocityCache.y < 0) return false;// this AABB is moving up and cant collided 
+                if (this.min.y < other.transform.position.y) return false;
+            }
+
             if (other.min.x > this.max.x) return false; //gap to the right - NO COLLISION
             if (other.max.x < this.min.x) return false; //gap to the left - NO COLLISION
 
@@ -57,6 +75,11 @@ namespace Jelsomeno
             float moveDown = other.min.y - this.max.y; // neg number
 
             Vector3 fix = Vector3.zero;
+
+            if (other.isOneWay)
+            {
+                return new Vector3(0, moveUp, 0);
+            }
 
             if(Mathf.Abs(moveLeft) < Mathf.Abs(moveRight))
             {

@@ -17,11 +17,6 @@ namespace Jelsomeno
             Zone.main.powerups.Add(aabb);
         }
 
-        private void Update()
-        {
-            
-        }
-
         private void OnDestroy()
         {
             if (Zone.main == null) return;
