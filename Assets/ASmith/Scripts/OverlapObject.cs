@@ -11,7 +11,7 @@ namespace ASmith
         /// Gets a reference to the AABB class
         /// </summary>
         AABB aabb;
-        void Start()
+        void Awake() // Awake is the first item to run in the Unity Execution Order
         {
             aabb = GetComponent<AABB>(); // Gets a reference to the AABB class for access to the aabb collision detector
             Zone.main.powerups.Add(aabb);
