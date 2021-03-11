@@ -3,16 +3,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Controls the parameters how other AABB objects can collide with this object.
+/// </summary>
 namespace Kortge
 {
     public class AABB : MonoBehaviour
     {
-        public Vector3 boxSize; // The space the collision box is covering.
+        /// <summary>
+        /// The space the collision box is covering.
+        /// </summary>
+        public Vector3 boxSize;
 
-        public Vector3 min;// The least amount the player should be moved upon overlapping with an object.
-        public Vector3 max; // The most amount the player should be moved upon overlapping with an object.
+        /// <summary>
+        /// The least amount the player should be moved upon overlapping with an object.
+        /// </summary>
+        public Vector3 min;
+        /// <summary>
+        /// The most amount the player should be moved upon overlapping with an object.
+        /// </summary>
+        public Vector3 max;
 
-        public bool oneWay; // Decides if a platform can be passed through from the bottom.
+        /// <summary>
+        /// Decides if a platform can be passed through from the bottom.
+        /// </summary>
+        public bool oneWay;
 
         // Start is called before the first frame update
         void Start()

@@ -1,11 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// The super class that checks for overlapping aabb objects.
+/// </summary>
 namespace Kortge
 {
-    public class OverlapObject : MonoBehaviour // The super class that checks for overlapping aabb objects.
+    public class OverlapObject : MonoBehaviour
     {
+        /// <summary>
+        /// The aabb collider attached to this object.
+        /// </summary>
         AABB aabb;
 
         void Start() // Get aabb.

@@ -1,21 +1,41 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// A prefab that is spawned to create a row of obstacles the player must get through.
+/// </summary>
 namespace Kortge
 {
-    public class Chunk : MonoBehaviour // A prefab that is spawned to create a row of obstacles the player must get through.
+    public class Chunk : MonoBehaviour
     {
-        public ChunkSpawner spawner; // The object that spawned this chunk.
+        /// <summary>
+        /// The object that spawned this chunk.
+        /// </summary>
+        public ChunkSpawner spawner;
 
-        public GameObject cam; // The camera used to keep track of what chunks are on-screen.
-        public GameObject player; // The player character that the "player movement" component is gotten from.
+        /// <summary>
+        /// The camera used to keep track of what chunks are on-screen.
+        /// </summary>
+        public GameObject cam;
+        /// <summary>
+        /// The player character that the "player movement" component is gotten from.
+        /// </summary>
+        public GameObject player;
 
-        public Transform connectionPoint; // The end of the chunk, with the chunk spawner spawning chunks to the right of it.
+        /// <summary>
+        /// The end of the chunk, with the chunk spawner spawning chunks to the right of it.
+        /// </summary>
+        public Transform connectionPoint;
 
-        public PlayerMovement movement; // The "player movement" component of the player character. Used to alter its checkpoint.
+        /// <summary>
+        /// The "player movement" component of the player character. Used to alter its checkpoint.
+        /// </summary>
+        public PlayerMovement movement;
 
-        private bool checkpointSet = false; // Keeps track of if a checkpoint has been set, because there would be no need to reset it afterwards.
+        /// <summary>
+        /// Keeps track of if a checkpoint has been set, because there would be no need to reset it afterwards.
+        /// </summary>
+        private bool checkpointSet = false;
 
         // Start is called before the first frame update
         void Start() // Gets the camera and player movement components.

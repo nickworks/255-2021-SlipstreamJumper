@@ -1,18 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+/// <summary>
+/// Spins the sawblade on the saw prefab.
+/// </summary>
 
-public class Sawblade : MonoBehaviour
+namespace Kortge
 {
-    // Start is called before the first frame update
-    void Start()
+    public class Sawblade : MonoBehaviour
     {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        transform.Rotate(0, 0, 720 * Time.deltaTime);
+        // Update is called once per frame
+        void Update()
+        {
+            transform.Rotate(0, 0, 720 * Time.deltaTime);
+        }
     }
 }

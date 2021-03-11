@@ -1,11 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// Spawns one of the chunks off-screen while connecting it to another chunk.
+/// </summary>
 namespace Kortge
 {
     public class ChunkSpawner : MonoBehaviour
     {
+        /// <summary>
+        /// The different chunk prefabs that are spawned.
+        /// </summary>
         public Chunk finalDestination;
         public Chunk battlefield;
         public Chunk fan;
@@ -13,18 +18,28 @@ namespace Kortge
         public Chunk oneWay;
         public Chunk sawblade;
         public Chunk walljump;
+
+        /// <summary>
+        /// The next chunk prefab that will be generated.
+        /// </summary>
         private Chunk chunkType;
 
-        private List<Chunk> chunks = new List<Chunk>();
+        /// <summary>
+        /// A list of all of the chunks that are currently in the game.
+        /// </summary>
+        private readonly List<Chunk> chunks = new List<Chunk>();
 
+        /// <summary>
+        /// A number used to shuffle between different chunk types when assigning them to the chunk type.
+        /// </summary>
         private int chunkID = 0;
 
-        void Start()
+        void Start() // Adds a chunk to the game if there is less than seven of them.
         {
             for (int i = 1; i < 7; i++) AddChunk();
         }
 
-        public void AddChunk()
+        public void AddChunk() // Adds a chunk to the game while connecting it to a prior chunk.
         {
             Vector3 pos = Vector3.zero;
 
@@ -72,8 +87,6 @@ namespace Kortge
             Chunk newChunk = Instantiate(chunkType, pos, Quaternion.identity);
             newChunk.spawner = GetComponent<ChunkSpawner>();
             chunks.Add(newChunk);
-
-            //Instantiate(chunkType, new Vector3(i * 10, y, 0), Quaternion.identity);
         }
     }
 }

@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// Defines the general rules of this level.
+/// </summary>
 namespace Kortge
 {
-    public class Zone : SlipstreamJumper.Zone // Defines the general rules of this level.
+    public class Zone : SlipstreamJumper.Zone
     {
 
         new public static ZoneInfo info = new ZoneInfo() // Defines level information that can be seen in the main menu.
@@ -14,14 +16,25 @@ namespace Kortge
             sceneFile = "ZoneKortge"
         };
 
-        // singleton:
-        public static Zone main; // Defines the main zone, so that only one can exist.
+        /// <summary>
+        /// singleton:
+        /// </summary>
+        public static Zone main;
 
-        public AABB player; // The player that collision is checked for.
+        /// <summary>
+        /// The player that collision is checked for.
+        /// </summary>
+        public AABB player;
 
-        public List<AABB> platforms = new List<AABB>(); // Physical objects the player cannot pass through.
+        /// <summary>
+        /// Physical objects the player cannot pass through.
+        /// </summary>
+        public List<AABB> platforms = new List<AABB>();
 
-        public List<AABB> powerups = new List<AABB>(); // All objects the player can overlap and interact with.
+        /// <summary>
+        /// All objects the player can overlap and interact with.
+        /// </summary>
+        public List<AABB> powerups = new List<AABB>();
 
         private void Awake()
         {
