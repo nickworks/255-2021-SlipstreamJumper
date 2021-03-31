@@ -3,13 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+/// <summary>
+/// This class gets input and moves the player with input and euler physics. It also handles death and respawning.
+/// </summary>
 
 // Write documentation before every class and class member (variables).
 namespace Kortge
 {
-    /// <summary>
-    /// This class gets input and moves the player with input and euler physics. It also handles death and respawning.
-    /// </summary>
     public class PlayerMovement : MonoBehaviour
     {
 

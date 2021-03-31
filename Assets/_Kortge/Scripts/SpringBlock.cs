@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// Shoots the player into the air upon collision.
+/// </summary>
 namespace Kortge
 {
-    public class SpringBlock : OverlapObject // Shoots the player into the air upon collision.
+    public class SpringBlock : OverlapObject
     {
         public override void OnOverlap(PlayerMovement pm)
         {
