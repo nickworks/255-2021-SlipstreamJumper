@@ -91,14 +91,10 @@ namespace ASmith
         /// </summary>
         private Animator anim;
 
-        //private AudioSource soundPlayer;
-
         private void Start()
         {
             aabb = GetComponent<AABB>();
             anim = GetComponentInChildren<Animator>();
-            //soundPlayer = GetComponentInChildren<AudioSource>();
-            //cam = GetComponent<Camera>();
         }
 
         /// <summary>
@@ -145,7 +141,6 @@ namespace ASmith
 
             if (wantsToJump && isGrounded) // Jump
             {
-                print("jump");
                 velocity.y = 0; // sets velocity on y-axis to 0
                 velocity.y = jumpImpulse; // sets velocity on y-axis to the jumpImpulse value
                 isJumpingUpwards = true; // sets isJumpingUpwards to true
@@ -161,7 +156,6 @@ namespace ASmith
             }
             if (wantsToDoubleJump && canDoubleJump && !isJumpingUpwards) // Double Jump
             {
-                print("Ju-Jump");
                 canDoubleJump = false; // sets canDoubleJump to false
                 velocity.y = 0; // sets velocity on y-axis to 0
                 velocity.y = jumpImpulse; // sets velocity on y-axis to jumpImpulse value

@@ -8,8 +8,8 @@ namespace ASmith
     {
         new public static ZoneInfo info = new ZoneInfo()
         {
-            zoneName = "Toni Land", // The name of my level in the project
-            creator = "Antonio Smith", // My name, i.e. the creator fo this level
+            zoneName = "Toni's Pizza Land", // The name of my level in the project
+            creator = "Antonio Smith", // My name, i.e. the creator of this level
             sceneFile = "ZoneASmith"
         };
 
