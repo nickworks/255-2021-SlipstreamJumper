@@ -61,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 944f8f2d706e076439c73b89d7f2f389, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -95,6 +95,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64bcd3a2e530c1943afcafcb70c72944, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isOneWay: 0
   boxSize: {x: 14.24, y: 0.69, z: 1.03}
   min: {x: 0, y: 0, z: 0}
   max: {x: 0, y: 0, z: 0}
@@ -110,6 +111,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c67d6bdd57dc360498307d639a435346, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isOneWay: 0
 --- !u!1 &4291705406340697035
 GameObject:
   m_ObjectHideFlags: 0
@@ -171,7 +173,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 944f8f2d706e076439c73b89d7f2f389, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -205,6 +207,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64bcd3a2e530c1943afcafcb70c72944, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isOneWay: 0
   boxSize: {x: 1.08, y: 3.85, z: 0.96}
   min: {x: 0, y: 0, z: 0}
   max: {x: 0, y: 0, z: 0}
@@ -220,6 +223,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c67d6bdd57dc360498307d639a435346, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isOneWay: 0
 --- !u!1 &4904193838966242980
 GameObject:
   m_ObjectHideFlags: 0
@@ -281,7 +285,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 944f8f2d706e076439c73b89d7f2f389, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -315,6 +319,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64bcd3a2e530c1943afcafcb70c72944, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isOneWay: 0
   boxSize: {x: 1.38, y: 3.92, z: 0.94}
   min: {x: 0, y: 0, z: 0}
   max: {x: 0, y: 0, z: 0}
@@ -330,6 +335,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c67d6bdd57dc360498307d639a435346, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isOneWay: 0
 --- !u!1 &7106920614074313738
 GameObject:
   m_ObjectHideFlags: 0
@@ -391,7 +397,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 944f8f2d706e076439c73b89d7f2f389, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -425,6 +431,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64bcd3a2e530c1943afcafcb70c72944, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isOneWay: 0
   boxSize: {x: 30.51, y: 0.69, z: 1.03}
   min: {x: 0, y: 0, z: 0}
   max: {x: 0, y: 0, z: 0}
@@ -440,6 +447,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c67d6bdd57dc360498307d639a435346, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isOneWay: 0
 --- !u!1 &7837737794994016690
 GameObject:
   m_ObjectHideFlags: 0
@@ -506,7 +514,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 944f8f2d706e076439c73b89d7f2f389, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -540,6 +548,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64bcd3a2e530c1943afcafcb70c72944, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isOneWay: 0
   boxSize: {x: 10.02, y: 0.69, z: 1.03}
   min: {x: 0, y: 0, z: 0}
   max: {x: 0, y: 0, z: 0}
@@ -555,6 +564,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c67d6bdd57dc360498307d639a435346, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isOneWay: 0
 --- !u!1001 &6605586236894601028
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -637,6 +647,11 @@ PrefabInstance:
       propertyPath: boxSize.y
       value: 0.22
       objectReference: {fileID: 0}
+    - target: {fileID: 6883954798078666023, guid: c514837fac4c1924e96910a1186e9113,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a9faf0d0d4649bb4faf98f563b51279f, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c514837fac4c1924e96910a1186e9113, type: 3}
 --- !u!4 &298215890474564193 stripped

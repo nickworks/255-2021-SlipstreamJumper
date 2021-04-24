@@ -96,6 +96,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64bcd3a2e530c1943afcafcb70c72944, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isOneWay: 0
   boxSize: {x: 0, y: 0, z: 0}
   min: {x: 0, y: 0, z: 0}
   max: {x: 0, y: 0, z: 0}
@@ -125,6 +126,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25791ac52f116d34cbb258242c4afd0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
+  player: {fileID: 6276549406376644484, guid: 16c8f6ad669831d468f488ef121e16b7, type: 3}
   distance: 10
   speed: 2

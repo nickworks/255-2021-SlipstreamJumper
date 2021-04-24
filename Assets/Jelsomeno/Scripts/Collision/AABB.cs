@@ -4,7 +4,9 @@ using UnityEngine;
 
 namespace Jelsomeno
 {
-
+    /// <summary>
+    /// this class handles a lot of the collision and some of the physics for the gmae 
+    /// </summary>
     public class AABB : MonoBehaviour
     {
         /// <summary>
@@ -12,14 +14,20 @@ namespace Jelsomeno
         /// </summary>
         public bool isOneWay = false;
 
+        /// <summary>
+        /// size of of the object that can be set/changed in the inspector
+        /// </summary>
         public Vector3 boxSize;
 
-
+        /// <summary>
+        /// checks for collision by finding our min and max
+        /// </summary>
         public Vector3 min;
         public Vector3 max;
 
-        private Vector3 velocityCache;
-        private Vector3 previousPosition;
+        
+        private Vector3 velocityCache;// caches the velocity of the player
+        private Vector3 previousPosition; // gets the players previous postion
 
         // Start is called before the first frame update
         void Start()
@@ -51,6 +59,7 @@ namespace Jelsomeno
             if (other.isOneWay){
                 if (this.velocityCache.y < 0) return false;// this AABB is moving up and cant collided 
                 if (this.min.y < other.transform.position.y) return false;
+
             }
 
             if (other.min.x > this.max.x) return false; //gap to the right - NO COLLISION
@@ -101,11 +110,11 @@ namespace Jelsomeno
 
             if (Mathf.Abs(fix.x) < Mathf.Abs(fix.y))
             {
-                fix.y = 0;
+                fix.y = 0;// going the horizontal solution, clearing the vertical...
             }
             else
             {
-                fix.x = 0;
+                fix.x = 0; // going the vertical solution, clearing the horizontal...
             }
 
 
@@ -113,6 +122,9 @@ namespace Jelsomeno
                 return fix;
         }
 
+        /// <summary>
+        /// draws the outline of the AABB collision box so we can see it when we need to edit it
+        /// </summary>
         private void OnDrawGizmos()
         {
             // draws stuff in the scene view...

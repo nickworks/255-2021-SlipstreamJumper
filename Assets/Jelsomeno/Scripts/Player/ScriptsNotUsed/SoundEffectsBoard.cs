@@ -5,8 +5,6 @@ using UnityEngine;
 namespace Jelsomeno
 {
 
-
-
     public class SoundEffectsBoard : MonoBehaviour
     {
         /// <summary>
@@ -14,6 +12,9 @@ namespace Jelsomeno
         /// </summary>
         public static SoundEffectsBoard main;
 
+        /// <summary>
+        /// audio for player jumo
+        /// </summary>
         public AudioClip Jump;
         public AudioClip Shoot;
         public AudioClip pickUp;

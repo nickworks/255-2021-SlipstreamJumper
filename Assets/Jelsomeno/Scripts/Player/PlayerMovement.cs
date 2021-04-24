@@ -252,6 +252,7 @@ namespace Jelsomeno {
         /// </summary>
         private void Dash()
         {
+            // if the left shift key is pushed then the player dashes forward
             if (Input.GetKeyDown(KeyCode.LeftShift))
             {
                 isDashing = true;
@@ -262,7 +263,7 @@ namespace Jelsomeno {
 
             if (isDashing)
             {
-                velocity = transform.right * DashForce;
+                velocity = transform.right * DashForce; // speed of the dhash
 
                 CurrentDashTime -= Time.deltaTime;
 

@@ -5,7 +5,9 @@ using UnityEngine.UI;
 
 namespace Jelsomeno
 {
-
+    /// <summary>
+    /// this class controls the health bar in the UI
+    /// </summary>
     public class HealthBar : MonoBehaviour
     {
         /// <summary>
@@ -31,12 +33,12 @@ namespace Jelsomeno
         {
             if (slider.value <= slider.minValue)
             {
-                fillImage.enabled = false;
+                fillImage.enabled = false; // fill bar is not enabled because the minvalue is <= 
 
             }
             if (slider.value > slider.minValue && !fillImage.enabled)
             {
-                fillImage.enabled = true;
+                fillImage.enabled = true; // fill image if the players health is higher then minValue
             }
 
             float fillValue = playerHealth.currentHealth / playerHealth.healthMax;
