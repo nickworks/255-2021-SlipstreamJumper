@@ -14,12 +14,12 @@ namespace ASmith
         /// <summary>
         /// AudioClips for all available sounds in the game 
         /// </summary>
-        public AudioClip soundJump;
-        public AudioClip soundDoubleJump;
-        public AudioClip soundDie;
-        public AudioClip soundDamage;
-        public AudioClip soundPointPickup;
-        public AudioClip soundSpringBlock;
+        public AudioClip soundJump; // Jump Sound
+        public AudioClip soundDoubleJump; // Double Jump Sound
+        public AudioClip soundDie; // Death Sound
+        public AudioClip soundDamage; // Damage Taken Sound
+        public AudioClip soundPointPickup; // Sound when getting points
+        public AudioClip soundSpringBlock; // Springblock Sound
 
         /// <summary>
         /// Property for the AudioSource used to play AudioClips
@@ -35,15 +35,9 @@ namespace ASmith
             }
             else
             {
-                Destroy(this.gameObject);
+                Destroy(this.gameObject); // if main doesn't = null, destory the gameObject
             }
-            //PlayMusic(); // Originally used to play the background music before it was given its' own AudioSource in the Inspector
         }
-
-        //public static void PlayJump(Vector3 pos) // still considered 3D sound DOES NOT WORK!!!
-        //{
-        //    AudioSource.PlayClipAtPoint(main.soundJump, pos); // creates the sound at a required position
-        //}
 
         public static void PlayJump2() // plays jump audio in 2D space
         {
