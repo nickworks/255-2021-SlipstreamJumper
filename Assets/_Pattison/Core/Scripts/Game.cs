@@ -35,7 +35,7 @@ namespace SlipstreamJumper {
              * TODO: Add student's zone info objects here...
              * Namespace.Zone.info
              */
-            Pattison.Zone.info,
+            //Pattison.Zone.info,
             //Davis.Zone.info,
             Foster.Zone.info,
             Geib.Zone.info,
