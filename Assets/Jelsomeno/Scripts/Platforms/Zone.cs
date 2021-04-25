@@ -23,13 +23,14 @@ namespace Jelsomeno
         // one variable to hold all of the platforms 
         private List<AABB> platforms = new List<AABB>();
 
+        // one variable to hold all of the powerups (did not use)
         public List<AABB> powerups = new List<AABB>();
 
 
-
+        // only runs once
         private void Awake()
         {
-            if(main != null)
+            if(main != null) // singleton already exist
             {
                 Destroy(gameObject);
 
@@ -40,11 +41,15 @@ namespace Jelsomeno
             }
         }
 
+        // if destroyed
         private void OnDestroy()
         {
             if (main == this) main = null;
         }
 
+        /// <summary>
+        /// updates the last and compares to the other updates
+        /// </summary>
         void LateUpdate()
         {
             //if (!player) return; // no player, do not do collision detection

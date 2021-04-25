@@ -55,6 +55,9 @@ namespace Jelsomeno
 
         }
 
+        /// <summary>
+        /// after player loses their health, respawn them at the respawn point
+        /// </summary>
         public void Respawn()
         {
             this.transform.position = spawnPoint.position;

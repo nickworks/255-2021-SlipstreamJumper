@@ -4,12 +4,21 @@ using UnityEngine;
 
 namespace Jelsomeno
 {
+    /// <summary>
+    /// needs componenets from the AABB script
+    /// </summary>
     [RequireComponent(typeof(AABB))]
 
     public class Platform : MonoBehaviour
     {
-
+        /// <summary>
+        /// reference to AABB script
+        /// </summary>
         AABB aabb;
+
+        /// <summary>
+        /// isOneWay platform true or false
+        /// </summary>
         public bool isOneWay = false;
 
         // Start is called before the first frame update
@@ -17,7 +26,7 @@ namespace Jelsomeno
         {
             aabb = GetComponent<AABB>();
 
-            aabb.isOneWay = isOneWay;
+            aabb.isOneWay = isOneWay; // checks to see if a platform is a oneWay platform
 
             //registar this platform
             Zone.main.AddPlatform(aabb);
