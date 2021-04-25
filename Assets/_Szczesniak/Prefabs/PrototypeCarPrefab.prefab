@@ -4834,6 +4834,7 @@ MonoBehaviour:
   scalerDeceleration: 40
   scalerAcceleration: 15
   maxSpeed: 15
+  powerUpSpeed: 0
   gravity: 40
   jumpImpulse: 15
   terminalVelocity: 20
@@ -4852,7 +4853,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthMax: 100
+  lives: 3
   blowUp: {fileID: 2477105392856191132, guid: c166fe4c558f9ef488c79f737df71cf9, type: 3}
+  gameOverText: {fileID: 0}
+  healthNotifier: {fileID: 0}
+  livesNotifier: {fileID: 0}
 --- !u!114 &9165759249551342289
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4899,12 +4904,12 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 613e050350ec3d049b648a6e0b7c53ea,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 613e050350ec3d049b648a6e0b7c53ea,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 5.61
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 613e050350ec3d049b648a6e0b7c53ea,
         type: 3}

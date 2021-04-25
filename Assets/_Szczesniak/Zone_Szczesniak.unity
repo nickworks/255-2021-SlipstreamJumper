@@ -792,6 +792,85 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scrollSpeed: {x: 2, y: 0, z: 0}
+--- !u!1 &235626209
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 235626210}
+  - component: {fileID: 235626212}
+  - component: {fileID: 235626211}
+  m_Layer: 5
+  m_Name: Text
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &235626210
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 235626209}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2028925497}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: -115, y: 46.440002}
+  m_SizeDelta: {x: 151.3677, y: 78.742}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &235626211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 235626209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: d6f9a0dfdafab9e4780895682ec1d1aa, type: 3}
+    m_FontSize: 22
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 10
+    m_MaxSize: 40
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 'Lives: 3'
+--- !u!222 &235626212
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 235626209}
+  m_CullTransparentMesh: 1
 --- !u!4 &666021362 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3445204802079745886, guid: 0e5020d51e1c68b4995ce5d1db7835bd,
@@ -992,6 +1071,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 858410281114826643, guid: 0e5020d51e1c68b4995ce5d1db7835bd,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1568693248013485531, guid: 0e5020d51e1c68b4995ce5d1db7835bd,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2631231582905482724, guid: 0e5020d51e1c68b4995ce5d1db7835bd,
         type: 3}
       propertyPath: m_Name
@@ -1057,16 +1146,21 @@ PrefabInstance:
       propertyPath: markerPoint
       value: 
       objectReference: {fileID: 855878052}
-    - target: {fileID: 4190393955772712471, guid: 0e5020d51e1c68b4995ce5d1db7835bd,
+    - target: {fileID: 6215640913075321223, guid: 0e5020d51e1c68b4995ce5d1db7835bd,
         type: 3}
-      propertyPath: powerUpNotifier
-      value: 
+      propertyPath: repawnTime
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6215640913075321223, guid: 0e5020d51e1c68b4995ce5d1db7835bd,
         type: 3}
       propertyPath: gameOverText
       value: 
       objectReference: {fileID: 107783353}
+    - target: {fileID: 6215640913075321223, guid: 0e5020d51e1c68b4995ce5d1db7835bd,
+        type: 3}
+      propertyPath: livesNotifier
+      value: 
+      objectReference: {fileID: 235626211}
     - target: {fileID: 6215640913075321223, guid: 0e5020d51e1c68b4995ce5d1db7835bd,
         type: 3}
       propertyPath: healthNotifier
@@ -1179,6 +1273,7 @@ RectTransform:
   - {fileID: 699909003}
   - {fileID: 107783354}
   - {fileID: 121761981}
+  - {fileID: 235626210}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

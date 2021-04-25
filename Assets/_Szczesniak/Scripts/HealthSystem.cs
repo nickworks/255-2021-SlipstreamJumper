@@ -31,6 +31,11 @@ namespace Szczesniak {
         /// </summary>
         private float coolDownInvulnerability = 0;
 
+        public float repawnTime = 1;
+        private float repawnTimeSet;
+
+        public int lives = 3;
+
         /// <summary>
         /// Particle system for when the player dies, smoke fills the like they blew up
         /// </summary>
@@ -46,15 +51,43 @@ namespace Szczesniak {
         /// </summary>
         public Text healthNotifier;
 
+        public Text livesNotifier;
+
+        private MeshRenderer[] playerRespawnEffect;
+        private PlayerMovement stopMovementWhenRespawning;
+        private ParticleSystem exhaustPipe;
+        private bool readyToRespawn = false;
+
+
+
         // behavior
 
         private void Start() {
             health = healthMax; // Assigning the health 
             healthNotifier.text = "Health: " + health; // Sets up the current health when the game starts
+            exhaustPipe = GetComponentInChildren<ParticleSystem>();
+            playerRespawnEffect = GetComponentsInChildren<MeshRenderer>();
+            stopMovementWhenRespawning = GetComponent<PlayerMovement>();
+            repawnTimeSet = repawnTime;
         }
 
         private void Update() {
             if (coolDownInvulnerability > 0) coolDownInvulnerability -= Time.deltaTime; // invulnerability for the player
+
+            if (repawnTime > 0) repawnTime -= Time.deltaTime;
+            if (repawnTime <= 0 && readyToRespawn) {
+
+                transform.position = transform.position + new Vector3(6f, 0, 0);
+
+                foreach (MeshRenderer meshPiece in playerRespawnEffect) {
+                    meshPiece.enabled = true;
+                }
+                exhaustPipe.Play();
+                stopMovementWhenRespawning.enabled = true;
+
+                coolDownInvulnerability = 1;
+                readyToRespawn = false;
+            }
         }
 
         /// <summary>
@@ -62,18 +95,36 @@ namespace Szczesniak {
         /// </summary>
         /// <param name="amt"></param>
         public void TakeDamage(float amt) {
+            if (!readyToRespawn) {
+                if (coolDownInvulnerability > 0) return; // cooldown not finished...
 
-            if (coolDownInvulnerability > 0) return; // cooldown not finished...
+                coolDownInvulnerability = 0.25f; // cooldown until we can take damage again
+                repawnTime = repawnTimeSet;
 
-            coolDownInvulnerability = 0.25f; // cooldown until we can take damage again
+                if (amt < 0) amt = 0; // negative numbers are ignored
+                health -= amt; // health = health - amt;
 
-            if (amt < 0) amt = 0; // negative numbers are ignored
-            health -= amt; // health = health - amt;
+                SoundEffectBoard.PlayerDamaged();
 
-            healthNotifier.text = "Health: " + health; // updates health when player takes damage
-            SoundEffectBoard.PlayerDamaged();
+                if (health <= 0) {
+                    lives--;
+                    readyToRespawn = true;
 
-            if (health <= 0) Die(); // when the player has no more health
+                    foreach (MeshRenderer meshPiece in playerRespawnEffect) {
+                        meshPiece.enabled = false;
+                    }
+                    exhaustPipe.Stop();
+                    stopMovementWhenRespawning.enabled = false;
+
+                    if (lives > 0) health = healthMax;
+                }
+                healthNotifier.text = "Health: " + health; // updates health when player takes damage
+                livesNotifier.text = "Lives: " + lives; // Tells player the lives they have left.
+
+                if (lives <= 0) {
+                    Die(); // when the player has no more health
+                }
+            }
         }
 
         /// <summary>
@@ -84,6 +135,7 @@ namespace Szczesniak {
             Instantiate(blowUp, transform.position, transform.rotation); // spawning the blewUp particle effect
             gameOverText.SetActive(true); // showing the Game Over text
             Destroy(gameObject); // destroy player
+            
         }
     }
 }
