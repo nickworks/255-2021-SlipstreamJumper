@@ -34,6 +34,8 @@ namespace Szczesniak {
         public float repawnTime = 1;
         private float repawnTimeSet;
 
+        public Slider healthBar;
+
         public int lives = 3;
 
         /// <summary>
@@ -44,12 +46,7 @@ namespace Szczesniak {
         /// <summary>
         /// Game over text when the player dies
         /// </summary>
-        public GameObject gameOverText;
-
-        /// <summary>
-        /// Health text for the player to know how much health they have currently
-        /// </summary>
-        public Text healthNotifier;
+        public Transform gameOverText;
 
         public Text livesNotifier;
 
@@ -64,11 +61,17 @@ namespace Szczesniak {
 
         private void Start() {
             health = healthMax; // Assigning the health 
-            healthNotifier.text = "Health: " + health; // Sets up the current health when the game starts
             exhaustPipe = GetComponentInChildren<ParticleSystem>();
             playerRespawnEffect = GetComponentsInChildren<MeshRenderer>();
             stopMovementWhenRespawning = GetComponent<PlayerMovement>();
             repawnTimeSet = repawnTime;
+
+            SettingHealthBar();
+        }
+
+        void SettingHealthBar() {
+            healthBar.maxValue = health;
+            healthBar.value = health;
         }
 
         private void Update() {
@@ -118,7 +121,7 @@ namespace Szczesniak {
 
                     if (lives > 0) health = healthMax;
                 }
-                healthNotifier.text = "Health: " + health; // updates health when player takes damage
+                healthBar.value = health;
                 livesNotifier.text = "Lives: " + lives; // Tells player the lives they have left.
 
                 if (lives <= 0) {
@@ -133,7 +136,7 @@ namespace Szczesniak {
         public void Die(){
             SoundEffectBoard.PlayDeathSound();
             Instantiate(blowUp, transform.position, transform.rotation); // spawning the blewUp particle effect
-            gameOverText.SetActive(true); // showing the Game Over text
+            gameOverText.gameObject.SetActive(true); // showing the Game Over text
             Destroy(gameObject); // destroy player
             
         }
