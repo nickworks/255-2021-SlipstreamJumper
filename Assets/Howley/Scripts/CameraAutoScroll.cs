@@ -26,12 +26,18 @@ namespace Howley
         /// </summary>
         public PlayerMovement player;
 
+        /// <summary>
+        /// The start function is called once before the first update.
+        /// </summary>
         void Start()
         {
             player = GetComponent<PlayerMovement>();
             cam = GetComponentInChildren<Camera>();
         }
 
+        /// <summary>
+        /// The update function is called every game tick.
+        /// </summary>
         void Update()
         {
             if (target)

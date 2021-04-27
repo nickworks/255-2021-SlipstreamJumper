@@ -12,6 +12,9 @@ namespace Howley
         /// </summary>
         public AABB aabb;
 
+        /// <summary>
+        /// The start function is called once before the first update.
+        /// </summary>
         void Start()
         {
             aabb = GetComponent<AABB>();

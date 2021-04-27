@@ -11,6 +11,9 @@ namespace Howley
         /// </summary>
         public Transform target;
 
+        /// <summary>
+        /// The late update function is called every game tick, after the physics engine runs.
+        /// </summary>
         void LateUpdate()
         {
             if (target)

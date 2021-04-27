@@ -36,12 +36,17 @@ namespace Howley
         private Vector3 velocityCache;
         private Vector3 prevPos;
 
-
+        /// <summary>
+        /// The start function is called once before the first update.
+        /// </summary>
         void Start()
         {
             RecalcAABB();
         }
 
+        /// <summary>
+        /// The update function is called every game tick.
+        /// </summary>
         void Update()
         {
             // Already has deltaTime   

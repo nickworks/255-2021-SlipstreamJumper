@@ -101,6 +101,9 @@ namespace Howley
         /// </summary>
         private float cooldownBetweenJump = 0;
 
+        /// <summary>
+        /// The start function is called once before the first update.
+        /// </summary>
         void Start()
         {
             aabb = GetComponent<AABB>();
