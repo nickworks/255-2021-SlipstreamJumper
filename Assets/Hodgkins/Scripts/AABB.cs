@@ -26,6 +26,11 @@ namespace Hodgkins
             max = transform.position + boxSize / 2;
         }
 
+        /// <summary>
+        /// What happens when there is collision
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
         public bool OverlapCheck(AABB other)
         {
             if (other.min.x > this.max.x) return false; //gap to right == no collision

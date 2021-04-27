@@ -7,7 +7,9 @@ namespace Hodgkins
 
     public class Zone : SlipstreamJumper.Zone
     {
-
+        /// <summary>
+        /// The name and information of my zone
+        /// </summary>
         new public static ZoneInfo info = new ZoneInfo()
         {
             zoneName = "Tom's Green Zone",
@@ -26,6 +28,9 @@ namespace Hodgkins
 
         public List<AABB> powerups = new List<AABB>();
 
+        /// <summary>
+        /// When my level is loaded...
+        /// </summary>
         private void Awake()
         {
             if(main != null) // singleton already exists...
@@ -36,19 +41,25 @@ namespace Hodgkins
                 main = this;
             }
         }
+        
+        /// <summary>
+        /// When my level is done playing
+        /// </summary>
         private void OnDestroy()
         {
             if (main == this) main = null;
         }
 
-
+        /// <summary>
+        /// Update function that's forced to update after everything else
+        /// </summary>
         void LateUpdate()
         {
             if (!player) return; // no player, don't do collision
             
             PlayerMovement pm = player.GetComponent<PlayerMovement>();
 
-            foreach(AABB box in platforms)
+            foreach(AABB box in platforms) //checking collision between PLAYER and all PLATFORMS
             {
                 if(player.OverlapCheck(box))
                 {

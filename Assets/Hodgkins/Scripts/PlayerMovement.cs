@@ -54,11 +54,14 @@ namespace Hodgkins
         /// </summary>
         private bool isJumpingUpwards = false;
         private bool isGrounded = false;
+        
+        /// <summary>
+        /// Whether or not the player can double jump, 
+        /// had to be made public so DobleJump can access it
+        /// </summary>
+        public bool canDoubleJump = false;
 
         private AABB aabb;
-
-
-        //private AudioSource soundPlayer;
         
         private void Start()
         {
@@ -90,22 +93,28 @@ namespace Hodgkins
         {
             float gravMultiplier = 1;
             
-            bool wantsToJump = Input.GetButtonDown("Jump");
+            bool wantsToJump = Input.GetButtonDown("Jump"); // spacebar or 'A' button
             bool isHoldingJump = Input.GetButton("Jump");
+            
 
-            if (wantsToJump && isGrounded)
+            if (wantsToJump && isGrounded) // regular jump
             {
                 velocity.y = jumpInpulse;
                 isJumpingUpwards = true;
                 isGrounded = false;
 
+                SoundEffectBoard.PlayJump();                
+            } else if (canDoubleJump && !isGrounded && wantsToJump) // double jump
+            {
+                velocity.y = jumpInpulse;
+                isJumpingUpwards = true;
                 SoundEffectBoard.PlayJump();
-                
+                canDoubleJump = false;
             }
-            if (!isHoldingJump) {
+            if (!isHoldingJump) { // if jump button is let go, immeadiately start to fall
                 isJumpingUpwards = false;
             }
-            if (isJumpingUpwards) gravMultiplier = 0.5f;
+            if (isJumpingUpwards) gravMultiplier = 0.5f; // jump button held, longer floatier jump
             
             //apply force of gravity to velocity
             velocity.y -= gravity * Time.deltaTime * gravMultiplier;
@@ -120,7 +129,7 @@ namespace Hodgkins
         /// </summary>
         private void MovementHorizontal()
         {
-            float h = Input.GetAxisRaw("Horizontal");
+            float h = Input.GetAxisRaw("Horizontal"); // a & d, left & right arrows and left stick
 
             //h = 1; // always moving right
 
@@ -150,12 +159,12 @@ namespace Hodgkins
 
                 if (velocity.x > 0) //player is moving right
                 {
-                    velocity.x -= decel * Time.deltaTime;
+                    velocity.x -= decel + Time.deltaTime;
                     if (velocity.x < 0) velocity.x = 0;
                 }
                 if (velocity.x < 0)
                 {
-                    velocity.x += decel * Time.deltaTime;
+                    velocity.x += decel + Time.deltaTime;
                     if (velocity.x > 0) velocity.x = 0;
                 }
             }
@@ -178,11 +187,11 @@ namespace Hodgkins
         {
             transform.position += fix;
             
+            if (fix.y > 0) isGrounded = true;
 
             if(fix.y != 0) // move player up or down
             {
                 velocity.y = 0;
-                if (fix.y > 0) isGrounded = true;
             }
             if(fix.x != 0)
             {
@@ -191,7 +200,11 @@ namespace Hodgkins
 
             aabb.RecalcAABB();
         }
-
+        /// <summary>
+        /// launch player away when hitting a hazard or spring, 
+        /// the value here is neutral, the items can change it in their script
+        /// </summary>
+        /// <param name="vel"></param>
         public void LaunchPlayer(Vector3 vel)
         {
             vel.z = 0;

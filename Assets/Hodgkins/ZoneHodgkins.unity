@@ -250,6 +250,7 @@ MonoBehaviour:
   soundSpring: {fileID: 8300000, guid: 537e820920ec1bf44b269daa52aa9667, type: 3}
   soundHit: {fileID: 8300000, guid: 5aa9727b1b3447b47b8db0f5da76f5b3, type: 3}
   soundDie: {fileID: 8300000, guid: 29773a606146c0244b3a2dd7dc34ecda, type: 3}
+  soundPowerup: {fileID: 8300000, guid: 3718b7fa0cb13aa4287278a1ddf15f36, type: 3}
 --- !u!4 &686817411
 Transform:
   m_ObjectHideFlags: 0
@@ -522,7 +523,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1169708358}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 10, z: -21.9}
+  m_LocalPosition: {x: 5, y: 8, z: -21.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2069480905}
@@ -558,6 +559,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 5809176797247427072, guid: cab5660be7f583946849211b1ae9fd43, type: 3}
+  prefab2: {fileID: 1899320271875257110, guid: 6f52e78f8138aa749a1427c859fa7cc4, type: 3}
+  prefab3: {fileID: 7946550531970884089, guid: 4c112d0a25bca9b48aa5be0eea44f0fb, type: 3}
+  prefab4: {fileID: 2821814472058014651, guid: 5c2fc3c3123012a499aad41fcf4aaf1c, type: 3}
+  chunks: []
 --- !u!114 &1169708365
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -691,6 +696,7 @@ MonoBehaviour:
   maxSpeed: 12
   gravity: 50
   jumpInpulse: 15
+  canDoubleJump: 0
   terminalVelocity: 50
 --- !u!23 &1751414688
 MeshRenderer:
