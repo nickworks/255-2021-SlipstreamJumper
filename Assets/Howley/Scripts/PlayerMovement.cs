@@ -87,6 +87,11 @@ namespace Howley
         private Animator anim;
 
         /// <summary>
+        /// Hold reference to the health system script
+        /// </summary>
+        private HealthSystem health;
+
+        /// <summary>
         /// This is a cooldown for the player to be able to double jump
         /// </summary>
         private float cooldownDJ = 0;
@@ -100,6 +105,7 @@ namespace Howley
         {
             aabb = GetComponent<AABB>();
             anim = GetComponent<Animator>();
+            health = GetComponent<HealthSystem>();
         }
 
         /// <summary>
@@ -121,6 +127,9 @@ namespace Howley
             aabb.RecalcAABB();
 
             isGrounded = false;
+
+            // If the player falls below the threshold, run the die function.
+            if (transform.position.y <= -5) health.Die();
         }
 
         /// <summary>
