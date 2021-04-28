@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using SlipstreamJumper;
+using UnityEngine.SceneManagement;
 
 namespace Howley
 {
@@ -20,11 +21,17 @@ namespace Howley
         /// </summary>
         private float cooldownInvulnerable = 0;
 
+        /// <summary>
+        /// The start function is called once before the first update.
+        /// </summary>
         private void Start()
         {
             health = healthMax;
         }
 
+        /// <summary>
+        /// The update function is called every game tick.
+        /// </summary>
         private void Update()
         {
             if (cooldownInvulnerable > 0) cooldownInvulnerable -= Time.deltaTime;

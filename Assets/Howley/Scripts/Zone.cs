@@ -62,6 +62,9 @@ namespace Howley
             if (main == this) main = null;
         }
 
+        /// <summary>
+        /// The late update function is called after the physics engine runs.
+        /// </summary>
         void LateUpdate()
         {
             if (!aabb) return; // If the player is dead/doesn't exist

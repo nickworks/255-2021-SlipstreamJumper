@@ -335,10 +335,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b0b62fa484c6974e9ea89f151639d5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  acceleration: 20
+  acceleration: 30
   deceleration: 40
-  maxSpeed: 5
-  gravity: 21
+  maxSpeed: 4
+  gravity: 19
   jumpImpulse: 13
   terminalVelocity: 9
   isJumpingUpwards: 0
@@ -399,6 +399,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22cc1ad3995161642b0318d8d251ce30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isOneWay: 0
   boxSize: {x: 1, y: 1.5, z: 1}
   min: {x: 0, y: 0, z: 0}
   max: {x: 0, y: 0, z: 0}

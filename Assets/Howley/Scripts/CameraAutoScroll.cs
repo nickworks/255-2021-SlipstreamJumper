@@ -26,27 +26,35 @@ namespace Howley
         /// </summary>
         public PlayerMovement player;
 
+        /// <summary>
+        /// The start function is called once before the first update.
+        /// </summary>
         void Start()
         {
             player = GetComponent<PlayerMovement>();
             cam = GetComponentInChildren<Camera>();
         }
 
+        /// <summary>
+        /// The update function is called every game tick.
+        /// </summary>
         void Update()
         {
-            float posY = transform.position.y;
-            Vector2 pos = new Vector2(transform.position.x, transform.position.y);
-            Vector2 targetPos = new Vector2(target.position.x, target.position.y);
+            if (target)
+            {
+                float posY = transform.position.y;
+                Vector2 pos = new Vector2(transform.position.x, transform.position.y);
+                Vector2 targetPos = new Vector2(target.position.x, target.position.y);
 
-            if (target.transform.position.y >= 3.5)
-            {
-                transform.position = AnimMath.Slide(transform.position, target.position, .008f);
-            }
-            else
-            {
-                transform.position += scrollSpeed * Time.deltaTime;                
-            }
-            
+                if (target.transform.position.y >= 3.5)
+                {
+                    transform.position = AnimMath.Slide(transform.position, target.position, .008f);
+                }
+                else
+                {
+                    transform.position += scrollSpeed * Time.deltaTime;
+                }
+            }         
         }
     }
 }

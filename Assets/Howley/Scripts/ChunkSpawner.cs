@@ -36,10 +36,12 @@ namespace Howley
         /// </summary>
         private List<Chunk> chunk = new List<Chunk>();
 
-        // Start is called before the first frame update
+        /// <summary>
+        /// The start funciton is called once before the update begins.
+        /// </summary>
         void Start()
         {
-           
+            // loop through this for statement 20 times
             for(int i = 0; i < 20; i++)
             {
                 Vector3 pos = Vector3.zero;

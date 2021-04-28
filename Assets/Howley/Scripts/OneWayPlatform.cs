@@ -27,6 +27,9 @@ namespace Howley
         /// </summary>
         public int timesOverlapped = 0;
 
+        /// <summary>
+        /// The start function is called once before the first update.
+        /// </summary>
         private void Start()
         {
             aabb = GetComponent<AABB>();
@@ -36,6 +39,9 @@ namespace Howley
             
         }
 
+        /// <summary>
+        /// The update function is called every game tick.
+        /// </summary>
         void Update()
         {
             if (timesOverlapped >= 1) 
