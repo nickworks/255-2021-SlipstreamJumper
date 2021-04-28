@@ -14,6 +14,9 @@ namespace Hodgkins
             Zone.main.powerups.Add(aabb);
         }
 
+        /// <summary>
+        /// When an overlap-object has to be destroyed
+        /// </summary>
         private void OnDestroy()
         {
             if (Zone.main == null) return; // do nothing

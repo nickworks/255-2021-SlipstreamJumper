@@ -6,6 +6,7 @@ namespace Hodgkins
 {
     public class Chunk : MonoBehaviour
     {
-        public Transform connectionPoint;
+        public Transform connectionPoint; // chunk prefabs have this script to reference 
+                                          // its connection point in ChunkSpawner
     }
 }

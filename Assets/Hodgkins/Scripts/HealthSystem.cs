@@ -21,6 +21,10 @@ namespace Hodgkins
             if (cooldownInvulnerability > 0) cooldownInvulnerability -= Time.deltaTime;
         }
 
+        /// <summary>
+        /// How the player takes damage
+        /// </summary>
+        /// <param name="amt"></param>
         public void TakeDamage(float amt)
         {
 
@@ -33,11 +37,14 @@ namespace Hodgkins
             if (health <= 0) Die();
 
         }
-
+        /// <summary>
+        /// When the object with health (the player) is out of health
+        /// </summary>
         public void Die()
         {
             Destroy(gameObject);
             SoundEffectBoard.PlayDie();
+            SlipstreamJumper.Game.GameOver();
         }
 
     }
