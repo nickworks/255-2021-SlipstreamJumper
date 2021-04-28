@@ -12,7 +12,7 @@ namespace Velting
         new public static ZoneInfo info = new ZoneInfo()
                 
         {
-            zoneName = "",
+            zoneName = "Rona Rona Fun Time",
             creator = "William Velting",
             sceneFile = "ZoneVelting"
         };

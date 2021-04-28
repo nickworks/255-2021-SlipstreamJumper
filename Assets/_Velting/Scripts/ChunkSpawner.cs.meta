@@ -3,7 +3,23 @@ guid: cf36db17d6449b547bb2ea999b189f6f
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - prefab1: {fileID: 3379265794459795148, guid: 29f543e3b3b08884899d6963b6c4c57e,
+      type: 3}
+  - prefab2: {fileID: 6761843552302942378, guid: 4371364ee4a56b44293af54c5ec32944,
+      type: 3}
+  - prefab3: {fileID: 7945796192759525236, guid: 37402c30fd8a71d44a57eab1872e3e4d,
+      type: 3}
+  - prefab4: {fileID: 3383328842620811050, guid: 96d40b87578a4b34f876aa870810aa28,
+      type: 3}
+  - prefab5: {fileID: -465486293717808400, guid: 8392e4548ff07504585aef512762493a,
+      type: 3}
+  - prefab6: {fileID: 6436787637815364724, guid: d8aa64c321e0dcb45b446372224fb1fa,
+      type: 3}
+  - prefab7: {instanceID: 0}
+  - prefab8: {instanceID: 0}
+  - prefab9: {instanceID: 0}
+  - prefab10: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
