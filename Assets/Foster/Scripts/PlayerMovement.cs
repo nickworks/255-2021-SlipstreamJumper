@@ -155,11 +155,11 @@ namespace Foster
                 {
 
                     velocity.x += regSpeed;
-                    print("regular speed");
+                   // print("regular speed");
                 }
 
                 //print(regSpeed);
-                print(velocity.x);
+                //print(velocity.x);
                 //print(coolDownDash);
                 
                 }
@@ -217,5 +217,13 @@ namespace Foster
 
             }
 
+        public void OnTriggerEnter(Collider other)
+        {
+            if(this.tag == ("Player") & other.tag == ("FallGuard"))
+            {
+                SlipstreamJumper.Game.GameOver();
+            }
         }
+
+    }
 }

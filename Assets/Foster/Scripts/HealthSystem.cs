@@ -8,7 +8,7 @@ namespace Foster {
     {
 
         //c# property;
-        public float health { get; private set; }
+        public static float health { get; private set; }
         public float healthMax = 100;
 
         private float coolDownInv = 0;
@@ -47,6 +47,8 @@ namespace Foster {
         public void Die()
         {
             Destroy(this.gameObject);
+            SlipstreamJumper.Game.GameOver();
+
         }
     }
 }
