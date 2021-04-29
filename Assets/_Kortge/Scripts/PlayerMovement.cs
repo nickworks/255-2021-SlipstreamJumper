@@ -12,6 +12,8 @@ namespace Kortge
 {
     public class PlayerMovement : MonoBehaviour
     {
+        private SpriteRenderer sprite;
+        private Animator animator;
 
         /// <summary>
         /// The current velocity of player.
@@ -83,6 +85,8 @@ namespace Kortge
         {
             aabb = GetComponent<AABB>();
             blood = GetComponentInChildren<ParticleSystem>();
+            animator = GetComponent<Animator>();
+            sprite = GetComponent<SpriteRenderer>();
         }
 
         // Update is called once per frame
@@ -97,11 +101,28 @@ namespace Kortge
             // applying velocity to our position:
             transform.position += velocity * Time.deltaTime;
 
+            animator.SetBool("isGrounded", isGrounded);
+            bool huggingWall;
+            if (leftWallHug || rightWallHug) huggingWall = true;
+            else huggingWall = false;
+            animator.SetBool("huggingWall", huggingWall);
+            bool horizontalMovement;
+            if (velocity.x != 0) horizontalMovement = true;
+            else horizontalMovement = false;
+            animator.SetBool("horizontalMovement", horizontalMovement);
+            bool horizontalInput;
+            if (Input.GetAxisRaw("Horizontal") != 0) horizontalInput = true;
+            else horizontalInput = false;
+            animator.SetBool("horizontalInput", horizontalInput);
+            animator.SetFloat("verticalMovement", velocity.y);
+
             isGrounded = false;
             leftWallHug = false;
             rightWallHug = false;
 
             aabb.RecalcAABB();
+
+
         }
         /// <summary>
         /// Calculating the Euler physics on Y axis.
@@ -158,6 +179,8 @@ namespace Kortge
                 velocity.x += h * Time.deltaTime * scalarAcceleration;
                 if (isGrounded || leftWallHug || rightWallHug) blood.Play();
                 else blood.Stop();
+                if (h < 0) sprite.flipX = true;
+                else sprite.flipX = false;
             }
             else // user is NOT pushing left or right:
             {
