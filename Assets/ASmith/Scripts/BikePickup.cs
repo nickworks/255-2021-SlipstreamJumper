@@ -7,12 +7,6 @@ namespace ASmith
     public class BikePickup : OverlapObject
     {
         /// <summary>
-        /// Creates a reference to the CameraAutoScroll class for
-        /// communicating when to speed up the camera scroll
-        /// </summary>
-        public CameraAutoScroll camScroll;
-
-        /// <summary>
         /// Creates a reference for the GameObject in the inspector
         /// </summary>
         public GameObject pickup;
@@ -21,11 +15,6 @@ namespace ASmith
         /// Cooldown for the BikePickup for how long player should have speed boost
         /// </summary>
         private float cooldownBikePickup = 0;
-
-        private void Start()
-        {
-            camScroll = GetComponent<CameraAutoScroll>();
-        }
 
         private void Update()
         {
@@ -43,8 +32,7 @@ namespace ASmith
 
         public void PowerUp()
         {
-            print("Now we're movin!");
-            camScroll.isPickedUp = true; // tells CameraAutoScroll.cs that the bike is picked up
+            CameraAutoScroll.isPickedUp = true; // tells CameraAutoScroll.cs that the bike is picked up
             cooldownBikePickup = 1; // sets cooldown
             SoundEffectBoard.PlayPointPickup(); // plays bike audio
             Destroy(pickup); // destroys the game object on overlap
