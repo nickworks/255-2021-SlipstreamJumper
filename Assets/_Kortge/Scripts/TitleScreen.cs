@@ -2,11 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+
 namespace Kortge {
+    /// <summary>
+    /// Plays an intro animation.
+    /// </summary>
     public class TitleScreen : MonoBehaviour
     {
+        /// <summary>
+        /// How long the cutscene has been playing for.
+        /// </summary>
         private float time = 0;
+        /// <summary>
+        /// The image that appears during the intro sequence.
+        /// </summary>
         private RawImage rawImage;
+        /// <summary>
+        /// Is activated once the intro is finished.
+        /// </summary>
         public CameraAutoScroll cam;
         // Start is called before the first frame update
         void Start()

@@ -8,7 +8,10 @@ namespace Kortge
 {
     public class CameraAutoScroll : MonoBehaviour
     {
-        public Vector3 scrollSpeed = new Vector3(); // How much to add to position every second. (m/s)
+        /// <summary>
+        /// How much to add to position every second. (m/s)
+        /// </summary>
+        public Vector3 scrollSpeed = new Vector3();
 
         // Update is called once per frame
         void Update()

@@ -41,21 +41,20 @@ namespace Kortge
 
         public void AddChunk() // Adds a chunk to the game while connecting it to a prior chunk.
         {
-            Vector3 pos = Vector3.zero;
+            Vector3 pos = SetPosition();
+            SetChunkType();
+            AddNewChunk(pos);
+        }
 
-            if (chunks.Count > 0)
-            {
-                Chunk lastChunk = chunks[chunks.Count - 1];
+        private void AddNewChunk(Vector3 pos)
+        {
+            Chunk newChunk = Instantiate(chunkType, pos, Quaternion.identity);
+            newChunk.spawner = GetComponent<ChunkSpawner>();
+            chunks.Add(newChunk);
+        }
 
-                pos = lastChunk.connectionPoint.position + (transform.right * 1);
-            }
-            float y = Random.Range(-1f, 1f);
-
-            pos.y += y;
-
-            if (pos.y < -5.5f) pos.y = -5.5f;
-            else if (pos.y > -3) pos.y = -3f;
-
+        private void SetChunkType()
+        {
             chunkID += Random.Range(1, 6);
             if (chunkID > 6) chunkID -= 6;
             print(chunkID);
@@ -83,10 +82,25 @@ namespace Kortge
                     chunkType = walljump;
                     break;
             }
+        }
 
-            Chunk newChunk = Instantiate(chunkType, pos, Quaternion.identity);
-            newChunk.spawner = GetComponent<ChunkSpawner>();
-            chunks.Add(newChunk);
+        private Vector3 SetPosition()
+        {
+            Vector3 pos = Vector3.zero;
+
+            if (chunks.Count > 0)
+            {
+                Chunk lastChunk = chunks[chunks.Count - 1];
+
+                pos = lastChunk.connectionPoint.position + (transform.right * 1);
+            }
+            float y = Random.Range(-1f, 1f);
+
+            pos.y += y;
+
+            if (pos.y < -5.5f) pos.y = -5.5f;
+            else if (pos.y > -3) pos.y = -3f;
+            return pos;
         }
     }
 }

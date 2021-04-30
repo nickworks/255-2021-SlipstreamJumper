@@ -12,7 +12,14 @@ namespace Kortge
 {
     public class PlayerMovement : MonoBehaviour
     {
+        /// <summary>
+        /// The current sprite of the player character.
+        /// </summary>
         private SpriteRenderer sprite;
+
+        /// <summary>
+        /// Controls the current animation of the player character.
+        /// </summary>
         private Animator animator;
 
         /// <summary>
@@ -20,14 +27,33 @@ namespace Kortge
         /// </summary>
         private Vector3 velocity = new Vector3();
 
-        public int bandages = 0; // Gives the player an extra life after five of these are collected.
-        public int lives = 1; // How many times the player can respawn after dying.
-        public Vector3 checkpoint; // The position that player would be sent to upon death with a life.
-
-        public Transform cam;
         /// <summary>
-        /// When the player wants to move, this value is used to scale the player's deceleration.
+        /// Gives the player an extra life after five of these are collected.
         /// </summary>
+        public int bandages = 0;
+        /// <summary>
+        /// How many times the player can respawn after dying.
+        /// </summary>
+        public int lives = 1;
+        /// <summary>
+        /// The position that player would be sent to upon death with a life.
+        /// </summary>
+        public Vector3 checkpoint;
+
+        /// <summary>
+        /// The player is killed if he strays too far away from this.
+        /// </summary>
+        public Transform cam;
+
+        /// <summary>
+        /// Blood from Meat Boy's body is kicked up every time he moves.
+        /// </summary>
+        public ParticleSystem blood;
+
+        /// <summary>
+        /// Blood that spurts out when the player character collides with a hazard.
+        /// </summary>
+        public ParticleSystem death;
 
         [Header("Horizontal Movement")]
 
@@ -49,9 +75,6 @@ namespace Kortge
 
         public float maxSpeed = 5;
 
-        public ParticleSystem blood; // Blood from Meat Boy's body is kicked up every time he runs or jumps.
-
-        public ParticleSystem death;
 
         [Header("Vertical Movement")]
 
@@ -80,14 +103,19 @@ namespace Kortge
         /// <summary>
         /// Do euler physics each tick.
         /// </summary>
-
         public AABB aabb; // The collision checking class.
 
+        /// <summary>
+        /// Played whenever a bandage is picked up.
+        /// </summary>
         private AudioSource bandage;
 
+        /// <summary>
+        /// Played when the player character is moving.
+        /// </summary>
         public AudioSource wet;
 
-        void Start() // Get AABB.
+        void Start()
         {
             aabb = GetComponent<AABB>();
             blood = GetComponentInChildren<ParticleSystem>();
@@ -99,7 +127,7 @@ namespace Kortge
         // Update is called once per frame
         void Update() // Updates the position of the player.
         {
-            if (transform.position.x < cam.position.x-11.3f || transform.position.x > cam.position.x+11.3f || transform.position.y < cam.position.y - 6.6) KillPlayer(); // Kills the player if straying too far to the left, right, or under the camera.
+            if (transform.position.x < cam.position.x - 11.3f || transform.position.x > cam.position.x + 11.3f || transform.position.y < cam.position.y - 6.6) KillPlayer(); // Kills the player if straying too far to the left, right, or under the camera.
             if (Time.deltaTime > 0.25f) return; // quit early, do nothing
 
             CalcHorizontaMovement();
@@ -107,41 +135,80 @@ namespace Kortge
 
             // applying velocity to our position:
             transform.position += velocity * Time.deltaTime;
+            ControlBlood();
 
+            animator.SetBool("isGrounded", isGrounded);
+            CheckforWallHugAnimation();
+            CheckForMovementAnimation();
+            CheckForInputAnimation();
+            animator.SetFloat("verticalMovement", velocity.y);
+            ResetSurfaceStates();
+
+            aabb.RecalcAABB();
+
+
+        }
+
+        /// <summary>
+        /// Sets the grounded and wallhug bools to false.
+        /// </summary>
+        private void ResetSurfaceStates()
+        {
+            isGrounded = false;
+            leftWallHug = false;
+            rightWallHug = false;
+        }
+
+        /// <summary>
+        /// Checks horizontal input for the animator.
+        /// </summary>
+        private void CheckForInputAnimation()
+        {
+            bool horizontalInput;
+            if (Input.GetAxisRaw("Horizontal") != 0) horizontalInput = true;
+            else horizontalInput = false;
+            animator.SetBool("horizontalInput", horizontalInput);
+        }
+
+        /// <summary>
+        /// Checks movement for the animator.
+        /// </summary>
+        private void CheckForMovementAnimation()
+        {
+            bool horizontalMovement;
+            if (velocity.x != 0) horizontalMovement = true;
+            else horizontalMovement = false;
+            animator.SetBool("horizontalMovement", horizontalMovement);
+        }
+
+        /// <summary>
+        /// Checks wall hugging for the animator.
+        /// </summary>
+        private void CheckforWallHugAnimation()
+        {
+            bool huggingWall;
+            if (leftWallHug || rightWallHug) huggingWall = true;
+            else huggingWall = false;
+            animator.SetBool("huggingWall", huggingWall);
+        }
+
+        /// <summary>
+        /// Controls whether the blood effects are playing or not.
+        /// </summary>
+        private void ControlBlood()
+        {
             if (velocity.x != 0 && (isGrounded || leftWallHug || rightWallHug))
             {
                 blood.Play();
-                if (wet.isPlaying == false)wet.Play();
+                if (wet.isPlaying == false) wet.Play();
             }
             else
             {
                 blood.Stop();
                 wet.Stop();
             }
-
-            animator.SetBool("isGrounded", isGrounded);
-            bool huggingWall;
-            if (leftWallHug || rightWallHug) huggingWall = true;
-            else huggingWall = false;
-            animator.SetBool("huggingWall", huggingWall);
-            bool horizontalMovement;
-            if (velocity.x != 0) horizontalMovement = true;
-            else horizontalMovement = false;
-            animator.SetBool("horizontalMovement", horizontalMovement);
-            bool horizontalInput;
-            if (Input.GetAxisRaw("Horizontal") != 0) horizontalInput = true;
-            else horizontalInput = false;
-            animator.SetBool("horizontalInput", horizontalInput);
-            animator.SetFloat("verticalMovement", velocity.y);
-
-            isGrounded = false;
-            leftWallHug = false;
-            rightWallHug = false;
-
-            aabb.RecalcAABB();
-
-
         }
+
         /// <summary>
         /// Calculating the Euler physics on Y axis.
         /// </summary>
@@ -187,7 +254,10 @@ namespace Kortge
 
         }
 
-        private void CalcHorizontaMovement() // Handles how running works.
+        /// <summary>
+        /// Handles how running works.
+        /// </summary>
+        private void CalcHorizontaMovement()
         {
             float h = Input.GetAxisRaw("Horizontal");
 
@@ -198,32 +268,25 @@ namespace Kortge
                 if (h < 0) sprite.flipX = true;
                 else sprite.flipX = false;
             }
-            else // user is NOT pushing left or right:
-            {
-                float decel = scalarDeceleration;
-                if (!isGrounded)
-                {
-                    decel = scalarDeceleration = 2;
-                }
-
-                if (velocity.x > 0) // player is moving right...
-                {
-                    velocity.x -= scalarDeceleration * Time.deltaTime;
-                    if (velocity.x < 0) { velocity.x = 0; }
-                }
-
-                if (velocity.x < 0)
-                {
-                    velocity.x += scalarDeceleration * Time.deltaTime;
-                    if (velocity.x > 0) { velocity.x = 0; }
-                }
-            }
-
-            //if (velocity.x < -maxSpeed) velocity.x = -maxSpeed;
-            //if (velocity.x > maxSpeed) velocity.x = -maxSpeed;
+            else  Decelerate();
 
             // unity claim
             velocity.x = Mathf.Clamp(velocity.x, -maxSpeed, maxSpeed);
+        }
+
+        private void Decelerate()
+        {
+            if (velocity.x > 0) // player is moving right...
+            {
+                velocity.x -= scalarDeceleration * Time.deltaTime;
+                if (velocity.x < 0) { velocity.x = 0; }
+            }
+
+            if (velocity.x < 0) // player is moving left...
+            {
+                velocity.x += scalarDeceleration * Time.deltaTime;
+                if (velocity.x > 0) { velocity.x = 0; }
+            }
         }
 
         /// <summary>
@@ -263,13 +326,20 @@ namespace Kortge
             aabb.RecalcAABB();
         }
 
-        public void LaunchPlayer(Vector3 vel) // Shoots the player into the air much higher than a jump would.
+        /// <summary>
+        /// Shoots the player into the air much higher than a jump would.
+        /// </summary>
+        /// <param name="vel"></param>
+        public void LaunchPlayer(Vector3 vel)
         {
             vel.z = 0;
             this.velocity = vel;
         }
 
-        public void KillPlayer() // Decides whether to respawn the player or end the game on death.
+        /// <summary>
+        /// Decides whether to respawn the player or end the game on death.
+        /// </summary>
+        public void KillPlayer()
         {
             if (lives > 0)
             {
@@ -299,7 +369,6 @@ namespace Kortge
                 bandages -= 5;
                 lives++;
             }
-            print("Lives: " + lives + " Bandages: " + bandages);
         }
     }
 }
