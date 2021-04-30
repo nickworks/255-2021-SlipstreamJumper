@@ -51,6 +51,8 @@ namespace Kortge
 
         public ParticleSystem blood; // Blood from Meat Boy's body is kicked up every time he runs or jumps.
 
+        public ParticleSystem death;
+
         [Header("Vertical Movement")]
 
         /// <summary>
@@ -81,12 +83,17 @@ namespace Kortge
 
         public AABB aabb; // The collision checking class.
 
+        private AudioSource bandage;
+
+        public AudioSource wet;
+
         void Start() // Get AABB.
         {
             aabb = GetComponent<AABB>();
             blood = GetComponentInChildren<ParticleSystem>();
             animator = GetComponent<Animator>();
             sprite = GetComponent<SpriteRenderer>();
+            bandage = GetComponent<AudioSource>();
         }
 
         // Update is called once per frame
@@ -100,6 +107,17 @@ namespace Kortge
 
             // applying velocity to our position:
             transform.position += velocity * Time.deltaTime;
+
+            if (velocity.x != 0 && (isGrounded || leftWallHug || rightWallHug))
+            {
+                blood.Play();
+                if (wet.isPlaying == false)wet.Play();
+            }
+            else
+            {
+                blood.Stop();
+                wet.Stop();
+            }
 
             animator.SetBool("isGrounded", isGrounded);
             bool huggingWall;
@@ -177,8 +195,6 @@ namespace Kortge
             { // user is pressing left or right (or both?)
               // applying acceleration to our velocity:
                 velocity.x += h * Time.deltaTime * scalarAcceleration;
-                if (isGrounded || leftWallHug || rightWallHug) blood.Play();
-                else blood.Stop();
                 if (h < 0) sprite.flipX = true;
                 else sprite.flipX = false;
             }
@@ -201,8 +217,6 @@ namespace Kortge
                     velocity.x += scalarDeceleration * Time.deltaTime;
                     if (velocity.x > 0) { velocity.x = 0; }
                 }
-
-                blood.Stop();
             }
 
             //if (velocity.x < -maxSpeed) velocity.x = -maxSpeed;
@@ -257,12 +271,18 @@ namespace Kortge
 
         public void KillPlayer() // Decides whether to respawn the player or end the game on death.
         {
-            if (lives > 0) 
+            if (lives > 0)
             {
+                Instantiate(death, transform.position, transform.rotation);
                 transform.position = checkpoint + transform.up;
                 lives--;
+                velocity = Vector3.zero;
             }
-            else Destroy(gameObject);
+            else
+            {
+                Instantiate(death, transform.position, transform.rotation);
+                Destroy(gameObject);
+            }
         }
 
         private void OnDestroy() // Restarts the scene when death occurs.
@@ -273,6 +293,7 @@ namespace Kortge
         public void AddBandage() // Adds a bandage or a life depending on how many bandages the player has.
         {
             bandages++;
+            bandage.Play();
             if (bandages >= 5)
             {
                 bandages -= 5;
