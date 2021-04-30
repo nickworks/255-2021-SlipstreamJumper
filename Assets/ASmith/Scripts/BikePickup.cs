@@ -34,7 +34,6 @@ namespace ASmith
         {
             CameraAutoScroll.isPickedUp = true; // tells CameraAutoScroll.cs that the bike is picked up
             cooldownBikePickup = 1; // sets cooldown
-            SoundEffectBoard.PlayPointPickup(); // plays bike audio
             Destroy(pickup); // destroys the game object on overlap
         }
     }
