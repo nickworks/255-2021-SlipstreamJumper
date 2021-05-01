@@ -8,8 +8,10 @@ namespace Miller
     {
 
         public LevelChunk prefab;
+        
         private List<LevelChunk> chunks = new List<LevelChunk>();
 
+        // spawns out the chunks
         void Start()
         {
 

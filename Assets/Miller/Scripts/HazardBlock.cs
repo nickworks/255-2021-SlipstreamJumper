@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace Miller
 {
+    // spawns a hazard block that does damage to you
     public class HazardBlock : OverlapObject
     {
 

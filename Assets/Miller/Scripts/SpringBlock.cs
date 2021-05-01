@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace Miller
 {
+    // spawns a spring block that launches you into the air
     public class SpringBlock : OverlapObject
     {
 
