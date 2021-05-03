@@ -24,7 +24,6 @@ namespace ASmith
         private void AddScore()
         {
             score += 100; // Adds 100pts to score
-            print("MAMMA MIA " + score + "pts.");
             SoundEffectBoard.PlayPointPickup(); // plays point audio
             Destroy(pickup); // destroys the game object on overlap
         }

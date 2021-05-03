@@ -48,7 +48,7 @@ namespace ASmith
                 // TODO: prefab2 doesnt spawn in correct area
                 LevelChunk newChunk2 = Instantiate(prefab2, pos, Quaternion.identity);
                 chunks.Add(newChunk);
-                //chunks.Add(newChunk2);
+                chunks.Add(newChunk2);
             }
         }
 
