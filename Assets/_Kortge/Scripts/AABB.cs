@@ -35,13 +35,21 @@ namespace Kortge
             RecalcAABB();
         }
 
-        public void RecalcAABB() // Moves an object when colliding with another object.
+        /// <summary>
+        ///  Moves an object when colliding with another object.
+        /// </summary>
+        public void RecalcAABB()
         {
             min = transform.position - boxSize / 2;
             max = transform.position + boxSize / 2;
         }
 
-        public bool OverlapCheck(AABB other) // Checks for overlap with other objects.
+        /// <summary>
+        /// Checks for overlap with other objects.
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public bool OverlapCheck(AABB other)
         {
             if (other.min.x > this.max.x) return false; // Gap to right.
             if (other.max.x < this.min.x) return false; // Gat to left.
@@ -55,7 +63,12 @@ namespace Kortge
             return true;
         }
 
-        public Vector3 FindFix(AABB other) // Finds a new position for an object when colliding with another object.
+        /// <summary>
+        /// Finds a new position for an object when colliding with another object.
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public Vector3 FindFix(AABB other)
         {
             float moveRight = other.max.x - this.min.x;
             float moveLeft = other.min.x - this.max.x;
